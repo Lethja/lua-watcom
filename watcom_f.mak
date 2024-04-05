@@ -15,10 +15,10 @@ luac_obj = luac.obj
 
 all: lua4g.exe luac4g.exe dist\bin .SYMBOLIC
 !ifdef __UNIX__
-    cp lua16.exe luac16.exe dist/bin
+    cp lua4g.exe luac4g.exe dist/bin
 !else
-    copy lua16.exe dist\bin
-    copy luac16.exe dist\bin
+    copy lua4g.exe dist\bin
+    copy luac4g.exe dist\bin
 !endif
 
 lua4g.exe: $(objs) $(lua_obj)
