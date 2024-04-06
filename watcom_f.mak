@@ -13,7 +13,7 @@ objs =  lapi.obj lctype.obj lfunc.obj lmathlib.obj loslib.obj          &
 lua_obj = lua.obj
 luac_obj = luac.obj
 
-all: lua4g.exe luac4g.exe dist\bin .SYMBOLIC
+all: lua4g.exe luac4g.exe dist .SYMBOLIC
 !ifdef __UNIX__
     cp lua4g.exe luac4g.exe dist/bin
 !else
@@ -28,7 +28,7 @@ luac4g.exe: $(objs) $(luac_obj)
     *wlink NAME $@ SYS dos4g OPT st=8192 FILE {$(objs) $(luac_obj)}
 
 .c.obj:
-    *wcc386 -q -bt=dos4g -mf -5 -d0 -osr -zc $[&.c
+    *wcc386 -q -bt=dos4g -mf -5 -d0 -osr -zc -fo=$@ $[&.c
 
 clean: .SYMBOLIC
 !ifdef __UNIX__
@@ -47,10 +47,8 @@ cleandist: .SYMBOLIC clean
 
 dist:
     mkdir dist
-
-dist\bin: dist
 !ifdef __UNIX__
-	mkdir dist/bin
+    mkdir dist/bin
 !else
     mkdir dist\bin
 !endif
