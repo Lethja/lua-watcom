@@ -42,17 +42,15 @@ jobs:
 
     - name: Build Lua for DOS 16-bit
       run: |
+        export INCLUDE=$WATCOM/h
         wmake -f watcom_l.mak
         wmake -f watcom_l.mak clean
-      env:
-        INCLUDE: /root/watcom/h
 
     - name: Build Lua for DOS4GW
       run: |
+        export INCLUDE=$WATCOM/h
         wmake -f watcom_f.mak
         wmake -f watcom_f.mak clean
-      env:
-        INCLUDE: /root/watcom/h
 
     - name: UPX Binary Compression
       uses: crazy-max/ghaction-upx@v3
@@ -64,7 +62,7 @@ jobs:
 
     - name: Copy DOS4GW Binary
       run: |
-          cp /root/watcom/binw/dos4gw.exe dist/bin/
+          cp $WATCOM/binw/dos4gw.exe dist/bin/
 
     - name: Install Post Build Tools (Dos2unix, GNU Mtools, Zip)
       run: |
