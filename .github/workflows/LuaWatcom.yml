@@ -66,8 +66,8 @@ jobs:
 
     - name: Install Post Build Tools (Dos2unix, GNU Mtools, Zip)
       run: |
-          apt-get update
-          apt-get install -y dos2unix mtools zip
+          sudo apt-get update
+          sudo apt-get install -y dos2unix mtools zip
 
     - name: Create Example Lua Script for Diskette Images
       run: |
