@@ -1,5 +1,7 @@
 name: Lua for Watcom
 
+on: push
+
 jobs:
   DOS:
     name: Lua for DOS
@@ -11,7 +13,7 @@ jobs:
     - uses: open-watcom/setup-watcom@v0
       with:
         version: "1.9"
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Download Lua Sources
       run: |
