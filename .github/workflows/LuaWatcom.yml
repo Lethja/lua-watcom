@@ -1,0 +1,87 @@
+name: Lua for Watcom
+
+jobs:
+  DOS:
+    runs-on: ubuntu-latest
+    env:
+      LUA_VERSION: 5.4.6
+
+    steps:
+    - uses: open-watcom/setup-watcom@v0
+      with:
+        version: "1.9"
+    - uses: actions/checkout@v2
+
+    - name: Download Lua Sources
+      run: | 
+        wget https://lua.org/ftp/lua-$LUA_VERSION.tar.gz
+
+    - name: Verify Lua Sources
+      env:
+        HASH: 25a429319dff20dfbfb9956c2b5be911
+
+      run: |
+        echo "$HASH  lua-$LUA_VERSION.tar.gz" > hash
+        md5sum -c hash
+        rm hash
+
+    - name: Extract Lua Sources
+      run: |
+        tar -xzf lua-$LUA_VERSION.tar.gz
+        mv lua-$LUA_VERSION/src/* .
+        rm -R lua-$LUA_VERSION*
+
+    - name: Prepare Lua Sources for Watcom
+      run: | 
+        patch luaconf.h luaconf.pat
+        patch lopcodes.h lopcodes.pat
+        patch lutf8lib.c lutf8lib.pat
+
+    - name: Build Lua for DOS 16-bit
+      run: | 
+        wmake -f watcom_l.mak
+        wmake -f watcom_l.mak clean
+      env:
+        INCLUDE: /root/watcom/h
+
+    - name: Build Lua for DOS4GW
+      run: | 
+        wmake -f watcom_f.mak
+        wmake -f watcom_f.mak clean
+      env:
+        INCLUDE: /root/watcom/h
+
+    - name: UPX Binary Compression
+      uses: crazy-max/ghaction-upx@v3
+      with:
+        version: latest
+        args: -9 --8086
+        files: |
+          dist/bin/*.exe
+
+    - name: Copy DOS4GW Binary
+      run: | 
+          cp /root/watcom/binw/dos4gw.exe dist/bin/
+
+    - name: Install GNU Mtools and Zip
+      run: | 
+          apt-get update
+          apt-get install mtools zip -y
+
+    - name: Create 160k Floppy Diskette Image
+      run: | 
+          mformat -C -i dist/lua160k.ima -v LUA -f 160
+          mcopy -i dist/lua160k.ima dist/bin/lua16.exe ::
+          
+    - name: Create 1.4M Floppy Diskette Image
+      run: | 
+          mformat -C -i dist/luaHD.ima -v LUA -f 1440
+          mcopy -i dist/luaHD.ima dist/bin/*.exe ::
+          
+    - name: Zip Binaries
+      run: | 
+          zip -j9 dist/LuaWcExe.zip dist/bin/*.exe
+          
+    - name: Zip Disk Images
+      run: | 
+          zip -j9 dist/LuaWcIma.zip dist/*.ima
