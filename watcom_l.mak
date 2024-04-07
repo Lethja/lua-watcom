@@ -13,7 +13,7 @@ objs =  lapi.obj lctype.obj lfunc.obj lmathlib.obj loslib.obj          &
 lua_obj = lua.obj
 luac_obj = luac.obj
 
-all: lua16.exe luac16.exe dist\bin .SYMBOLIC
+all: lua16.exe luac16.exe dist .SYMBOLIC
 !ifdef __UNIX__
     cp lua16.exe luac16.exe dist/bin
 !else
@@ -28,7 +28,7 @@ luac16.exe: $(objs) $(luac_obj)
     *wlink NAME $@ SYS dos OPT st=8192 FILE {$(objs) $(luac_obj)}
 
 .c.obj:
-    *wcc -q -bt=dos -ml -0 -d0 -osr -zc $[&.c
+    *wcc -q -bt=dos -ml -0 -d0 -osr -zc -fo=$@ $[&.c
 
 clean: .SYMBOLIC
 !ifdef __UNIX__
@@ -47,10 +47,8 @@ cleandist: .SYMBOLIC clean
 
 dist:
     mkdir dist
-
-dist\bin: dist
 !ifdef __UNIX__
-	mkdir dist/bin
+    mkdir dist/bin
 !else
     mkdir dist\bin
 !endif

@@ -1,0 +1,121 @@
+name: Lua for Watcom
+
+on: push
+
+jobs:
+  DOS:
+    name: Lua for DOS
+    runs-on: ubuntu-latest
+    env:
+      LUA_VERSION: 5.4.6
+
+    steps:
+    - uses: open-watcom/setup-watcom@v0
+      with:
+        version: "1.9"
+    - uses: actions/checkout@v4
+
+    - name: Download Lua Sources
+      run: |
+        wget https://lua.org/ftp/lua-$LUA_VERSION.tar.gz
+
+    - name: Verify Lua Sources
+      env:
+        HASH: 25a429319dff20dfbfb9956c2b5be911
+
+      run: |
+        echo "$HASH  lua-$LUA_VERSION.tar.gz" > hash
+        md5sum -c hash
+        rm hash
+
+    - name: Extract Lua Sources
+      run: |
+        tar -xzf lua-$LUA_VERSION.tar.gz
+        mv lua-$LUA_VERSION/src/* .
+        rm -R lua-$LUA_VERSION*
+
+    - name: Prepare Lua Sources for Watcom
+      run: |
+        patch luaconf.h luaconf.pat
+        patch lopcodes.h lopcodes.pat
+        patch lutf8lib.c lutf8lib.pat
+
+    - name: Build Lua for DOS 16-bit
+      run: |
+        export INCLUDE=$WATCOM/h
+        wmake -f watcom_l.mak
+        wmake -f watcom_l.mak clean
+
+    - name: Build Lua for DOS4GW
+      run: |
+        export INCLUDE=$WATCOM/h
+        wmake -f watcom_f.mak
+        wmake -f watcom_f.mak clean
+
+    - name: UPX Binary Compression
+      uses: crazy-max/ghaction-upx@v3
+      with:
+        version: latest
+        args: -9 --8086
+        files: |
+          dist/bin/*.exe
+
+    - name: Copy DOS4GW Binary
+      run: |
+          cp $WATCOM/binw/dos4gw.exe dist/bin/
+
+    - name: Install Post Build Tools (Dos2unix, GNU Mtools, Zip)
+      run: |
+          sudo apt-get update
+          sudo apt-get install -y dos2unix mtools zip
+
+    - name: Create Example Lua Script for Diskette Images
+      run: |
+          echo "-- This is a single line comment" > example.lua
+          echo "-- Run this script with 'LUA16.EXE EXAMPLE.LUA'" >> example.lua
+          echo "" >> example.lua
+          echo "-- Get hour of the day, convert it from string to number" >> example.lua
+          echo "hour = tonumber(os.date('%H'))" >> example.lua
+          echo "" >> example.lua
+          echo "-- Set the string 'timeOfDay' depending on the hour" >> example.lua
+          echo "if hour < 4 or hour > 20 then timeOfDay = 'night'" >> example.lua
+          echo "elseif hour < 9 then          timeOfDay = 'morning'" >> example.lua
+          echo "elseif hour > 16 then         timeOfDay = 'evening'" >> example.lua
+          echo "else                          timeOfDay = 'day'" >> example.lua
+          echo "end" >> example.lua
+          echo "" >> example.lua
+          echo "-- Concatinate and print timeOfDay to screen as part of a greeting" >> example.lua
+          echo "print('Good ' .. timeOfDay .. ' DOS! From Lua.')" >> example.lua
+          echo "" >> example.lua
+          echo "os.exit() -- Exit script. Will also exit a interactive shell" >> example.lua
+          echo "" >> example.lua
+          echo "--[[ This is a multi-line comment" >> example.lua
+          echo "     For full Lua language documentation" >> example.lua
+          echo "     visit https://www.lua.org/docs.html" >> example.lua
+          echo "--]]" >> example.lua
+          unix2dos example.lua
+
+    - name: Create 160k Floppy Diskette Image
+      run: |
+          mformat -C -i dist/Lua5DD8.ima -v LUA -f 160
+          mcopy -i dist/Lua5DD8.ima dist/bin/lua16.exe example.lua ::
+
+    - name: Create 1.4M Floppy Diskette Image
+      run: |
+          mformat -C -i dist/Lua3HD18.ima -v LUA -f 1440
+          mcopy -i dist/Lua3HD18.ima dist/bin/*.exe example.lua ::
+
+    - name: Zip Binaries
+      run: |
+          zip -j9 "dist/Lua DOS Bin.zip" dist/bin/*.exe
+
+    - name: Zip Disk Images
+      run: |
+          zip -j9 "dist/Lua DOS Ima.zip" dist/*.ima
+
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: 'Lua Binaries'
+        path: dist/*.zip
+        compression-level: 0
