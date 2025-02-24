@@ -49,17 +49,17 @@ $(BINDIR)luac4g.exe: $(BINDIR) $(OBJDIR) $(objs) $(luac_obj)
 
 clean: .SYMBOLIC
 !ifdef __UNIX__
-    rm -R $(OBJDIR)
-    rm $(BINDIR)lua4g.exe
-    rm $(BINDIR)luac4g.exe
+    @!if [ -e $(OBJDIR) ]; then rm -R $(OBJDIR); fi
+    @!if [ -e $(BINDIR)lua4g.exe ]; then rm $(BINDIR)lua4g.exe; fi
+    @!if [ -e $(BINDIR)luac4g.exe ]; then rm $(BINDIR)luac4g.exe; fi
 !else
     !ifdef __NT__
-         @if exist $(OBJDIR) rd /S /Q $(OBJDIR)
+         @!if exist $(OBJDIR) rd /S /Q $(OBJDIR)
     !else
-         @if exist $(OBJDIR) deltree /Y $(OBJDIR)
+         @!if exist $(OBJDIR) deltree /Y $(OBJDIR)
     !endif
-    @if exist $(BINDIR)lua4g.exe del $(BINDIR)lua4g.exe
-    @if exist $(BINDIR)luac4g.exe del $(BINDIR)luac4g.exe
+    @!if exist $(BINDIR)lua4g.exe del $(BINDIR)lua4g.exe
+    @!if exist $(BINDIR)luac4g.exe del $(BINDIR)luac4g.exe
 !endif
 
 dist:
