@@ -34,18 +34,20 @@ To build Lua with Open Watcom you will need the following:
    * Download the Lua 5.4.x sources tarballs from https://lua.org/ftp/, extract them and copy all files in `src` to `Lua`
 2) Patch the source code for Watcom (optional):
 
-   | GNU Patch                       | DifPat                         |
-   |---------------------------------|--------------------------------|
-   | `patch luaconf.h luaconf.pat`   | `pat luaconf.pat luaconf.h`    |
-   | `patch lopcodes.h lopcodes.pat` | `pat lopcodes.pat lopcodes.h ` |
-   | `patch lutf8lib.c lutf8lib.pat` | `pat lutf8lib.pat lutf8lib.c`  |
+   | GNU Patch                           | DifPat                             |
+   |-------------------------------------|------------------------------------|
+   | `patch lua/luaconf.h luaconf.pat`   | `pat luaconf.pat lua\luaconf.h`    |
+   | `patch lua/lopcodes.h lopcodes.pat` | `pat lopcodes.pat lua\lopcodes.h ` |
+   | `patch lua/lutf8lib.c lutf8lib.pat` | `pat lutf8lib.pat lua\lutf8lib.c`  |
    > If no patching program is available mimic the changes in each `.pat` file manually. 
    > Patch changes are minimal and only serve to silence Watcom compiler warnings
 
-3) Build Lua with the following commands: 
-   - `wmake -f wm_dos16.mak` will create `dist/bin/dos16.exe` 
-     which can be run on PC-DOS 2 on an 8088 or better PC
-   - `wmake -f wm_dos4g.mak` will create `dist/bin/dos4g.exe` 
-     which can be run on MS-DOS 5 on an i386 or better PC
+3) Build Lua with the following commands:
+
+   | Make Command            | Binary File          | System      | Processor          |
+   |-------------------------|----------------------|-------------|--------------------|
+   | `wmake -f wm_dos16.mak` | `dist/bin/lua16.exe` | PC-DOS 2.0+ | 8086/8088 or later |
+   | `wmake -f wm_dos4g.mak` | `dist/bin/lua4g.exe` | MS-DOS 5.0+ | 80386 or later     |
+
 
 Other targets may work but are untested
