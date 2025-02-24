@@ -3,48 +3,63 @@
 # There are no configurable parts to this file
 # Run with `wmake -f wat4g.mak`
 
-objs =  lapi.obj lctype.obj lfunc.obj lmathlib.obj loslib.obj          &
-        ltable.obj lundump.obj lauxlib.obj ldblib.obj lgc.obj lmem.obj &
-        lparser.obj ltablib.obj lutf8lib.obj lbaselib.obj ldebug.obj   &
-        linit.obj loadlib.obj lstate.obj ltm.obj lvm.obj lcode.obj     &
-        ldo.obj liolib.obj lobject.obj lstring.obj lzio.obj            &
-        lcorolib.obj ldump.obj llex.obj lopcodes.obj lstrlib.obj
+objs =  $(OBJDIR)lapi.obj      $(OBJDIR)lctype.obj    &
+        $(OBJDIR)lfunc.obj     $(OBJDIR)lmathlib.obj  &
+        $(OBJDIR)loslib.obj    $(OBJDIR)ltable.obj    &
+        $(OBJDIR)lundump.obj   $(OBJDIR)lauxlib.obj   &
+        $(OBJDIR)ldblib.obj    $(OBJDIR)lgc.obj       &
+        $(OBJDIR)lmem.obj      $(OBJDIR)lparser.obj   &
+        $(OBJDIR)ltablib.obj   $(OBJDIR)lutf8lib.obj  &
+        $(OBJDIR)lbaselib.obj  $(OBJDIR)ldebug.obj    &
+        $(OBJDIR)linit.obj     $(OBJDIR)loadlib.obj   &
+        $(OBJDIR)lstate.obj    $(OBJDIR)ltm.obj       &
+        $(OBJDIR)lvm.obj       $(OBJDIR)lcode.obj     &
+        $(OBJDIR)ldo.obj       $(OBJDIR)liolib.obj    &
+        $(OBJDIR)lobject.obj   $(OBJDIR)lstring.obj   &
+        $(OBJDIR)lzio.obj      $(OBJDIR)lcorolib.obj  &
+        $(OBJDIR)ldump.obj     $(OBJDIR)llex.obj      &
+        $(OBJDIR)lopcodes.obj  $(OBJDIR)lstrlib.obj
 
-lua_obj = lua.obj
-luac_obj = luac.obj
+lua_obj = $(OBJDIR)lua.obj
+luac_obj = $(OBJDIR)luac.obj
+
+CC = *wcc386
 
 CFLAGS = -q -bt=dos4g -mf -5 -d0 -osr -zc
-LDFLAGS = SYS dos4g OPT st=8192
+LFLAGS = SYS dos4g OPT st=8192
 
 !ifdef __UNIX__
-DIST = dist/bin/
+BINDIR = dist/bin/
 OBJDIR = obj/4g/
+SRCDIR = lua/
 !else
-DIST = dist\bin\ #
+BINDIR = dist\bin\ #
 OBJDIR = obj\4g\ #
+SRCDIR = lua\ #
 !endif
 
-$(DIST)lua4g.exe: $(objs) $(lua_obj) $(DIST) $(OBJDIR)
-    *wlink NAME $@ $(LDFLAGS) FILE {$(objs) $(lua_obj)}
+$(BINDIR)lua4g.exe: $(OBJDIR) $(BINDIR) $(objs) $(lua_obj)
+    *wlink NAME $@ $(LFLAGS) FILE {$(objs) $(lua_obj)}
 
-$(DIST)luac4g.exe: $(objs) $(luac_obj) $(DIST) $(OBJDIR)
-    *wlink NAME $@ $(LDFLAGS) FILE {$(objs) $(luac_obj)}
+$(BINDIR)luac4g.exe: $(BINDIR) $(OBJDIR) $(objs) $(luac_obj)
+    *wlink NAME $@ $(LFLAGS) FILE {$(objs) $(luac_obj)}
 
-.c.obj:
-    *wcc386 $(CFLAGS) -fo=$@ $[&.c
+{$(SRCDIR)}.c{$(OBJDIR)}.obj:
+    $(CC) $(CFLAGS) -fo=$@ $<
 
 clean: .SYMBOLIC
 !ifdef __UNIX__
-    rm *.obj
-    rm *.err
-    rm *.exe
-    rm -R obj dist
+    rm -R $(OBJDIR)
+    rm $(BINDIR)lua4g.exe
+    rm $(BINDIR)luac4g.exe
 !else
-    del *.obj
-    del *.err
-    del *.exe
-    deltree /Y dist
-    deltree /Y obj
+    !ifdef __NT__
+         @if exist $(OBJDIR) rd /S /Q $(OBJDIR)
+    !else
+         @if exist $(OBJDIR) deltree /Y $(OBJDIR)
+    !endif
+    @if exist $(BINDIR)lua4g.exe del $(BINDIR)lua4g.exe
+    @if exist $(BINDIR)luac4g.exe del $(BINDIR)luac4g.exe
 !endif
 
 dist:
@@ -53,8 +68,8 @@ dist:
 obj:
     mkdir obj
 
-$(DIST): dist
-    mkdir $(DIST)
+$(BINDIR): dist
+    mkdir $(BINDIR)
 
 $(OBJDIR): obj
     mkdir $(OBJDIR)
