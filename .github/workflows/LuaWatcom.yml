@@ -6,51 +6,52 @@ jobs:
   DOS:
     name: Lua for DOS
     runs-on: ubuntu-latest
-    env:
-      LUA_VERSION: 5.4.6
+    #env:
+    #  LUA_VERSION: 5.4.6
 
     steps:
     - uses: open-watcom/setup-watcom@v0
       with:
         version: "1.9"
     - uses: actions/checkout@v4
+      with:
+        submodules: recursive
+        fetch-depth: 0
 
-    - name: Download Lua Sources
-      run: |
-        wget https://lua.org/ftp/lua-$LUA_VERSION.tar.gz
+    #- name: Download Lua Sources
+    #  run: |
+    #    wget https://lua.org/ftp/lua-$LUA_VERSION.tar.gz
 
-    - name: Verify Lua Sources
-      env:
-        HASH: 25a429319dff20dfbfb9956c2b5be911
+    #- name: Verify Lua Sources
+    #  env:
+    #    HASH: 25a429319dff20dfbfb9956c2b5be911
 
-      run: |
-        echo "$HASH  lua-$LUA_VERSION.tar.gz" > hash
-        md5sum -c hash
-        rm hash
+    #  run: |
+    #    echo "$HASH  lua-$LUA_VERSION.tar.gz" > hash
+    #    md5sum -c hash
+    #    rm hash
 
-    - name: Extract Lua Sources
-      run: |
-        tar -xzf lua-$LUA_VERSION.tar.gz
-        mv lua-$LUA_VERSION/src/* .
-        rm -R lua-$LUA_VERSION*
+    #- name: Extract Lua Sources
+    #  run: |
+    #    tar -xzf lua-$LUA_VERSION.tar.gz
+    #    mv lua-$LUA_VERSION/src/* .
+    #    rm -R lua-$LUA_VERSION*
 
-    - name: Prepare Lua Sources for Watcom
-      run: |
-        patch luaconf.h luaconf.pat
-        patch lopcodes.h lopcodes.pat
-        patch lutf8lib.c lutf8lib.pat
+    #- name: Prepare Lua Sources for Watcom
+    #  run: |
+    #    patch luaconf.h luaconf.pat
+    #    patch lopcodes.h lopcodes.pat
+    #    patch lutf8lib.c lutf8lib.pat
 
     - name: Build Lua for DOS 16-bit
       run: |
         export INCLUDE=$WATCOM/h
-        wmake -f watcom_l.mak
-        wmake -f watcom_l.mak clean
+        wmake -f wm_dos16.mak
 
     - name: Build Lua for DOS4GW
       run: |
         export INCLUDE=$WATCOM/h
-        wmake -f watcom_f.mak
-        wmake -f watcom_f.mak clean
+        wmake -f wm_dos4g.mak
 
     - name: UPX Binary Compression
       uses: crazy-max/ghaction-upx@v3
@@ -84,8 +85,8 @@ jobs:
           echo "else                          timeOfDay = 'day'" >> example.lua
           echo "end" >> example.lua
           echo "" >> example.lua
-          echo "-- Concatinate and print timeOfDay to screen as part of a greeting" >> example.lua
-          echo "print('Good ' .. timeOfDay .. ' DOS! From Lua.')" >> example.lua
+          echo "-- Concatenate and print timeOfDay and Lua version to screen as part of a greeting" >> example.lua
+          echo "print('Good ' .. timeOfDay .. ' from ' .. _VERSION .. '.')" >> example.lua
           echo "" >> example.lua
           echo "os.exit() -- Exit script. Will also exit a interactive shell" >> example.lua
           echo "" >> example.lua
