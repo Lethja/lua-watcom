@@ -1,7 +1,7 @@
 # Watcom Makefile for building Lua 5.4.6
 # This is the DOS 4G flat model version
 # There are no configurable parts to this file
-# Run with `wmake -f watcom_f.mak`
+# Run with `wmake -f wat4g.mak`
 
 objs =  lapi.obj lctype.obj lfunc.obj lmathlib.obj loslib.obj          &
         ltable.obj lundump.obj lauxlib.obj ldblib.obj lgc.obj lmem.obj &
@@ -13,22 +13,27 @@ objs =  lapi.obj lctype.obj lfunc.obj lmathlib.obj loslib.obj          &
 lua_obj = lua.obj
 luac_obj = luac.obj
 
-all: lua4g.exe luac4g.exe dist .SYMBOLIC
+CFLAGS = -q -bt=dos4g -mf -5 -d0 -osr -zc
+LDFLAGS = SYS dos4g OPT st=8192
+
 !ifdef __UNIX__
-    cp lua4g.exe luac4g.exe dist/bin
+DIST = dist/bin
+COPY = cp
 !else
-    copy lua4g.exe dist\bin
-    copy luac4g.exe dist\bin
+DIST = dist\bin
+COPY = COPY
 !endif
 
-lua4g.exe: $(objs) $(lua_obj)
-    *wlink NAME $@ SYS dos4g OPT st=8192 FILE {$(objs) $(lua_obj)}
+lua4g.exe: $(objs) $(lua_obj) dist
+    *wlink NAME $@ $(LDFLAGS) FILE {$(objs) $(lua_obj)}
+    *$(COPY) $@ $(DIST)
 
-luac4g.exe: $(objs) $(luac_obj)
-    *wlink NAME $@ SYS dos4g OPT st=8192 FILE {$(objs) $(luac_obj)}
+luac4g.exe: $(objs) $(luac_obj) dist
+    *wlink NAME $@ $(LDFLAGS) FILE {$(objs) $(luac_obj)}
+    *$(COPY) $@ $(DIST)
 
 .c.obj:
-    *wcc386 -q -bt=dos4g -mf -5 -d0 -osr -zc -fo=$@ $[&.c
+    *wcc386 $(CFLAGS) -fo=$@ $[&.c
 
 clean: .SYMBOLIC
 !ifdef __UNIX__
@@ -47,8 +52,4 @@ cleandist: .SYMBOLIC clean
 
 dist:
     mkdir dist
-!ifdef __UNIX__
-    mkdir dist/bin
-!else
-    mkdir dist\bin
-!endif
+    mkdir $(DIST)
