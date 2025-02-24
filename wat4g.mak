@@ -17,39 +17,44 @@ CFLAGS = -q -bt=dos4g -mf -5 -d0 -osr -zc
 LDFLAGS = SYS dos4g OPT st=8192
 
 !ifdef __UNIX__
-DIST = dist/bin
-COPY = cp
+DIST = dist/bin/
+OBJDIR = obj/4g/
 !else
-DIST = dist\bin
-COPY = COPY
+DIST = dist\bin\ #
+OBJDIR = obj\4g\ #
 !endif
 
-lua4g.exe: $(objs) $(lua_obj) dist
+$(DIST)lua4g.exe: $(objs) $(lua_obj) $(DIST) $(OBJDIR)
     *wlink NAME $@ $(LDFLAGS) FILE {$(objs) $(lua_obj)}
-    *$(COPY) $@ $(DIST)
 
-luac4g.exe: $(objs) $(luac_obj) dist
+$(DIST)luac4g.exe: $(objs) $(luac_obj) $(DIST) $(OBJDIR)
     *wlink NAME $@ $(LDFLAGS) FILE {$(objs) $(luac_obj)}
-    *$(COPY) $@ $(DIST)
 
 .c.obj:
     *wcc386 $(CFLAGS) -fo=$@ $[&.c
 
 clean: .SYMBOLIC
 !ifdef __UNIX__
-    rm *.obj *.exe
+    rm *.obj
+    rm *.err
+    rm *.exe
+    rm -R obj dist
 !else
     del *.obj
+    del *.err
     del *.exe
-!endif
-
-cleandist: .SYMBOLIC clean
-!ifdef __UNIX__
-    rm -r dist
-!else
     deltree /Y dist
+    deltree /Y obj
 !endif
 
 dist:
     mkdir dist
+
+obj:
+    mkdir obj
+
+$(DIST): dist
     mkdir $(DIST)
+
+$(OBJDIR): obj
+    mkdir $(OBJDIR)
