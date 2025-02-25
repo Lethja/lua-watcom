@@ -58,7 +58,7 @@ jobs:
           echo "else                          timeOfDay = 'day'" >> example.lua
           echo "end" >> example.lua
           echo "" >> example.lua
-          echo "-- Concatenate and print timeOfDay and Lua version to screen as part of a greeting" >> example.lua
+          echo "-- Concatenate timeOfDay & Lua version to as part of a greeting" >> example.lua
           echo "print('Good ' .. timeOfDay .. ' from ' .. _VERSION .. '.')" >> example.lua
           echo "" >> example.lua
           echo "os.exit() -- Exit script. Will also exit a interactive shell" >> example.lua
