@@ -1,7 +1,7 @@
 # Watcom Makefile for building Lua 5.4.6
 # This is the DOS 16-bit large model version
 # There are no configurable parts to this file
-# Run with `wmake -f wat16.mak`
+# Run with `wmake -f mw_dos16.mak`
 
 objs =  $(OBJDIR)lapi.obj      $(OBJDIR)lctype.obj    &
         $(OBJDIR)lfunc.obj     $(OBJDIR)lmathlib.obj  &
