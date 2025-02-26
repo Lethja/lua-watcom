@@ -64,11 +64,11 @@ jobs:
 
     - name: Create Zip Binaries
       run: |
-          zip -j9 "dist/Lua DOS Bin.zip" dist/bin/*.exe example.lua
+          zip -j9 --DOS-names "dist/Lua DOS Bin.zip" dist/bin/*.exe example.lua
 
     - name: Zip Disk Images
       run: |
-          zip -j9 "dist/Lua DOS Ima.zip" dist/*.ima
+          zip -j9 --DOS-names "dist/Lua DOS Ima.zip" dist/*.ima
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
