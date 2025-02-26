@@ -64,7 +64,7 @@ jobs:
 
     - name: Create Zip Binaries
       run: |
-          zip -j9 "dist/Lua DOS Bin.zip" dist/bin/*.exe
+          zip -j9 "dist/Lua DOS Bin.zip" dist/bin/*.exe example.lua
 
     - name: Zip Disk Images
       run: |
