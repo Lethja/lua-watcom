@@ -3,8 +3,8 @@ name: Lua for Watcom
 on: push
 
 jobs:
-  DOS:
-    name: Lua for DOS
+  Watcom:
+    name: Lua for Watcom
     runs-on: ubuntu-latest
 
     steps:
@@ -25,6 +25,11 @@ jobs:
       run: |
         export INCLUDE=$WATCOM/h
         wmake -f wm_dos4g.mak
+
+    - name: Build Lua for WinNT
+      run: |
+        export INCLUDE=$WATCOM/h/nt:$WATCOM/h
+        wmake -f wm_winnt.mak
 
     - name: UPX Binary Compression
       uses: crazy-max/ghaction-upx@v3
@@ -79,7 +84,7 @@ jobs:
           mformat -C -i dist/Lua3HD18.ima -v LUA -f 1440
           mcopy -i dist/Lua3HD18.ima dist/bin/*.exe example.lua ::
 
-    - name: Zip Binaries
+    - name: Create Zip Binaries
       run: |
           zip -j9 "dist/Lua DOS Bin.zip" dist/bin/*.exe
 
