@@ -25,7 +25,7 @@ luac_obj = $(OBJDIR)luac.obj
 
 CC = *wcc386
 
-CFLAGS = -q -bt=dos4g -mf -5 -d0 -osr -zc
+CFLAGS = -q -bt=dos4g -mf -3 -d0 -osr -zc
 LFLAGS = SYS dos4g OPT st=8192
 
 !ifdef __UNIX__
