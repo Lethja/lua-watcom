@@ -43,36 +43,14 @@ jobs:
       run: |
           cp $WATCOM/binw/dos4gw.exe dist/bin/
 
-    - name: Install Post Build Tools (Dos2unix, GNU Mtools, Zip)
+    - name: Install Post Build Packaging Tools
       run: |
           sudo apt-get update
           sudo apt-get install -y dos2unix mtools zip
 
-    - name: Create Example Lua Script for Diskette Images
+    - name: Ensure Lua Scripts Have CR/LF Line Endings
       run: |
-          echo "-- This is a single line comment" > example.lua
-          echo "-- Run this script with 'LUA16.EXE EXAMPLE.LUA'" >> example.lua
-          echo "" >> example.lua
-          echo "-- Get hour of the day, convert it from string to number" >> example.lua
-          echo "hour = tonumber(os.date('%H'))" >> example.lua
-          echo "" >> example.lua
-          echo "-- Set the string 'timeOfDay' depending on the hour" >> example.lua
-          echo "if hour < 4 or hour > 20 then timeOfDay = 'night'" >> example.lua
-          echo "elseif hour < 9 then          timeOfDay = 'morning'" >> example.lua
-          echo "elseif hour > 16 then         timeOfDay = 'evening'" >> example.lua
-          echo "else                          timeOfDay = 'day'" >> example.lua
-          echo "end" >> example.lua
-          echo "" >> example.lua
-          echo "-- Concatenate timeOfDay & Lua version to as part of a greeting" >> example.lua
-          echo "print('Good ' .. timeOfDay .. ' from ' .. _VERSION .. '.')" >> example.lua
-          echo "" >> example.lua
-          echo "os.exit() -- Exit script. Will also exit a interactive shell" >> example.lua
-          echo "" >> example.lua
-          echo "--[[ This is a multi-line comment" >> example.lua
-          echo "     For full Lua language documentation" >> example.lua
-          echo "     visit https://www.lua.org/docs.html" >> example.lua
-          echo "--]]" >> example.lua
-          unix2dos example.lua
+          unix2dos *.lua
 
     - name: Create 160k Floppy Diskette Image
       run: |
