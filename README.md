@@ -19,19 +19,33 @@ These are the absolute lowest system requirements needed for a PC to run `LUA16.
 | Random Access Memory | At least 512 kilobytes<br/>of base system memory            | <pre>Any memory above<br/>640 kilobytes is<br/>inaccessible to all<br/>real mode DOS programs                                                                                                                                                                                                                                                                                                                                 |
 | Storage              | At least 150 kilobytes<br/>of free disk space               | <pre>Can be ran directly<br/>from a diskette on<br/>machines without a<br/>hard drive                                                                                                                                                                                                                                                                                                                                         |
 
+### Binary Native Targets
+
+Since Open Watcom can produce binaries for several operating systems, 
+each binary has been given a unique name to distinguish the native **Operating System** (OS) 
+and **Instruction Set Architecture** (ISA) it is intended for.  
+
+| Binary Name   | Native OS       | Native ISA |
+|---------------|-----------------|------------|
+| **LUA16.EXE** | Real mode DOS   | 8086       |
+| **LUA4G.EXE** | DOS4GW extender | 80386      |
+| **LUANT.EXE** | Windows 95      | 80386      |
+
 ### Binary Compatibility Matrix
 
-| Operating System                                                         | Minimum CPU ISA            | LUA16.EXE | LUA4G.EXE | LUANT.EXE |
-|--------------------------------------------------------------------------|----------------------------|-----------|-----------|-----------|
-| DOS 2.0+                                                                 | 8086                       | Yes       | No        | No        |
-| DOS 5.0+                                                                 | 8086<br>80386SX            | Yes       | No<br>Yes | No        |
-| Windows<br/>Windows 2<br/>Windows 3<br/>Windows 3.1                      | 8086                       | Yes       | No        | No        |
-| Windows 95                                                               | 80386SX                    | Yes       | Yes       | Yes       |
-| Windows 98                                                               | 80486SX+80487SX<br>80486DX | Yes       | Yes       | Yes       |
-| Windows 2000<br/>Windows ME                                              | 80586                      | No        | No        | Yes       |
-| Windows XP                                                               | 80586<br/>x86_64           | No        | No        | Yes       |
-| Windows Vista<br/>Windows 7<br/>Windows 8<br/>Windows 8.1<br/>Windows 10 | 80686<br/>x86_64           | No        | No        | Yes       |
-| Windows 11                                                               | x86_64                     | No        | No        | Yes       |
+Some Operating Systems can run binaries intended for another out of the box. 
+Do keep in mind, however, that in most of these cases the Operating System is newer and has higher minimum requirements.
+
+| Operating System                            | Minimum CPU ISA            | LUA16.EXE | LUA4G.EXE | LUANT.EXE |
+|---------------------------------------------|----------------------------|-----------|-----------|-----------|
+| DOS 2.x - 4.x<br/>Windows 1.x - Windows 3.x | 8086                       | Yes       | No        | No        |
+| DOS 5.x - 7.x                               | 8086<br>80386SX            | Yes       | No<br>Yes | No        |
+| Windows 95                                  | 80386SX                    | Yes       | Yes       | Yes       |
+| Windows 98                                  | 80486SX+80487SX<br>80486DX | Yes       | Yes       | Yes       |
+| Windows 2000 - ME                           | 80586                      | No        | No        | Yes       |
+| Windows XP                                  | 80586<br/>x86_64           | No        | No        | Yes       |
+| Windows Vista - 10                          | 80686<br/>x86_64           | No        | No        | Yes       |
+| Windows 11                                  | x86_64                     | No        | No        | Yes       |
 
 ## Build Requirements
 To build Lua with Open Watcom you will need the following:
