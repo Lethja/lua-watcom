@@ -28,24 +28,32 @@ and **Instruction Set Architecture** (ISA) it is intended for.
 | Binary Name   | Native OS       | Native ISA |
 |---------------|-----------------|------------|
 | **LUA16.EXE** | Real mode DOS   | 8086       |
+| **LUA21.EXE** | OS/2 1.2        | 80286      |
+| **LUA22.EXE** | OS/2 2.0        | 80386      |
 | **LUA4G.EXE** | DOS4GW extender | 80386      |
 | **LUANT.EXE** | Windows 95      | 80386      |
 
 ### Binary Compatibility Matrix
 
-Some Operating Systems can run binaries intended for another out of the box. 
-Do keep in mind, however, that in most of these cases the Operating System is newer and has higher minimum requirements.
+Some OSes can run binaries intended for another out of the box. 
+Do keep in mind, however, that in most of these cases 
+the OS is newer and has higher minimum requirements.
 
-| Operating System                            | Minimum CPU ISA            | LUA16.EXE | LUA4G.EXE | LUANT.EXE |
-|---------------------------------------------|----------------------------|-----------|-----------|-----------|
-| DOS 2.x - 4.x<br/>Windows 1.x - Windows 3.x | 8086                       | Yes       | No        | No        |
-| DOS 5.x - 7.x                               | 8086<br>80386SX            | Yes       | No<br>Yes | No        |
-| Windows 95                                  | 80386SX                    | Yes       | Yes       | Yes       |
-| Windows 98                                  | 80486SX+80487SX<br>80486DX | Yes       | Yes       | Yes       |
-| Windows 2000 - ME                           | 80586                      | No        | No        | Yes       |
-| Windows XP                                  | 80586<br/>x86_64           | No        | No        | Yes       |
-| Windows Vista - 10                          | 80686<br/>x86_64           | No        | No        | Yes       |
-| Windows 11                                  | x86_64                     | No        | No        | Yes       |
+| Operating System                    | Minimum OS ISA(s)           | LUA16.EXE | LUA21.EXE | LUA22.EXE | LUA4G.EXE | LUANT.EXE |
+|-------------------------------------|-----------------------------|-----------|-----------|-----------|-----------|-----------|
+| DOS 2.x - 4.x<br/>Windows 1.x - 3.x | 8086                        | Yes       | No        | No        | No        | No        |
+| DOS 5.x - 7.x                       | 8086<br>80386SX             | Yes       | No        | No        | No<br>Yes | No        |
+| OS2 1.0 - 1.1                       | 80286                       | Yes       | No        | No        | No        | No        |
+| OS2 1.2 - 1.3                       | 80286                       | Yes       | Yes       | No        | No        | No        |
+| OS2 2.x                             | 80386SX                     | Yes       | Yes       | Yes       | No        | No        |
+| OS2 3.x                             | 80386SX                     | Yes       | Yes       | Yes       | Yes       | No        |
+| OS2 4.x                             | 80486SX                     | Yes       | Yes       | Yes       | Yes       | No        |
+| Windows 95                          | 80386SX                     | Yes       | No        | No        | Yes       | Yes       |
+| Windows 98                          | 80486DX<br/>80486SX+80487SX | Yes       | No        | No        | Yes       | Yes       |
+| Windows 2000 - ME                   | 80586                       | No        | No        | No        | No        | Yes       |
+| Windows XP                          | 80586<br/>x86_64            | No        | No        | No        | No        | Yes       |
+| Windows Vista - 10                  | 80686<br/>x86_64            | No        | No        | No        | No        | Yes       |
+| Windows 11                          | x86_64                      | No        | No        | No        | No        | Yes       |
 
 ## Build Requirements
 To build Lua with Open Watcom you will need the following:
@@ -80,7 +88,9 @@ To build Lua with Open Watcom you will need the following:
    |-------------------------|----------------------|-------------|--------------------|
    | `wmake -f wm_dos16.mak` | `dist/bin/lua16.exe` | PC-DOS 2.0+ | 8086/8088 or later |
    | `wmake -f wm_dos4g.mak` | `dist/bin/lua4g.exe` | MS-DOS 5.0+ | 80386 or later     |
-   | `wmake -f wm_dosnt.mak` | `dist/bin/luant.exe` | Windows 95+ | 80386 or later     |
+   | `wmake -f wm_os216.mak` | `dist/bin/lua21.exe` | OS/2 1.2    | 80286 or later     |
+   | `wmake -f wm_os232.mak` | `dist/bin/lua22.exe` | OS/2 2.0    | 80386 or later     |
+   | `wmake -f wm_winnt.mak` | `dist/bin/luant.exe` | Windows 95+ | 80386 or later     |
 
 
 Other targets may work but are untested
