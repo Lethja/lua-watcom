@@ -104,6 +104,7 @@ jobs:
 
       - name: Unzip Artifact
         run: |
+          pwd
           unzip "artifact/Lua Binaries.zip" -d extracted
 
       - name: Install GitHub CLI
