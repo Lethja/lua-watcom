@@ -99,10 +99,9 @@ jobs:
       - name: Download Artifacts
         uses: actions/download-artifact@v4
 
-      - name: Unzip Artifact
+      - name: List Directory
         run: |
           ls -R
-          unzip "artifact.zip" -d extracted
 
       - name: Install GitHub CLI
         run: |
@@ -117,4 +116,4 @@ jobs:
             --draft \
             --title "$TAG_NAME" \
             --notes "Lua for Watcom builds from $TAG_NAME" \
-            extracted/*.zip
+            "Lua Binaries/*.zip"
