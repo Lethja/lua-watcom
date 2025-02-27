@@ -47,7 +47,9 @@ jobs:
         version: latest
         args: -9 --8086
         files: |
-          dist/bin/*.exe
+          dist/bin/lua16.exe
+          dist/bin/lua4g.exe
+          dist/bin/luant.exe
 
     - name: Copy DOS4GW Binary
       run: |
