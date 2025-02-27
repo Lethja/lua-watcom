@@ -1,19 +1,37 @@
 # Lua for Open Watcom
 
-This repository contains wmake style makefiles and patches to build [Lua](https://lua.org) on Open Watcom 1.9 or later. 
-The primary goal is to allow Lua scripts to be run on DOS systems in real mode.
+This repository contains `wmake` style makefiles and patches to build [Lua](https://lua.org) on Open Watcom 1.9 or later. 
+The primary goal was to allow Lua scripts to be run on DOS systems in real mode but has expanded
+to include all Open Watcom targets that don't require external dependencies to build.
 
 ## Runtime Requirements
-To run Lua built by Open Watcom you will need the following:
 
-| Requirement                                                                                                                                                                                                  | Sources/Comment                                                                                                                                                                                                                                                         |
-|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [8088 CPU](https://en.wikipedia.org/wiki/Intel_8088)*<br/> <pre>*or compatibiles<br/>like the 8086, V20,<br/>286, 386 etc<br/><br/>Machine emulators<br/>provided as an alternative<br/>for other ISAs</pre> | [86Box](https://86box.net/) ([GitHub](https://github.com/86Box/86Box))<br/>[DOSBox-X](https://dosbox-x.com/) ([GitHub](https://github.com/joncampbell123/dosbox-x))<br/>[PCem](https://www.pcem-emulator.co.uk/) ([GitHub](https://github.com/sarah-walker-pcem/pcem/)) |
-| PC-DOS 2.1 or higher                                                                                                                                                                                         | [FreeDOS](https://www.freedos.org/download/)<br/>[DOSBox-X](https://dosbox-x.com/) ([GitHub](https://github.com/joncampbell123/dosbox-x))<br/>[SvarDOS](http://svardos.org/)                                                                                            |
-| At least 320 kilobytes<br/>of total system memory                                                                                                                                                            | <pre>Any memory above<br/>640 kilobytes is<br/>inaccessible to all<br/>real mode DOS programs                                                                                                                                                                           |
-| At least 600 kilobytes<br/>of hard disk space or x2<br/>360 kilobyte diskettes                                                                                                                               | <pre>Can be ran directly<br/>from a diskette on<br/>machines without a<br/>hard drive                                                                                                                                                                                   |
+Lua for Watcom binaries can run on a number of legacy systems as well as some modern ones.
 
-> If in doubt, install [DOSBox-X](https://dosbox-x.com/)
+### Absolute Minimum Requirements
+
+These are the absolute lowest system requirements needed for a PC to run `LUA16.EXE`. 
+
+| Type                 | Requirement                                                 | Remarks                                                                                                                                                                                                                                                                                                                                                                                                                       |
+|----------------------|-------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| CPU                  | [8086 compatible](https://en.wikipedia.org/wiki/Intel_8086) | <pre>Compatibles like<br/>the Intel 8088, NEC V20,<br/>286, 386 etc<br/><br/>Machine emulators<br/>provided as an alternative<br/>for other ISAs</pre>[86Box](https://86box.net/) ([GitHub](https://github.com/86Box/86Box))<br/>[DOSBox-X](https://dosbox-x.com/) ([GitHub](https://github.com/joncampbell123/dosbox-x))<br/>[PCem](https://www.pcem-emulator.co.uk/) ([GitHub](https://github.com/sarah-walker-pcem/pcem/)) |
+| Operating System     | PC-DOS 2.0                                                  | [FreeDOS](https://www.freedos.org/download/)<br/>[DOSBox-X](https://dosbox-x.com/) ([GitHub](https://github.com/joncampbell123/dosbox-x))<br/>[SvarDOS](http://svardos.org/)                                                                                                                                                                                                                                                  |
+| Random Access Memory | At least 512 kilobytes<br/>of base system memory            | <pre>Any memory above<br/>640 kilobytes is<br/>inaccessible to all<br/>real mode DOS programs                                                                                                                                                                                                                                                                                                                                 |
+| Storage              | At least 150 kilobytes<br/>of free disk space               | <pre>Can be ran directly<br/>from a diskette on<br/>machines without a<br/>hard drive                                                                                                                                                                                                                                                                                                                                         |
+
+### Binary Compatibility Matrix
+
+| Operating System                                                         | Minimum CPU ISA            | LUA16.EXE | LUA4G.EXE | LUANT.EXE |
+|--------------------------------------------------------------------------|----------------------------|-----------|-----------|-----------|
+| DOS 2.0+                                                                 | 8086                       | Yes       | No        | No        |
+| DOS 5.0+                                                                 | 8086<br>80386SX            | Yes       | No<br>Yes | No        |
+| Windows<br/>Windows 2<br/>Windows 3<br/>Windows 3.1                      | 8086                       | Yes       | No        | No        |
+| Windows 95                                                               | 80386SX                    | Yes       | Yes       | Yes       |
+| Windows 98                                                               | 80486SX+80487SX<br>80486DX | Yes       | Yes       | Yes       |
+| Windows 2000<br/>Windows ME                                              | 80586                      | No        | No        | Yes       |
+| Windows XP                                                               | 80586<br/>x86_64           | No        | No        | Yes       |
+| Windows Vista<br/>Windows 7<br/>Windows 8<br/>Windows 8.1<br/>Windows 10 | 80686<br/>x86_64           | No        | No        | Yes       |
+| Windows 11                                                               | x86_64                     | No        | No        | Yes       |
 
 ## Build Requirements
 To build Lua with Open Watcom you will need the following:
@@ -22,11 +40,11 @@ To build Lua with Open Watcom you will need the following:
 |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Lua 5.4 source code (or build machine with `git submodules`)                                                                                                                                                                           | [lua.org](https://lua.org/ftp/) ([GitHub](https://github.com/lua/lua/tree/v5.4.6))                                                                                                                                                                                                                                                                         |
 | Open Watcom 1.9 (or later)                                                                                                                                                                                                             | [openwatcom.org](https://www.openwatcom.org/) ([GitHub](https://github.com/open-watcom))<br/>[FreeDOS Bonus CD](https://www.freedos.org/download/) (`FDIMPLES`)<br/>[SvarDOS](http://svardos.org/?p=repo) (`PKGNET` repository)                                                                                                                            |
-| DOS operating system<br/>(MS-DOS 5.0 compatible)                                                                                                                                                                                       | [FreeDOS](https://www.freedos.org/download/)<br/>[DOSBox-X](https://dosbox-x.com/) ([GitHub](https://github.com/joncampbell123/dosbox-x))<br/>[SvarDOS](http://svardos.org/)                                                                                                                                                                               |
+| Operating System supported by Open Watcom<br/>(at least MS-DOS 5.0)                                                                                                                                                                    | [FreeDOS](https://www.freedos.org/download/)<br/>[DOSBox-X](https://dosbox-x.com/) ([GitHub](https://github.com/joncampbell123/dosbox-x))<br/>[SvarDOS](http://svardos.org/)                                                                                                                                                                               |
 | [80386 compatible processor](https://en.wikipedia.org/wiki/I386)* <br/> <pre>*Any AMD or Intel CPU <br/>made in the last 3 decades<br/>is compatible.<br/><br/>Machine emulators provided <br/>as an alternative for other ISAs </pre> | [86Box](https://86box.net/) ([GitHub](https://github.com/86Box/86Box))<br/>[DOSBox-X](https://dosbox-x.com/) ([GitHub](https://github.com/joncampbell123/dosbox-x))<br/>[PCem](https://www.pcem-emulator.co.uk/) ([GitHub](https://github.com/sarah-walker-pcem/pcem/))<br/>[Qemu](https://www.qemu.org/) ([GitLab](https://gitlab.com/qemu-project/qemu)) |
 | A patching utility                                                                                                                                                                                                                     | [GNU Patch](https://savannah.gnu.org/projects/patch/)<br>[DifPat](https://github.com/deverac/difpat)                                                                                                                                                                                                                                                       |
 
-> If in doubt, install [DOSBox-X](https://dosbox-x.com/)
+> If in doubt, [DOSBox-X](https://dosbox-x.com/) can be used on a modern machine
 
 ## How to build
 1) Extract Luas source code to the `Lua` folder. This can be achieved in two ways:
@@ -48,6 +66,7 @@ To build Lua with Open Watcom you will need the following:
    |-------------------------|----------------------|-------------|--------------------|
    | `wmake -f wm_dos16.mak` | `dist/bin/lua16.exe` | PC-DOS 2.0+ | 8086/8088 or later |
    | `wmake -f wm_dos4g.mak` | `dist/bin/lua4g.exe` | MS-DOS 5.0+ | 80386 or later     |
+   | `wmake -f wm_dosnt.mak` | `dist/bin/luant.exe` | Windows 95+ | 80386 or later     |
 
 
 Other targets may work but are untested
