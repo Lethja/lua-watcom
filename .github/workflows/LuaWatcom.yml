@@ -21,15 +21,25 @@ jobs:
         export INCLUDE=$WATCOM/h
         wmake -f wm_dos16.mak
 
-    - name: Build Lua for DOS4GW
+    - name: Build Lua for DOS4GW 32-bit Extender
       run: |
         export INCLUDE=$WATCOM/h
         wmake -f wm_dos4g.mak
 
-    - name: Build Lua for WinNT
+    - name: Build Lua for Windows 95
       run: |
         export INCLUDE=$WATCOM/h/nt:$WATCOM/h
         wmake -f wm_winnt.mak
+
+    - name: Build Lua for OS/2 16-bit
+      run: |
+        export INCLUDE=$WATCOM/h/os2:$WATCOM/h
+        wmake -f wm_os216.mak
+
+    - name: Build Lua for OS/2 32-bit
+      run: |
+        export INCLUDE=$WATCOM/h/os2:$WATCOM/h
+        wmake -f wm_os232.mak
 
     - name: UPX Binary Compression
       uses: crazy-max/ghaction-upx@v3
