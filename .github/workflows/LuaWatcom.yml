@@ -98,12 +98,10 @@ jobs:
     steps:
       - name: Download Artifacts
         uses: actions/download-artifact@v4
-        with:
-          name: 'Lua Binaries'
-          path: artifact.zip
 
       - name: Unzip Artifact
         run: |
+          ls -R
           unzip "artifact.zip" -d extracted
 
       - name: Install GitHub CLI
