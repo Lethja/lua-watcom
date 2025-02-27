@@ -101,6 +101,7 @@ jobs:
 
       - name: List Directory
         run: |
+          pwd
           ls -R
 
       - name: Install GitHub CLI
