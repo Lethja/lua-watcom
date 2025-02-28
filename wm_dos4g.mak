@@ -28,20 +28,22 @@ CC = *wcc386
 CFLAGS = -q -bt=dos4g -mf -3 -d0 -osr -zc
 LFLAGS = SYS dos4g OPT st=8192
 
+PLATFORM = 4g
+
 !ifdef __UNIX__
 BINDIR = dist/bin/
-OBJDIR = obj/4g/
+OBJDIR = obj/$(PLATFORM)/
 SRCDIR = lua/
 !else
 BINDIR = dist\bin\ #
-OBJDIR = obj\4g\ #
+OBJDIR = obj\$(PLATFORM)\ #
 SRCDIR = lua\ #
 !endif
 
-$(BINDIR)lua4g.exe: $(OBJDIR) $(BINDIR) $(objs) $(lua_obj)
+$(BINDIR)lua$(PLATFORM).exe: $(OBJDIR) $(BINDIR) $(objs) $(lua_obj)
     *wlink NAME $@ $(LFLAGS) FILE {$(objs) $(lua_obj)}
 
-$(BINDIR)luac4g.exe: $(BINDIR) $(OBJDIR) $(objs) $(luac_obj)
+$(BINDIR)luac$(PLATFORM).exe: $(BINDIR) $(OBJDIR) $(objs) $(luac_obj)
     *wlink NAME $@ $(LFLAGS) FILE {$(objs) $(luac_obj)}
 
 {$(SRCDIR)}.c{$(OBJDIR)}.obj:
@@ -50,16 +52,16 @@ $(BINDIR)luac4g.exe: $(BINDIR) $(OBJDIR) $(objs) $(luac_obj)
 clean: .SYMBOLIC
 !ifdef __UNIX__
     @!if [ -e $(OBJDIR) ]; then rm -R $(OBJDIR); fi
-    @!if [ -e $(BINDIR)lua4g.exe ]; then rm $(BINDIR)lua4g.exe; fi
-    @!if [ -e $(BINDIR)luac4g.exe ]; then rm $(BINDIR)luac4g.exe; fi
+    @!if [ -e $(BINDIR)lua$(PLATFORM).exe ]; then rm $(BINDIR)lua$(PLATFORM).exe; fi
+    @!if [ -e $(BINDIR)luac$(PLATFORM).exe ]; then rm $(BINDIR)luac$(PLATFORM).exe; fi
 !else
     !ifdef __NT__
          @!if exist $(OBJDIR) rd /S /Q $(OBJDIR)
     !else
          @!if exist $(OBJDIR) deltree /Y $(OBJDIR)
     !endif
-    @!if exist $(BINDIR)lua4g.exe del $(BINDIR)lua4g.exe
-    @!if exist $(BINDIR)luac4g.exe del $(BINDIR)luac4g.exe
+    @!if exist $(BINDIR)lua$(PLATFORM).exe del $(BINDIR)lua$(PLATFORM).exe
+    @!if exist $(BINDIR)luac$(PLATFORM).exe del $(BINDIR)luac$(PLATFORM).exe
 !endif
 
 dist:

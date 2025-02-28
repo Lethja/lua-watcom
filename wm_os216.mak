@@ -28,20 +28,22 @@ CC = *wcc
 CFLAGS = -q -bt=os2 -bc -2 -ml -d0 -osr -zc
 LFLAGS = SYS os2 OPT st=8192
 
+PLATFORM = 21
+
 !ifdef __UNIX__
 BINDIR = dist/bin/
-OBJDIR = obj/21/
+OBJDIR = obj/$(PLATFORM)/
 SRCDIR = lua/
 !else
 BINDIR = dist\bin\ #
-OBJDIR = obj\21\ #
+OBJDIR = obj\$(PLATFORM)\ #
 SRCDIR = lua\ #
 !endif
 
-$(BINDIR)lua21.exe: $(OBJDIR) $(BINDIR) $(objs) $(lua_obj)
+$(BINDIR)lua$(PLATFORM).exe: $(OBJDIR) $(BINDIR) $(objs) $(lua_obj)
     *wlink NAME $@ $(LFLAGS) FILE {$(objs) $(lua_obj)}
 
-$(BINDIR)luac21.exe: $(BINDIR) $(OBJDIR) $(objs) $(luac_obj)
+$(BINDIR)luac$(PLATFORM).exe: $(BINDIR) $(OBJDIR) $(objs) $(luac_obj)
     *wlink NAME $@ $(LFLAGS) FILE {$(objs) $(luac_obj)}
 
 {$(SRCDIR)}.c{$(OBJDIR)}.obj:
@@ -50,16 +52,16 @@ $(BINDIR)luac21.exe: $(BINDIR) $(OBJDIR) $(objs) $(luac_obj)
 clean: .SYMBOLIC
 !ifdef __UNIX__
     @!if [ -e $(OBJDIR) ]; then rm -R $(OBJDIR); fi
-    @!if [ -e $(BINDIR)luant.exe ]; then rm $(BINDIR)luant.exe; fi
-    @!if [ -e $(BINDIR)luacnt.exe ]; then rm $(BINDIR)luacnt.exe; fi
+    @!if [ -e $(BINDIR)lua$(PLATFORM).exe ]; then rm $(BINDIR)lua$(PLATFORM).exe; fi
+    @!if [ -e $(BINDIR)luac$(PLATFORM).exe ]; then rm $(BINDIR)luac$(PLATFORM).exe; fi
 !else
     !ifdef __NT__
          @!if exist $(OBJDIR) rd /S /Q $(OBJDIR)
     !else
          @!if exist $(OBJDIR) deltree /Y $(OBJDIR)
     !endif
-    @!if exist $(BINDIR)luant.exe del $(BINDIR)luant.exe
-    @!if exist $(BINDIR)luacnt.exe del $(BINDIR)luacnt.exe
+    @!if exist $(BINDIR)lua$(PLATFORM).exe del $(BINDIR)lua$(PLATFORM).exe
+    @!if exist $(BINDIR)luac$(PLATFORM).exe del $(BINDIR)luac$(PLATFORM).exe
 !endif
 
 dist:
