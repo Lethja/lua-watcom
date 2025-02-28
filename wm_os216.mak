@@ -1,5 +1,5 @@
-# Watcom Makefile for building Lua 5.4.6
-# This is the DOS 4G flat model version
+# Watcom Makefile for building Lua 5.4
+# This is the OS/2 1.2 16-bit version
 # There are no configurable parts to this file
 # Run with `wmake -f wm_os216.mak`
 

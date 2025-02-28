@@ -1,5 +1,5 @@
-# Watcom Makefile for building Lua 5.4.6
-# This is the DOS 4G flat model version
+# Watcom Makefile for building Lua 5.4
+# This is the Windows 95 and later version
 # There are no configurable parts to this file
 # Run with `wmake -f wm_winnt.mak`
 
