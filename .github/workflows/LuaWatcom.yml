@@ -107,6 +107,7 @@ jobs:
         run: |
           pwd
           ls -R
+          ls "Lua Binaries/"
 
       - name: Install GitHub CLI
         run: |
@@ -117,9 +118,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           TAG_NAME="${GITHUB_REF#refs/tags/}" # Extract the tag name
+          ls -lh "Lua Binaries"
           gh release create "$TAG_NAME" \
             --draft \
             --title "$TAG_NAME" \
             --notes "Lua for Watcom builds from $TAG_NAME" \
-            "Lua Binaries/Lua Exe.zip"
+            "Lua Binaries/Lua Exe.zip" \
             "Lua Binaries/Lua Img.zip"
