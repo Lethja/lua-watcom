@@ -99,11 +99,11 @@ jobs:
       contents: write
       actions: read
 
-
     steps:
       - uses: actions/checkout@v4
 
       - name: Download Artifacts
+        id: download_artifact
         uses: actions/download-artifact@v4
 
       - name: Create Draft Release
@@ -115,5 +115,5 @@ jobs:
             --draft \
             --title "$TAG_NAME" \
             --notes "Lua for Watcom builds from $TAG_NAME" \
-            "Lua Binaries/Lua Exe.zip#Lua Exe.zip" \
-            "Lua Binaries/Lua Ima.zip#Lua Ima.zip"
+            "${{ steps.download_artifact.outputs.download-path }}/Lua Exe.zip#Lua Exe.zip" \
+            "${{ steps.download_artifact.outputs.download-path }}/Lua Ima.zip#Lua Ima.zip"
