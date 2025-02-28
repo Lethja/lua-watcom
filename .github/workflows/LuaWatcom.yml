@@ -41,16 +41,6 @@ jobs:
         export INCLUDE=$WATCOM/h/os2:$WATCOM/h
         wmake -f wm_os232.mak
 
-    - name: UPX Binary Compression
-      uses: crazy-max/ghaction-upx@v3
-      with:
-        version: latest
-        args: -9 --8086
-        files: |
-          dist/bin/lua16.exe
-          dist/bin/lua4g.exe
-          dist/bin/luant.exe
-
     - name: Copy DOS4GW Binary
       run: |
           cp $WATCOM/binw/dos4gw.exe dist/bin/
@@ -67,6 +57,16 @@ jobs:
     - name: Create Binaries Zip
       run: |
         zip -j9 --DOS-names "dist/Lua Exe.zip" dist/bin/*.exe example.lua
+
+    - name: UPX Binary Compression
+      uses: crazy-max/ghaction-upx@v3
+      with:
+        version: latest
+        args: -9 --8086
+        files: |
+          dist/bin/lua16.exe
+          dist/bin/lua4g.exe
+          dist/bin/luant.exe
 
     - name: Create 160k 16-bit DOS Floppy Diskette Image
       run: |
