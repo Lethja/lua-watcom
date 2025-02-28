@@ -4,7 +4,7 @@ on: push
 
 jobs:
   Watcom:
-    name: Lua for Watcom
+    name: Build Lua with Open Watcom
     runs-on: ubuntu-latest
 
     steps:
@@ -64,23 +64,23 @@ jobs:
       run: |
           unix2dos *.lua
 
-    - name: Create 160k Floppy Diskette Image
+    - name: Create Binaries Zip
       run: |
-          mformat -C -i dist/Lua5DD8.ima -v LUA -f 160
-          mcopy -i dist/Lua5DD8.ima dist/bin/lua16.exe example.lua ::
+        zip -j9 --DOS-names "dist/Lua Exe.zip" dist/bin/*.exe example.lua
 
-    - name: Create 1.4M Floppy Diskette Image
+    - name: Create 160k 16-bit DOS Floppy Diskette Image
       run: |
-          mformat -C -i dist/Lua3HD18.ima -v LUA -f 1440
-          mcopy -i dist/Lua3HD18.ima dist/bin/*.exe example.lua ::
+          mformat -C -i dist/Lua160k.ima -v "LUA DOS" -f 160
+          mcopy -i dist/Lua160k.ima dist/bin/lua16.exe example.lua ::
 
-    - name: Create Zip Binaries
+    - name: Create 1.4M Multi-Platform Floppy Diskette Image
       run: |
-          zip -j9 --DOS-names "dist/Lua DOS Bin.zip" dist/bin/*.exe example.lua
+          mformat -C -i dist/LuaMulti.ima -v "LUA MULTIOS" -f 1440
+          mcopy -i dist/LuaMulti.ima dist/bin/*.exe example.lua ::
 
-    - name: Zip Disk Images
+    - name: Create Floppy Disk Images Zip
       run: |
-          zip -j9 --DOS-names "dist/Lua DOS Ima.zip" dist/*.ima
+          zip -j9 --DOS-names "dist/Lua Ima.zip" dist/*.ima
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
@@ -88,3 +88,31 @@ jobs:
         name: 'Lua Binaries'
         path: dist/*.zip
         compression-level: 0
+
+  Draft:
+    name: Draft Release
+    needs: Watcom
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/202')
+
+    permissions:
+      contents: write
+      actions: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
+
+      - name: Create Draft Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG_NAME="${GITHUB_REF#refs/tags/}" # Extract the tag name
+          gh release create "$TAG_NAME" \
+            --draft \
+            --title "$TAG_NAME" \
+            --notes "Lua for Watcom builds from $TAG_NAME" \
+            "Lua Binaries/Lua Exe.zip#Lua Exe.zip" \
+            "Lua Binaries/Lua Ima.zip#Lua Ima.zip"
