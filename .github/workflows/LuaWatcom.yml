@@ -103,7 +103,6 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Download Artifacts
-        id: download-artifact
         uses: actions/download-artifact@v4
 
       - name: Create Draft Release
@@ -111,10 +110,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           TAG_NAME="${GITHUB_REF#refs/tags/}" # Extract the tag name
-          echo "Creating release from ${{ steps.download-artifact.outputs.download-path }}"
           gh release create "$TAG_NAME" \
             --draft \
             --title "$TAG_NAME" \
             --notes "Lua for Watcom builds from $TAG_NAME" \
-            "${{ steps.download-artifact.outputs.download-path }}/Lua Exe.zip#Lua Exe.zip" \
-            "${{ steps.download-artifact.outputs.download-path }}/Lua Ima.zip#Lua Ima.zip"
+            "Lua Binaries/Lua Exe.zip#Lua Exe.zip" \
+            "Lua Binaries/Lua Ima.zip#Lua Ima.zip"
