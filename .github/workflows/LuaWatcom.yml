@@ -117,4 +117,5 @@ jobs:
             --draft \
             --title "$TAG_NAME" \
             --notes "Lua for Watcom builds from $TAG_NAME" \
-            "Lua Binaries/*.zip"
+            "Lua Binaries/Lua Exe.zip"
+            "Lua Binaries/Lua Img.zip"
