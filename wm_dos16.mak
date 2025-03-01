@@ -3,25 +3,25 @@
 # There are no configurable parts to this file
 # Run with `wmake -f mw_dos16.mak`
 
-objs =  $(OBJDIR)lapi.obj      $(OBJDIR)lctype.obj    &
-        $(OBJDIR)lfunc.obj     $(OBJDIR)lmathlib.obj  &
-        $(OBJDIR)loslib.obj    $(OBJDIR)ltable.obj    &
-        $(OBJDIR)lundump.obj   $(OBJDIR)lauxlib.obj   &
-        $(OBJDIR)ldblib.obj    $(OBJDIR)lgc.obj       &
-        $(OBJDIR)lmem.obj      $(OBJDIR)lparser.obj   &
-        $(OBJDIR)ltablib.obj   $(OBJDIR)lutf8lib.obj  &
-        $(OBJDIR)lbaselib.obj  $(OBJDIR)ldebug.obj    &
-        $(OBJDIR)linit.obj     $(OBJDIR)loadlib.obj   &
-        $(OBJDIR)lstate.obj    $(OBJDIR)ltm.obj       &
-        $(OBJDIR)lvm.obj       $(OBJDIR)lcode.obj     &
-        $(OBJDIR)ldo.obj       $(OBJDIR)liolib.obj    &
-        $(OBJDIR)lobject.obj   $(OBJDIR)lstring.obj   &
-        $(OBJDIR)lzio.obj      $(OBJDIR)lcorolib.obj  &
-        $(OBJDIR)ldump.obj     $(OBJDIR)llex.obj      &
-        $(OBJDIR)lopcodes.obj  $(OBJDIR)lstrlib.obj
+objs =  $(OBJDIR)$(SEP)lapi.obj      $(OBJDIR)$(SEP)lctype.obj    &
+        $(OBJDIR)$(SEP)lfunc.obj     $(OBJDIR)$(SEP)lmathlib.obj  &
+        $(OBJDIR)$(SEP)loslib.obj    $(OBJDIR)$(SEP)ltable.obj    &
+        $(OBJDIR)$(SEP)lundump.obj   $(OBJDIR)$(SEP)lauxlib.obj   &
+        $(OBJDIR)$(SEP)ldblib.obj    $(OBJDIR)$(SEP)lgc.obj       &
+        $(OBJDIR)$(SEP)lmem.obj      $(OBJDIR)$(SEP)lparser.obj   &
+        $(OBJDIR)$(SEP)ltablib.obj   $(OBJDIR)$(SEP)lutf8lib.obj  &
+        $(OBJDIR)$(SEP)lbaselib.obj  $(OBJDIR)$(SEP)ldebug.obj    &
+        $(OBJDIR)$(SEP)linit.obj     $(OBJDIR)$(SEP)loadlib.obj   &
+        $(OBJDIR)$(SEP)lstate.obj    $(OBJDIR)$(SEP)ltm.obj       &
+        $(OBJDIR)$(SEP)lvm.obj       $(OBJDIR)$(SEP)lcode.obj     &
+        $(OBJDIR)$(SEP)ldo.obj       $(OBJDIR)$(SEP)liolib.obj    &
+        $(OBJDIR)$(SEP)lobject.obj   $(OBJDIR)$(SEP)lstring.obj   &
+        $(OBJDIR)$(SEP)lzio.obj      $(OBJDIR)$(SEP)lcorolib.obj  &
+        $(OBJDIR)$(SEP)ldump.obj     $(OBJDIR)$(SEP)llex.obj      &
+        $(OBJDIR)$(SEP)lopcodes.obj  $(OBJDIR)$(SEP)lstrlib.obj
 
-lua_obj = $(OBJDIR)lua.obj
-luac_obj = $(OBJDIR)luac.obj
+lua_obj = $(OBJDIR)$(SEP)lua.obj
+luac_obj = $(OBJDIR)$(SEP)luac.obj
 
 CC = *wcc
 
@@ -31,19 +31,19 @@ LFLAGS = SYS dos OPT st=8192
 PLATFORM = 16
 
 !ifdef __UNIX__
-BINDIR = dist/bin/
-OBJDIR = obj/$(PLATFORM)/
-SRCDIR = lua/
+SEP = /
 !else
-BINDIR = dist\bin\ #
-OBJDIR = obj\$(PLATFORM)\ #
-SRCDIR = lua\ #
+SEP = \
 !endif
 
-$(BINDIR)lua$(PLATFORM).exe: $(OBJDIR) $(BINDIR) $(objs) $(lua_obj)
+BINDIR = dist$(SEP)bin
+OBJDIR = obj$(SEP)$(PLATFORM)
+SRCDIR = lua
+
+$(BINDIR)$(SEP)lua$(PLATFORM).exe: $(OBJDIR) $(BINDIR) $(objs) $(lua_obj)
     *wlink NAME $@ $(LFLAGS) FILE {$(objs) $(lua_obj)}
 
-$(BINDIR)luac$(PLATFORM).exe: $(BINDIR) $(OBJDIR) $(objs) $(luac_obj)
+$(BINDIR)$(SEP)luac$(PLATFORM).exe: $(BINDIR) $(OBJDIR) $(objs) $(luac_obj)
     *wlink NAME $@ $(LFLAGS) FILE {$(objs) $(luac_obj)}
 
 {$(SRCDIR)}.c{$(OBJDIR)}.obj:
@@ -54,14 +54,15 @@ clean: .SYMBOLIC
     @!if [ -e $(OBJDIR) ]; then rm -R $(OBJDIR); fi
     @!if [ -e $(BINDIR)lua$(PLATFORM).exe ]; then rm $(BINDIR)lua$(PLATFORM).exe; fi
     @!if [ -e $(BINDIR)luac$(PLATFORM).exe ]; then rm $(BINDIR)luac$(PLATFORM).exe; fi
-!else
-    !ifdef __NT__
-         @!if exist $(OBJDIR) rd /S /Q $(OBJDIR)
-    !else
-         @!if exist $(OBJDIR) deltree /Y $(OBJDIR)
-    !endif
-    @!if exist $(BINDIR)lua$(PLATFORM).exe del $(BINDIR)lua$(PLATFORM).exe
-    @!if exist $(BINDIR)luac$(PLATFORM).exe del $(BINDIR)luac$(PLATFORM).exe
+!elif __NT__
+    @!if exist $(OBJDIR) rd /S /Q $(OBJDIR)
+    @!if exist $(BINDIR)$(SEP)lua$(PLATFORM).exe del $(BINDIR)$(SEP)lua$(PLATFORM).exe
+    @!if exist $(BINDIR)$(SEP)luac$(PLATFORM).exe del $(BINDIR)$(SEP)luac$(PLATFORM).exe
+!else # Assuming DOS
+    @!dir $(OBJDIR) > NUL
+    @!if NOT ERRORLEVEL 1 deltree /Y $(OBJDIR)
+    @!if exist $(BINDIR)$(SEP)lua$(PLATFORM).exe del $(BINDIR)$(SEP)lua$(PLATFORM).exe
+    @!if exist $(BINDIR)$(SEP)luac$(PLATFORM).exe del $(BINDIR)$(SEP)luac$(PLATFORM).exe
 !endif
 
 dist:
