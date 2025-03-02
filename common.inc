@@ -46,14 +46,10 @@ clean: .SYMBOLIC
     @!if [ -e $(OBJDIR) ]; then rm -R $(OBJDIR); fi
     @!if [ -e $(BINDIR)lua$(PLATFORM).exe ]; then rm $(BINDIR)lua$(PLATFORM).exe; fi
     @!if [ -e $(BINDIR)luac$(PLATFORM).exe ]; then rm $(BINDIR)luac$(PLATFORM).exe; fi
-!elif __NT__
-    @!if exist $(OBJDIR) rd /S /Q $(OBJDIR)
+!else # Assuming DOS 5.0 +
     @!if exist $(BINDIR)$(SEP)lua$(PLATFORM).exe del $(BINDIR)$(SEP)lua$(PLATFORM).exe
     @!if exist $(BINDIR)$(SEP)luac$(PLATFORM).exe del $(BINDIR)$(SEP)luac$(PLATFORM).exe
-!else # Assuming DOS 5.0
-    @!if exist $(BINDIR)$(SEP)lua$(PLATFORM).exe del $(BINDIR)$(SEP)lua$(PLATFORM).exe
-    @!if exist $(BINDIR)$(SEP)luac$(PLATFORM).exe del $(BINDIR)$(SEP)luac$(PLATFORM).exe
-    @!if exist $(OBJDIR)$(SEP)*.* echo Clean compiler objects manually with `DEL $(OBJDIR)$(SEP)*.*` and `RD $(OBJDIR)`
+    @!if exist $(OBJDIR)$(SEP)*.* echo Run `DEL $(OBJDIR)$(SEP)*.* && RD $(OBJDIR)` to clean compiler objects
 !endif
 
 dist:
