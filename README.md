@@ -74,11 +74,9 @@ To build Lua with Open Watcom you will need the following:
    * Download the Lua 5.4.x sources tarballs from https://lua.org/ftp/, extract them and copy all files in `src` to `Lua`
 2) Patch the source code for Watcom (optional):
 
-   | GNU Patch                           | DifPat                             |
-   |-------------------------------------|------------------------------------|
-   | `patch lua/luaconf.h luaconf.pat`   | `pat luaconf.pat lua\luaconf.h`    |
-   | `patch lua/lopcodes.h lopcodes.pat` | `pat lopcodes.pat lua\lopcodes.h ` |
-   | `patch lua/lutf8lib.c lutf8lib.pat` | `pat lutf8lib.pat lua\lutf8lib.c`  |
+   | GNU Patch              | DifPat          |
+   |------------------------|-----------------|
+   | `patch -p0 -i lua.pat` | `pat lua.pat .` |
    > If no patching program is available mimic the changes in each `.pat` file manually. 
    > Patch changes are minimal and only serve to silence Watcom compiler warnings
 
