@@ -16,6 +16,10 @@ jobs:
         submodules: recursive
         fetch-depth: 0
 
+    - name: Patch Lua Source Code for Open Watcom
+      run: |
+        patch -p0 -i lua.pat
+
     - name: Build Lua for DOS 16-bit
       run: |
         export INCLUDE=$WATCOM/h
