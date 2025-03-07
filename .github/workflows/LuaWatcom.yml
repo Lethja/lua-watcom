@@ -11,6 +11,12 @@ jobs:
     - uses: open-watcom/setup-watcom@v0
       with:
         version: "1.9"
+
+    - name: Install Tools
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y dos2unix gcc libreadline-dev make mtools zip
+
     - uses: actions/checkout@v4
       with:
         submodules: recursive
@@ -19,6 +25,12 @@ jobs:
     - name: Patch Lua Source Code for Open Watcom
       run: |
         patch -p0 -i lua.pat
+
+    - name: Check GCC can build Lua after patches
+      run: |
+        cd lua
+        make
+        cd ..
 
     - name: Build Lua for DOS 16-bit
       run: |
@@ -48,11 +60,6 @@ jobs:
     - name: Copy DOS4GW Binary
       run: |
           cp $WATCOM/binw/dos4gw.exe dist/bin/
-
-    - name: Install Post Build Packaging Tools
-      run: |
-          sudo apt-get update
-          sudo apt-get install -y dos2unix mtools zip
 
     - name: Ensure Lua Scripts Have CR/LF Line Endings
       run: |
