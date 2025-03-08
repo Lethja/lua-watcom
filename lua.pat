@@ -1,32 +1,25 @@
 --- lua/lopcodes.h
 +++ lua/lopcodes.h
-@@ -65,10 +65,16 @@ enum OpMode {iABC, iABx, iAsBx, iAx, isJ};  /* basic instruction formats */
- */
- 
+@@ -67,8 +67,9 @@ enum OpMode {iABC, iABx, iAsBx, iAx, isJ};  /* basic instruction formats */
  /* Check whether type 'int' has at least 'b' bits ('b' < 32) */
-+#if defined(_M_I86)
-+/* Hardcoded due to bugs in some 16-bit compilers */
-+#define L_INTHASBITS(b)     ((0xFFFF >> ((b) - 1)) >= 1)
-+#else
  #define L_INTHASBITS(b)		((UINT_MAX >> ((b) - 1)) >= 1)
-+#endif
  
 -
 -#if L_INTHASBITS(SIZE_Bx)
 +#if defined(_M_I86)
-+#define MAXARG_Bx	0xFFFF
++#define MAXARG_Bx	MAX_INT
 +#elif L_INTHASBITS(SIZE_Bx)
  #define MAXARG_Bx	((1<<SIZE_Bx)-1)
  #else
  #define MAXARG_Bx	MAX_INT
-@@ -76,14 +82,17 @@ enum OpMode {iABC, iABx, iAsBx, iAx, isJ};  /* basic instruction formats */
+@@ -76,14 +77,17 @@ enum OpMode {iABC, iABx, iAsBx, iAx, isJ};  /* basic instruction formats */
  
  #define OFFSET_sBx	(MAXARG_Bx>>1)         /* 'sBx' is signed */
  
 -
 -#if L_INTHASBITS(SIZE_Ax)
 +#if defined(_M_I86)
-+#define MAXARG_Ax	0xFFFF
++#define MAXARG_Ax	MAX_INT
 +#elif L_INTHASBITS(SIZE_Ax)
  #define MAXARG_Ax	((1<<SIZE_Ax)-1)
  #else
@@ -35,7 +28,7 @@
  
 -#if L_INTHASBITS(SIZE_sJ)
 +#if defined(_M_I86)
-+#define MAXARG_sJ	0xFFFF
++#define MAXARG_sJ	MAX_INT
 +#elif L_INTHASBITS(SIZE_sJ)
  #define MAXARG_sJ	((1 << SIZE_sJ) - 1)
  #else
