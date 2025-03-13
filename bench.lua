@@ -70,8 +70,8 @@ local function benchmark_mul()
 	local r, it = 1, 100000
 	local bm = BenchmarkStart("Multiplication", it)
 
-	for i = 1, it do
-		r = (r * i) % 1000000007  -- Keep the result small to avoid overflow
+	for _ = 1, it do
+		r = (r * 1.000000001)
 	end
 
 	BenchmarkEnd(bm)
