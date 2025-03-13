@@ -116,6 +116,27 @@ jobs:
       - name: Download Artifacts
         uses: actions/download-artifact@v4
 
+      - name: Generate Release Notes
+        run: |
+          input_date="$TAG_NAME"
+          day=$(date -d "$input_date" '+%-d')
+          month=$(date -d "$input_date" '+%B')
+          year=$(date -d "$input_date" '+%Y')
+          
+          if [[ $day -eq 11 || $day -eq 12 || $day -eq 13 ]]; then
+            suffix="th"
+          else
+            case $((day % 10)) in
+              1) suffix="st" ;;
+              2) suffix="nd" ;;
+              3) suffix="rd" ;;
+              *) suffix="th" ;;
+            esac
+          fi
+
+          formatted_date="${day}${suffix} of ${month} ${year}"
+          sed -i "s/{{DATE}}/${formatted_date}/g" .github/workflows/notes.md
+
       - name: Create Draft Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -124,6 +145,6 @@ jobs:
           gh release create "$TAG_NAME" \
             --draft \
             --title "$TAG_NAME" \
-            --notes "Lua for Watcom builds from $TAG_NAME" \
+            --notes-file .github/workflows/notes.md \
             "Lua Binaries/Lua Exe.zip#Lua Exe.zip" \
             "Lua Binaries/Lua Ima.zip#Lua Ima.zip"
