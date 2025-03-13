@@ -8,13 +8,13 @@
 
 hour = tonumber(os.date('%H')) -- Get the hour of day on the computers clock
 if hour < 4 or hour > 20 then  -- Convert hour into fuzzy time of day
-    timeOfDay = 'night'
+	timeOfDay = 'night'
 elseif hour < 9 then
-    timeOfDay = 'morning'
+	timeOfDay = 'morning'
 elseif hour > 16 then
-    timeOfDay = 'evening'
+	timeOfDay = 'evening'
 else
-    timeOfDay = 'day'
+	timeOfDay = 'day'
 end
 
 print('Good ' .. timeOfDay .. ' from ' .. _VERSION .. '.') -- Print a greeting
