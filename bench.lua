@@ -29,7 +29,7 @@ end
 function BenchmarkEnd(start_time)
 	local t = os.clock() - start_time
 	local m, s = math.floor(t / 60), (t % 60)
-	io.write(string.format("%6d:%010.7f\n", m, s))
+	io.write(string.format("%7d:%09.6f\n", m, s))
 end
 
 local function benchmark_pi()
@@ -146,7 +146,7 @@ end
 -- Some information
 print("Interpreter:", _VERSION)
 print("System Family:", SystemFamily())
-print("Memory (KB):", collectgarbage("count"))
+print("Memory Used:", string.format("%.3fkB", collectgarbage("count")))
 print("Minimum Int:", math.mininteger or "Unknown")
 print("Maximum Int:", math.maxinteger or "Unknown")
 print()
@@ -165,8 +165,6 @@ benchmark_pi()
 benchmark_gcd()
 
 benchmark_array()
-
-print()
-print("Total memory usage (KB):", collectgarbage("count"))
-io.write("Total benchmark seconds:\t")
+print(string.rep('_', 49))
+io.write("Total:\t\t" .. string.format("%8.3fkB", collectgarbage("count")) .. "\t")
 BenchmarkEnd(bm)
