@@ -151,20 +151,18 @@ print("Minimum Int:", math.mininteger or "Unknown")
 print("Maximum Int:", math.maxinteger or "Unknown")
 print()
 print("Benchmark", "Iterations", "Time (min:sec.ms)")
+
 -- Run the benchmarks
-
 bm = os.clock()
-
 benchmark_add()
 benchmark_flt()
 benchmark_sub()
 benchmark_mul()
 benchmark_div()
-
 benchmark_pi()
 benchmark_gcd()
-
 benchmark_array()
 print(string.rep('_', 49))
 io.write("Total:\t\t" .. string.format("%8.3fkB", collectgarbage("count")) .. "\t")
 BenchmarkEnd(bm)
+print("Press Enter to Exit...") io.read() os.exit()
