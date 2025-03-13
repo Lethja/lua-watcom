@@ -67,7 +67,7 @@ jobs:
 
     - name: Create Binaries Zip
       run: |
-        zip -j9 --DOS-names "dist/Lua Exe.zip" dist/bin/*.exe example.lua
+        zip -j9 --DOS-names "dist/Lua Exe.zip" dist/bin/*.exe *.lua
 
     - name: UPX Binary Compression
       uses: crazy-max/ghaction-upx@v3
@@ -82,12 +82,12 @@ jobs:
     - name: Create 160k 16-bit DOS Floppy Diskette Image
       run: |
           mformat -C -i dist/Lua160k.ima -v "LUA DOS" -f 160
-          mcopy -i dist/Lua160k.ima dist/bin/lua16.exe example.lua ::
+          mcopy -i dist/Lua160k.ima dist/bin/lua16.exe *.lua ::
 
     - name: Create 1.4M Multi-Platform Floppy Diskette Image
       run: |
           mformat -C -i dist/LuaMulti.ima -v "LUA MULTIOS" -f 1440
-          mcopy -i dist/LuaMulti.ima dist/bin/*.exe example.lua ::
+          mcopy -i dist/LuaMulti.ima dist/bin/*.exe *.lua ::
 
     - name: Create Floppy Disk Images Zip
       run: |
