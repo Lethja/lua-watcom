@@ -29,7 +29,7 @@ end
 function BenchmarkEnd(start_time)
 	local t = os.clock() - start_time
 	local m, s = math.floor(t / 60), (t % 60)
-	io.write(string.format("%03d:%010.7f\n", m, s))
+	io.write(string.format("%6d:%010.7f\n", m, s))
 end
 
 local function benchmark_pi()
