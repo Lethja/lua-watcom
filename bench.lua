@@ -100,6 +100,17 @@ local function benchmark_add()
 	BenchmarkEnd(bm)
 end
 
+local function benchmark_flt()
+	local r, it = 1.0, 100000
+	local bm = BenchmarkStart("Float Addition", it)
+
+	for _ = 1, it do
+		r = r + 0.01
+	end
+
+	BenchmarkEnd(bm)
+end
+
 local function benchmark_sub()
 	local r, it = 1, 100000
 	local bm = BenchmarkStart("Subtraction", it)
@@ -145,6 +156,7 @@ print("Benchmark", "Iterations", "Time (min:sec.ms)")
 bm = os.clock()
 
 benchmark_add()
+benchmark_flt()
 benchmark_sub()
 benchmark_mul()
 benchmark_div()
