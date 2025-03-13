@@ -21,18 +21,20 @@ function SystemFamily()
 end
 
 function BenchmarkStart(name, iterations)
-	io.write("Benchmarking " .. name .. "  (" .. iterations .. " iterations)...\t")
+	io.write(string.format("%-9s", name) .. "\t" .. string.format("%10s", iterations) .. "\t")
 	io.flush()
 	return os.clock()
 end
 
 function BenchmarkEnd(start_time)
-	io.write(string.format("%010.6f", os.clock() - start_time) .. " seconds\n")
+	local t = os.clock() - start_time
+	local m, s = math.floor(t / 60), (t % 60)
+	io.write(string.format("%03d:%010.7f\n", m, s))
 end
 
 local function benchmark_pi()
-	local it, pi, si = 100000, 3, 1
-	local bm = BenchmarkStart("Pi ", it)
+	local it, pi, si = 20000, 3, 1
+	local bm = BenchmarkStart("Nilakantha Pi", it)
 
 	-- Calculate using Nilakantha series
 	for i = 2, it * 2, 2 do
@@ -52,8 +54,8 @@ local function benchmark_gcd()
 		return a
 	end
 
-	local it, r = 100000, 0
-	local bm = BenchmarkStart("GCD", it)
+	local it, r = 5000, 0
+	local bm = BenchmarkStart("Common Divisor", it)
 
 	for i = 1, it do
 		local x = i
@@ -66,7 +68,7 @@ end
 
 local function benchmark_mul()
 	local r, it = 1, 100000
-	local bm = BenchmarkStart("Mul", it)
+	local bm = BenchmarkStart("Multiplication", it)
 
 	for i = 1, it do
 		r = (r * i) % 1000000007  -- Keep the result small to avoid overflow
@@ -77,7 +79,7 @@ end
 
 local function benchmark_div()
 	local it, result = 100000, 1
-	local bm = BenchmarkStart("Div", it)
+	local bm = BenchmarkStart("Division", it)
 
 	it = it + 1
 	for i = 2, it do
@@ -89,7 +91,7 @@ end
 
 local function benchmark_add()
 	local r, it = 1, 100000
-	local bm = BenchmarkStart("Add", it)
+	local bm = BenchmarkStart("Addition", it)
 
 	for i = 1, it do
 		r = r + i
@@ -100,7 +102,7 @@ end
 
 local function benchmark_sub()
 	local r, it = 1, 100000
-	local bm = BenchmarkStart("Sub", it)
+	local bm = BenchmarkStart("Subtraction", it)
 
 	for i = it, 1, -1 do
 		r = r - i
@@ -111,7 +113,7 @@ end
 
 local function benchmark_array()
 	local it = 1000
-	local bm = BenchmarkStart("Array", it)
+	local bm = BenchmarkStart("Array Loop", it)
 
 	local array = {}
 	for i = 1, it do
@@ -137,7 +139,7 @@ print("Memory (KB):", collectgarbage("count"))
 print("Minimum Int:", math.mininteger or "Unknown")
 print("Maximum Int:", math.maxinteger or "Unknown")
 print()
-
+print("Benchmark", "Iterations", "Time (min:sec.ms)")
 -- Run the benchmarks
 
 bm = os.clock()
@@ -154,4 +156,5 @@ benchmark_array()
 
 print()
 print("Total memory usage (KB):", collectgarbage("count"))
-print("Total benchmark seconds:", string.format("%010.6f", os.clock() - bm))
+io.write("Total benchmark seconds:\t")
+BenchmarkEnd(bm)
