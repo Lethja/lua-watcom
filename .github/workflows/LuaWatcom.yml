@@ -3,8 +3,23 @@ name: Lua for Watcom
 on: push
 
 jobs:
+  Lua:
+    name: Demo Script Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y lua5.4
+          lua -v
+
+      - name: Test Lua Demo scripts
+        run: |
+          for file in demo/minimum/*.lua; do if [ -x "$file" ]; then echo -e "\n>> ./$file"; yes "" | "$file"; fi done
+
   Watcom:
     name: Build Lua with Open Watcom
+    needs: Lua
     runs-on: ubuntu-latest
 
     steps:
