@@ -36,18 +36,16 @@ local function benchmark_pi()
 	local it, pi, si = 20000, 3, 1
 	local bm = BenchmarkStart("Nilakantha Pi", it)
 
-	-- Calculate using Nilakantha series
 	for i = 2, it * 2, 2 do
 		pi = pi + si * (4 / (i * (i + 1) * (i + 2)))
-		si = -si -- Alternate the sign for each term
+		si = -si
 	end
 
 	BenchmarkEnd(bm)
 end
 
 local function benchmark_gcd()
-	-- Function to compute the greatest common divisor
-	local function gcd(a, b)
+	local function gcd(a, b) -- Function to compute the greatest common divisor
 		while b ~= 0 do
 			a, b = b, a % b
 		end
@@ -67,7 +65,7 @@ local function benchmark_gcd()
 end
 
 local function benchmark_mul()
-	local r, it = 1, 100000
+	local it, r = 100000, 1
 	local bm = BenchmarkStart("Multiplication", it)
 
 	for _ = 1, it do
@@ -78,12 +76,12 @@ local function benchmark_mul()
 end
 
 local function benchmark_div()
-	local it, result = 100000, 1
+	local it, r = 100000, 1
 	local bm = BenchmarkStart("Division", it)
 
 	it = it + 1
 	for i = 2, it do
-		result = result / i
+		r = r / i
 	end
 
 	BenchmarkEnd(bm)
@@ -126,18 +124,18 @@ local function benchmark_array()
 	local it = 1000
 	local bm = BenchmarkStart("Array Loop", it)
 
-	local array = {}
+	local a = {}
 	for i = 1, it do
-		array[i] = i % 10
+		a[i] = i % 10
 	end
 
 	for i = 1, it do
-		array[i] = array[i] * 2
+		a[i] = a[i] * 2
 	end
 
-	local sum = 0
+	local s = 0
 	for i = 1, it do
-		sum = sum + array[i]
+		s = s + a[i]
 	end
 
 	BenchmarkEnd(bm)
@@ -149,11 +147,10 @@ print("System Family:", SystemFamily())
 print("Memory Used:", string.format("%.3fkB", collectgarbage("count")))
 print("Minimum Int:", math.mininteger or "Unknown")
 print("Maximum Int:", math.maxinteger or "Unknown")
-print()
-print("Benchmark", "Iterations", "Time (min:sec.ms)")
+print("\nBenchmark", "Iterations", "Time (min:sec.ms)")
 
 -- Run the benchmarks
-bm = os.clock()
+bm = os.clock() -- Start the total time clock
 benchmark_add()
 benchmark_flt()
 benchmark_sub()
@@ -162,7 +159,9 @@ benchmark_div()
 benchmark_pi()
 benchmark_gcd()
 benchmark_array()
-print(string.rep('_', 49))
+
+-- Print memory and total time summary at the end of the table
+print(string.rep('_', 49)) -- Print a horizontal line to separate results from final summary
 io.write("Total:\t\t" .. string.format("%8.3fkB", collectgarbage("count")) .. "\t")
 BenchmarkEnd(bm)
 print("Press Enter to Exit...") io.read() os.exit()

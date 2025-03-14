@@ -18,6 +18,6 @@ else
 end
 
 print('Good ' .. timeOfDay .. ' from ' .. _VERSION .. '.') -- Print a greeting
-io.read() -- Wait for Enter to be pressed
-print('Have a good ' .. timeOfDay .. '.') -- This message will
-os.exit() -- Exit script. Will also exit a interactive shell
+print("Press Enter to Exit...")
+io.read() -- Wait for Enter to be pressed before proceeding
+os.exit() -- Exit the script. This function call will also exit an interactive shell
