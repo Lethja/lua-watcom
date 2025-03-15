@@ -164,6 +164,7 @@ benchmark_div()
 benchmark_pi()
 benchmark_gcd()
 benchmark_array()
+pcall(require, "exbench") -- Optionally run extended benchmarks
 
 -- Print memory and total time summary at the end of the table
 PrintLine()
