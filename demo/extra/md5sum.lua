@@ -122,15 +122,19 @@ function md5_file(file)
     return to_hex(A) .. to_hex(B) .. to_hex(C) .. to_hex(D)
 end
 
+local function PredefineConstants()
+	T = {} -- Predefined MD5 constants of sine-based shifts (T values)
+	for i = 1, 64 do
+		T[i] = math.floor(2 ^ 32 * math.abs(math.sin(i)))
+	end
+end
+
 if #arg < 1 then
 	-- Show accurate Lua binary and script location
     print((arg[-1] or "?") .. " " .. (arg[0] or "?") .. " [FILE]...")
     os.exit(1)
 else
-	T = {} -- Predefined MD5 constants of sine-based shifts (T values)
-	for i = 1, 64 do
-		T[i] = math.floor(2 ^ 32 * math.abs(math.sin(i)))
-	end
+	PredefineConstants()
 
     for i = 1, #arg do
         local file, err = io.open(arg[i], "rb")
