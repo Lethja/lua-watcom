@@ -129,6 +129,8 @@ local function PredefineConstants()
 	end
 end
 
+if LIB then PredefineConstants() return end
+
 if #arg < 1 then
 	-- Show accurate Lua binary and script location
     print((arg[-1] or "?") .. " " .. (arg[0] or "?") .. " [FILE]...")

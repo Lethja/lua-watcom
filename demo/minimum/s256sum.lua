@@ -116,6 +116,8 @@ function sha256_file(file)
 	})
 end
 
+if LIB then return end
+
 if #arg < 1 then
 	print((arg[-1] or "?") .. " " .. (arg[0] or "?") .. " [FILE]...")
 	os.exit(1)
