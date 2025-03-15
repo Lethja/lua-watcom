@@ -78,11 +78,11 @@ jobs:
 
     - name: Ensure Lua Scripts Have CR/LF Line Endings
       run: |
-          unix2dos demo/minimum/*.lua
+          unix2dos demo/extra/*.lua demo/minimum/*.lua
 
     - name: Create Binaries Zip
       run: |
-        zip -j9 --DOS-names "dist/Lua Exe.zip" dist/bin/*.exe demo/minimum/*.lua
+        zip -j9 --DOS-names "dist/Lua Exe.zip" dist/bin/*.exe demo/extra/*.lua demo/minimum/*.lua
 
     - name: UPX Binary Compression
       uses: crazy-max/ghaction-upx@v3
@@ -102,7 +102,7 @@ jobs:
     - name: Create 1.4M Multi-Platform Floppy Diskette Image
       run: |
           mformat -C -i dist/LuaMulti.ima -v "LUA MULTIOS" -f 1440
-          mcopy -i dist/LuaMulti.ima dist/bin/*.exe demo/minimum/*.lua ::
+          mcopy -i dist/LuaMulti.ima dist/bin/*.exe demo/extra/*.lua demo/minimum/*.lua ::
 
     - name: Create Floppy Disk Images Zip
       run: |
