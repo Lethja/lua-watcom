@@ -21,7 +21,8 @@ function SystemFamily()
 end
 
 function BenchmarkStart(name, iterations)
-	io.write(string.format("%-9s", name) .. "\t" .. string.format("%10s", iterations) .. "\t")
+	io.write(string.format("%-9s", name) .. "\t" ..
+			string.format("%10s", iterations) .. "\t")
 	io.flush()
 	return os.clock()
 end
@@ -141,13 +142,17 @@ local function benchmark_array()
 	BenchmarkEnd(bm)
 end
 
+local function PrintLine() print(string.rep('_', 49)) end
+
 -- Some information
 print("Interpreter:", _VERSION)
 print("System Family:", SystemFamily())
-print("Memory Used:", string.format("%.3fkB", collectgarbage("count")))
+print("Memory Used:",
+		string.format("%.3fkB", collectgarbage("count")))
 print("Minimum Int:", math.mininteger or "Unknown")
 print("Maximum Int:", math.maxinteger or "Unknown")
 print("\nBenchmark", "Iterations", "Time (min:sec.ms)")
+PrintLine()
 
 -- Run the benchmarks
 bm = os.clock() -- Start the total time clock
@@ -161,7 +166,9 @@ benchmark_gcd()
 benchmark_array()
 
 -- Print memory and total time summary at the end of the table
-print(string.rep('_', 49)) -- Print a horizontal line to separate results from final summary
-io.write("Total:\t\t" .. string.format("%8.3fkB", collectgarbage("count")) .. "\t")
+PrintLine()
+io.write("Total:\t\t" ..
+		string.format("%8.3fkB", collectgarbage("count")) ..
+		"\t")
 BenchmarkEnd(bm)
 print("Press Enter to Exit...") io.read() os.exit()
