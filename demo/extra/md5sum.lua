@@ -1,10 +1,5 @@
 #!/usr/bin/env lua
 
-local T = {} -- Predefined MD5 constants of sine-based shifts (T values)
-for i = 1, 64 do
-	T[i] = math.floor(2 ^ 32 * math.abs(math.sin(i)))
-end
-
 --- Read a files hash from it's current point to the end
 --- @param file file The file to read to the end
 --- @return string The md5 checksum result of the file
@@ -30,10 +25,11 @@ function md5_file(file)
 			return ((x << n) | (x >> (32 - n))) & 0xFFFFFFFF
 		end
 
-		local words, shifts = {}, { { 7, 12, 17, 22 },
-						 { 5, 9, 14, 20 },
-						 { 4, 11, 16, 23 },
-						 { 6, 10, 15, 21 }
+		local words, shifts = {}, {
+			{ 7, 12, 17, 22 },
+			{ 5,  9, 14, 20 },
+			{ 4, 11, 16, 23 },
+			{ 6, 10, 15, 21 },
 		}
 
 		for i = 0, 15 do -- Break the chunk into 16 little-endian 32-bit words
@@ -131,6 +127,11 @@ if #arg < 1 then
     print((arg[-1] or "?") .. " " .. (arg[0] or "?") .. " [FILE]...")
     os.exit(1)
 else
+	T = {} -- Predefined MD5 constants of sine-based shifts (T values)
+	for i = 1, 64 do
+		T[i] = math.floor(2 ^ 32 * math.abs(math.sin(i)))
+	end
+
     for i = 1, #arg do
         local file, err = io.open(arg[i], "rb")
 
