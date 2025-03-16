@@ -1,37 +1,42 @@
 #!/usr/bin/env lua
 
 
---[[
-	DOS and UNIX disagree on what a new line should be
-	DOS says it's a carriage return followed by a line feed (CRLF)
-	while UNIX says it's just a line feed on its own (LF).
-	Many tools (Lua included) don't care while others like
-	`TYPE` in DOS and Notepad in Windows will not display correctly.
-	Tools like unix2dos/dos2unix exist convert line endings between the systems,
-	however, in doing so, the CR in CRLF on the shebang line might be
-	interpreted literally and prevent correct execution on UNIX systems.
+help = [[
+DOS and UNIX disagree on what a new line should be
+DOS says it's a carriage return followed by a line feed (CRLF)
+while UNIX says it's just a line feed on its own (LF).
+Many tools (Lua included) don't care while others like
+`TYPE` in DOS and Notepad in Windows will not display correctly.
+Tools like unix2dos/dos2unix convert line endings between the systems,
+however, in doing so, the CR in CRLF on the shebang line might be
+interpreted literally and prevent correct execution on UNIX systems.
 
-	This script named "DOS friend" will convert every line ending of the files
-	passed to it with CRLF with the exception of the first line when a shebang
-	is present. When this occurs, the line will instead write LFCRLF so that
-	both types of systems can pleasantly read and run the file.
---]]
+This script named "DOS friend" will convert every line ending of the files
+passed to it with CRLF with the exception of the first line when a shebang
+is present. When this occurs, the line will instead write LFCRLF so that
+both types of systems can pleasantly read and run the file.
+]]
 
+if #arg < 1 then
+	print(arg[-1] .. " " .. arg[0] .. " [FILE]..." .. '\n\n' .. help)
+	os.exit(1)
+end
+
+CR = string.char(0x0D)
 LF = string.char(0x0A)
-CRLF = string.char(0x0D) .. LF
+CRLF = CR .. LF
+
+local function StripCarriage(str)
+	return str:gsub("[" .. CR .. LF .. "]", "")
+end
 
 local function Shebang(inFile)
 	inFile:seek("set", 0)
 	local line1 = inFile:read("*l")
 	if line1:match("^#!") then
-		return line1 .. LF .. CRLF
+		return StripCarriage(line1) .. LF .. CRLF
 	end
 	return nil
-end
-
-if #arg < 1 then
-	print(arg[-1] .. " " .. arg[0] .. " [FILE]...")
-	os.exit(1)
 end
 
 for i = 1, #arg do
@@ -48,7 +53,7 @@ for i = 1, #arg do
 				while true do
 					local line = inFile:read("*l")
 					if line then
-						outFile:write(line .. CRLF)
+						outFile:write(StripCarriage(line) .. CRLF)
 					else
 						break
 					end
