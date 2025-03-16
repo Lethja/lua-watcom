@@ -31,9 +31,14 @@ end
 
 local function Shebang(inFile)
 	inFile:seek("set", 0)
-	local line1 = inFile:read("*l")
-	if line1:match("^#!") then
-		return StripCarriage(line1) .. LF .. CRLF
+	local l = inFile:read("*l")
+	if l:match("^#!") then
+		local o = StripCarriage(l) .. LF .. CRLF
+		l = inFile:read("*l")
+		if l ~= "" and l ~= CR then -- Only write 2nd line if it's not blank
+			o = o .. StripCarriage(l) .. CRLF
+		end
+		return o
 	end
 	return nil
 end
