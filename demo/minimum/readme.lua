@@ -1,4 +1,5 @@
 #!/usr/bin/env lua
+
 -- This is a single line comment, the line above is a shebang for UNIX systems
 
 --[[ This is a multi-line comment. To run the script, pass it to the lua binary
