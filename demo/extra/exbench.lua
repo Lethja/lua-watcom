@@ -1,5 +1,7 @@
+if not LIB then print("Please run bench.lua from the same working directory instead") return end
+
 local function benchmark_md5sum()
-    local it, s = 5, pcall(require, "md5sum")
+    local it, s = 2, pcall(require, "md5sum")
     local bm = BenchmarkStart("Checksum MD5", it)
     local file = io.open(arg[0], "rb")
 
@@ -18,7 +20,7 @@ local function benchmark_md5sum()
 end
 
 local function benchmark_sha256()
-    local it, s = 5, pcall(require, "s256sum")
+    local it, s = 1, pcall(require, "s256sum")
     local bm = BenchmarkStart("Checksum SHA256", it)
     local file = io.open(arg[0], "rb")
 
@@ -36,6 +38,5 @@ local function benchmark_sha256()
     BenchmarkEnd(bm)
 end
 
-LIB = true
 benchmark_md5sum()
 benchmark_sha256()
