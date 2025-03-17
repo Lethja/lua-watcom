@@ -1,0 +1,16 @@
+2 VERSIONINFO
+FILEVERSION 5.4.7
+PRODUCTVERSION 5.4.7
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BEGIN
+            VALUE "FileVersion", "5.4.7\0"
+            VALUE "ProductVersion", "5.4.7\0"
+            VALUE "FileDescription", "Lua Programming Language Interpreter\0"
+            VALUE "CompanyName", "PUC-Rio\0"
+            VALUE "Website", "http://www.lua.org\0"
+            VALUE "Comments", "Built with Lua for Watcom patches.\nhttp://github.com/Lethja/lua-watcom\0"
+        END
+    END
+END
