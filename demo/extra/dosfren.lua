@@ -1,6 +1,6 @@
 #!/usr/bin/env lua
 
-help = [[
+H = [[
 DOS and UNIX disagree on what a new line should be
 DOS says it's a carriage return followed by a line feed (CRLF)
 while UNIX says it's just a line feed on its own (LF).
@@ -17,7 +17,7 @@ both system families can pleasantly read and run the file.
 ]]
 
 if #arg < 1 then
-	print(arg[-1] .. " " .. arg[0] .. " [FILE]..." .. '\n\n' .. help)
+	print(arg[-1] .. " " .. arg[0] .. " [FILE]..." .. '\n\n' .. H)
 	os.exit(1)
 end
 
@@ -43,13 +43,23 @@ local function Shebang(inFile)
 	return nil
 end
 
+local function TmpFile(m)
+	for i = 1, 10000 do
+		local t = tostring(os.time() + i):sub(-8)
+		local f, e = io.open(t, "r")
+		if not f then f, e = io.open(t, m) return f, e, t end
+		f:close()
+		i = i + 1
+	end
+end
+
 for j = 1, #arg do
 	local i, e = io.open(arg[j])
 	if not i then print(arg[j] .. ": " .. e) else
-		local o
-		o, e = io.open(arg[j] .. ".tmp", "wb")
+		local o, t
+		o, e, t = TmpFile("wb")
 		if not o then
-			print(arg[j] .. ".tmp: " .. e)
+			print(t .. ": " .. e)
 		else
 			local s = Shebang(i)
 			if s then
@@ -70,7 +80,7 @@ for j = 1, #arg do
 					This allows system file permissions to remain unchanged.
 				--]]
 
-				i = io.open(arg[j] .. ".tmp", "rb")
+				i = io.open(t, "rb")
 				o = io.open(arg[j], "wb")
 				if i and o then
 					while true do
@@ -83,7 +93,7 @@ for j = 1, #arg do
 					i:close() o:close()
 				end
 			end
-			os.remove(arg[j] .. ".tmp")
+			os.remove(t)
 		end
 	end
 end
