@@ -43,26 +43,26 @@ local function Shebang(inFile)
 	return nil
 end
 
-for i = 1, #arg do
-	local iFile, err = io.open(arg[i])
-	if not iFile then print(arg[i] .. ": " .. err) else
-		local oFile
-		oFile, err = io.open(arg[i] .. ".tmp", "wb")
-		if not oFile then
-			print(arg[i] .. ".tmp: " .. err)
+for j = 1, #arg do
+	local i, e = io.open(arg[j])
+	if not i then print(arg[j] .. ": " .. e) else
+		local o
+		o, e = io.open(arg[j] .. ".tmp", "wb")
+		if not o then
+			print(arg[j] .. ".tmp: " .. e)
 		else
-			local shebang = Shebang(iFile)
-			if shebang then
-				oFile:write(shebang)
+			local s = Shebang(i)
+			if s then
+				o:write(s)
 				while true do
-					local line = iFile:read("*l")
-					if line then
-						oFile:write(StripCarriage(line) .. CRLF)
+					local l = i:read("*l")
+					if l then
+						o:write(StripCarriage(l) .. CRLF)
 					else
 						break
 					end
 				end
-				iFile:close() oFile:close()
+				i:close() o:close()
 
 				--[[
 					Swap the temporary file and original file around
@@ -70,20 +70,20 @@ for i = 1, #arg do
 					This allows system file permissions to remain unchanged.
 				--]]
 
-				iFile = io.open(arg[i] .. ".tmp", "rb")
-				oFile = io.open(arg[i], "wb")
-				if iFile and oFile then
+				i = io.open(arg[j] .. ".tmp", "rb")
+				o = io.open(arg[j], "wb")
+				if i and o then
 					while true do
-						local data = iFile:read(1024)
-						if not data then
+						local d = i:read(1024)
+						if not d then
 							break
 						end
-						oFile:write(data)
+						o:write(d)
 					end
-					iFile:close() oFile:close()
+					i:close() o:close()
 				end
 			end
-			os.remove(arg[i] .. ".tmp")
+			os.remove(arg[j] .. ".tmp")
 		end
 	end
 end
