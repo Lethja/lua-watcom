@@ -11,7 +11,6 @@ LFLAGS = SYS nt OPT st=8192
 RFLAGS = -q -bt=nt -r -zm
 
 RES = $(OBJDIR)$(SEP)icon.res $(OBJDIR)$(SEP)info.res
-RESDIR = res
 
 PLATFORM = nt
 
