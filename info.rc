@@ -1,16 +1,22 @@
-2 VERSIONINFO
-FILEVERSION 5.4.7
-PRODUCTVERSION 5.4.7
+1 VERSIONINFO
+FILEVERSION 5,4,7,0
+PRODUCTVERSION 5,4,7,0
 BEGIN
-    BLOCK "StringFileInfo"
-    BEGIN
-        BEGIN
-            VALUE "FileVersion", "5.4.7\0"
-            VALUE "ProductVersion", "5.4.7\0"
-            VALUE "FileDescription", "Lua Programming Language Interpreter\0"
-            VALUE "CompanyName", "PUC-Rio\0"
-            VALUE "Website", "http://www.lua.org\0"
-            VALUE "Comments", "Built with Lua for Watcom patches.\nhttp://github.com/Lethja/lua-watcom\0"
-        END
-    END
+	BLOCK "StringFileInfo"
+	BEGIN
+		BLOCK "040904E4"
+		BEGIN
+			VALUE "FileVersion", "5.4.7\0"
+			VALUE "ProductVersion", "5.4.7\0"
+			VALUE "FileDescription", "Lua Programming Language Interpreter\0"
+			VALUE "CompanyName", "PUC-Rio\0"
+			VALUE "Website", "http://www.lua.org\0"
+			VALUE "Comments", "Built with Lua for Watcom patches at http://github.com/Lethja/lua-watcom\0"
+			VALUE "LegalCopyright", "1994-2024 Lua.org, PUC-Rio"
+		END
+	END
+	BLOCK "VarFileInfo"
+	BEGIN
+		VALUE "Translation", 0x0409, 1252
+	END
 END
