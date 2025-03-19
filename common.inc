@@ -32,23 +32,11 @@ BINDIR = dist$(SEP)bin
 OBJDIR = obj$(SEP)$(PLATFORM)
 SRCDIR = lua
 
-!ifdef RES
-
-$(BINDIR)$(SEP)lua$(PLATFORM).exe: $(OBJDIR) $(BINDIR) $(objs) $(lua_obj) $(RES)
-    *wlink NAME $@ $(LFLAGS) FILE {$(objs) $(lua_obj)} RES {$(RES)}
-
-$(BINDIR)$(SEP)luac$(PLATFORM).exe: $(BINDIR) $(OBJDIR) $(objs) $(luac_obj) $(RES)
-    *wlink NAME $@ $(LFLAGS) FILE {$(objs) $(luac_obj)} RES {$(RES)}
-
-!else
-
-$(BINDIR)$(SEP)lua$(PLATFORM).exe: $(OBJDIR) $(BINDIR) $(objs) $(lua_obj)
+$(BINDIR)$(SEP)lua$(PLATFORM).exe: $(OBJDIR) $(BINDIR) $(objs) $(lua_obj) $(XTRA)
     *wlink NAME $@ $(LFLAGS) FILE {$(objs) $(lua_obj)}
 
-$(BINDIR)$(SEP)luac$(PLATFORM).exe: $(BINDIR) $(OBJDIR) $(objs) $(luac_obj)
+$(BINDIR)$(SEP)luac$(PLATFORM).exe: $(BINDIR) $(OBJDIR) $(objs) $(luac_obj) $(XTRA)
     *wlink NAME $@ $(LFLAGS) FILE {$(objs) $(luac_obj)}
-
-!endif
 
 {$(SRCDIR)}.c{$(OBJDIR)}.obj:
     $(CC) $(CFLAGS) -fo=$@ $<

@@ -7,17 +7,14 @@ CC = *wcc386
 RC = *wrc
 
 CFLAGS = -q -bt=nt -bc -3 -d0 -osr -zc
-LFLAGS = SYS nt OPT st=8192
+LFLAGS = SYS nt OPT st=8192 RES $(OBJDIR)$(SEP)pe.res
 RFLAGS = -q -bt=nt -r -zm
 
-RES = $(OBJDIR)$(SEP)icon.res $(OBJDIR)$(SEP)info.res
+XTRA = $(OBJDIR)$(SEP)pe.res
 
 PLATFORM = nt
 
 !include common.inc
 
-$(OBJDIR)$(SEP)icon.res: icon.rc
-	$(RC) $(RFLAGS) -fo=$@ $<
-
-$(OBJDIR)$(SEP)info.res: info.rc
+$(OBJDIR)$(SEP)pe.res: pe.rc
 	$(RC) $(RFLAGS) -fo=$@ $<
