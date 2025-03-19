@@ -78,7 +78,7 @@ jobs:
 
     - name: Ensure Lua Scripts Have CR/LF Line Endings
       run: |
-          unix2dos demo/core/*.lua demo/xtra/*.lua
+          lua demo/xtra/dosfren.lua demo/core/*.lua demo/xtra/*.lua
 
     - name: Create Binaries Zip
       run: |
