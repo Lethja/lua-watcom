@@ -15,7 +15,7 @@ jobs:
 
       - name: Test Lua Demo scripts
         run: |
-          for file in demo/minimum/*.lua; do if [ -x "$file" ]; then echo -e "\n>> ./$file"; yes "" | "$file"; fi done
+          for file in demo/core/*.lua; do if [ -x "$file" ]; then echo -e "\n>> ./$file"; yes "" | "$file"; fi done
 
   Watcom:
     name: Build Lua with Open Watcom
@@ -78,11 +78,11 @@ jobs:
 
     - name: Ensure Lua Scripts Have CR/LF Line Endings
       run: |
-          unix2dos demo/extra/*.lua demo/minimum/*.lua
+          unix2dos demo/core/*.lua demo/xtra/*.lua
 
     - name: Create Binaries Zip
       run: |
-        zip -j9 --DOS-names "dist/Lua Exe.zip" dist/bin/*.exe demo/extra/*.lua demo/minimum/*.lua
+        zip -j9 --DOS-names "dist/Lua Exe.zip" dist/bin/*.exe demo/core/*.lua demo/xtra/*.lua
 
     - name: UPX Binary Compression
       uses: crazy-max/ghaction-upx@v3
@@ -97,12 +97,12 @@ jobs:
     - name: Create 160k 16-bit DOS Floppy Diskette Image
       run: |
           mformat -C -i dist/Lua160k.ima -v "LUA DOS" -f 160
-          mcopy -i dist/Lua160k.ima dist/bin/lua16.exe demo/minimum/*.lua ::
+          mcopy -i dist/Lua160k.ima dist/bin/lua16.exe demo/core/*.lua ::
 
     - name: Create 1.4M Multi-Platform Floppy Diskette Image
       run: |
           mformat -C -i dist/LuaMulti.ima -v "LUA MULTIOS" -f 1440
-          mcopy -i dist/LuaMulti.ima dist/bin/*.exe demo/extra/*.lua demo/minimum/*.lua ::
+          mcopy -i dist/LuaMulti.ima dist/bin/*.exe demo/core/*.lua demo/xtra/*.lua ::
 
     - name: Create Floppy Disk Images Zip
       run: |
