@@ -82,7 +82,7 @@ L()
 b = os.clock()
 b_add() b_flt() b_sub() b_mul() b_div() b_pi() b_gcd() b_arr()
 LIB = true
-pcall(require, "exbench")
+pcall(require, "EXBENCH")
 L()
 io.write("Total:\t\t" .. string.format("%8.3fkB", collectgarbage("count")) .. "\t") BE(b)
 print("Press Enter to Exit...") io.read() os.exit()
