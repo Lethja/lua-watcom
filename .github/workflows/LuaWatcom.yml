@@ -24,9 +24,9 @@ jobs:
 
     - name: Test Lua Core Demo Scripts function
       run: |
-        lua demo/core/readme.lua
-        lua demo/core/bench.lua
-        lua demo/core/s256sum.lua demo/core/s256sum.lua
+        lua demo/core/README.LUA
+        lua demo/core/BENCH.LUA
+        lua demo/core/S256SUM.LUA demo/core/S256SUM.LUA
 
     - name: Patch Lua Source Code for Open Watcom
       run: |
@@ -65,15 +65,15 @@ jobs:
 
     - name: Copy DOS4GW Binary
       run: |
-          cp $WATCOM/binw/dos4gw.exe dist/bin/
+          cp $WATCOM/binw/dos4gw.exe dist/bin/DOS4GW.EXE
 
     - name: Ensure Lua Scripts Have CR/LF Line Endings
       run: |
-          lua demo/xtra/dosfren.lua demo/core/*.lua demo/xtra/*.lua
+          lua demo/xtra/DOSFREN.LUA demo/core/*.LUA demo/xtra/*.LUA
 
     - name: Create Binaries Zip
       run: |
-        zip -j9 --DOS-names "dist/Lua Exe.zip" dist/bin/*.exe demo/core/*.lua demo/xtra/*.lua
+        zip -j9 --DOS-names "dist/Lua Exe.zip" dist/bin/*.EXE demo/core/*.LUA demo/xtra/*.LUA
 
     - name: UPX Binary Compression
       uses: crazy-max/ghaction-upx@v3
@@ -81,19 +81,19 @@ jobs:
         version: latest
         args: -9 --8086
         files: |
-          dist/bin/lua16.exe
-          dist/bin/lua4g.exe
-          dist/bin/luant.exe
+          dist/bin/LUA16.EXE
+          dist/bin/LUA4G.EXE
+          dist/bin/LUANT.EXE
 
     - name: Create 160k 16-bit DOS Floppy Diskette Image
       run: |
           mformat -C -i dist/Lua160k.ima -v "LUA DOS" -f 160
-          mcopy -i dist/Lua160k.ima dist/bin/lua16.exe demo/core/*.lua ::
+          mcopy -i dist/Lua160k.ima dist/bin/LUA16.EXE demo/core/*.LUA ::
 
     - name: Create 1.4M Multi-Platform Floppy Diskette Image
       run: |
           mformat -C -i dist/LuaMulti.ima -v "LUA MULTIOS" -f 1440
-          mcopy -i dist/LuaMulti.ima dist/bin/*.exe demo/core/*.lua demo/xtra/*.lua ::
+          mcopy -i dist/LuaMulti.ima dist/bin/*.EXE demo/core/*.LUA demo/xtra/*.LUA ::
 
     - name: Create Floppy Disk Images Zip
       run: |

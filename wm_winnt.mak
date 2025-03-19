@@ -12,7 +12,7 @@ RFLAGS = -q -bt=nt -r -zm
 
 XTRA = $(OBJDIR)$(SEP)pe.res
 
-PLATFORM = nt
+PLATFORM = NT
 
 !include common.inc
 
