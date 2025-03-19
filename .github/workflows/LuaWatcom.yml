@@ -24,7 +24,9 @@ jobs:
 
     - name: Test Lua Core Demo Scripts function
       run: |
-        for file in demo/core/*.lua; do if [ -x "$file" ]; then echo -e "\n>> ./$file"; yes "" | "$file"; fi done
+        lua demo/core/readme.lua
+        lua demo/core/bench.lua
+        lua demo/core/s256sum.lua demo/core/s256sum.lua
 
     - name: Patch Lua Source Code for Open Watcom
       run: |
