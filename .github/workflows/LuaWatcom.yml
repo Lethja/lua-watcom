@@ -65,15 +65,16 @@ jobs:
 
     - name: Copy DOS4GW Binary
       run: |
-          cp $WATCOM/binw/dos4gw.exe dist/bin/DOS4GW.EXE
+        cp $WATCOM/binw/dos4gw.exe dist/bin/DOS4GW.EXE
 
     - name: Ensure Lua Scripts Have CR/LF Line Endings
       run: |
-          lua demo/xtra/DOSFREN.LUA demo/core/*.LUA demo/xtra/*.LUA
+        lua demo/xtra/DOSFREN.LUA demo/core/*.LUA demo/xtra/*.LUA
 
     - name: Create Binaries Zip
       run: |
-        zip -j9 --DOS-names "dist/Lua Exe.zip" dist/bin/*.EXE demo/core/*.LUA demo/xtra/*.LUA
+        zip -j9 --DOS-names dist/LuaExe.zip dist/bin/*.EXE demo/core/*.LUA demo/xtra/*.LUA
+        mv dist/LuaExe.zip "dist/WLE$(sha256sum dist/LuaExe.zip | awk '{print $1}' | cut -c1-5)"
 
     - name: UPX Binary Compression
       uses: crazy-max/ghaction-upx@v3
@@ -87,17 +88,18 @@ jobs:
 
     - name: Create 160k 16-bit DOS Floppy Diskette Image
       run: |
-          mformat -C -i dist/Lua160k.ima -v "LUA DOS" -f 160
-          mcopy -i dist/Lua160k.ima dist/bin/LUA16.EXE demo/core/*.LUA ::
+        mformat -C -i dist/Lua160k.ima -v "LUA DOS" -f 160
+        mcopy -i dist/Lua160k.ima dist/bin/LUA16.EXE demo/core/*.LUA ::
 
     - name: Create 1.4M Multi-Platform Floppy Diskette Image
       run: |
-          mformat -C -i dist/LuaMulti.ima -v "LUA MULTIOS" -f 1440
-          mcopy -i dist/LuaMulti.ima dist/bin/*.EXE demo/core/*.LUA demo/xtra/*.LUA ::
+        mformat -C -i dist/LuaMulti.ima -v "LUA MULTIOS" -f 1440
+        mcopy -i dist/LuaMulti.ima dist/bin/*.EXE demo/core/*.LUA demo/xtra/*.LUA ::
 
     - name: Create Floppy Disk Images Zip
       run: |
-          zip -j9 --DOS-names "dist/Lua Ima.zip" dist/*.ima
+        zip -j9 --DOS-names dist/LuaIma.zip dist/*.ima
+        mv dist/LuaIma.zip "dist/WLI$(sha256sum dist/LuaIma.zip | awk '{print $1}' | cut -c1-5)"
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
@@ -142,6 +144,10 @@ jobs:
 
           formatted_date="${day}${suffix} of ${month} ${year}"
           sed -i "s/{{DATE}}/${formatted_date}/g" .github/workflows/notes.md
+          name="Lua Binaries/$(ls WLE*.zip)"
+          sed -i "s/{{WLE}}/${name}/g" .github/workflows/notes.md
+          name="Lua Binaries/$(ls WLI*.zip)"
+          sed -i "s/{{WLI}}/${name}/g" .github/workflows/notes.md
 
       - name: Create Draft Release
         env:
@@ -152,5 +158,4 @@ jobs:
             --draft \
             --title "$TAG_NAME" \
             --notes-file .github/workflows/notes.md \
-            "Lua Binaries/Lua Exe.zip#Lua Exe.zip" \
-            "Lua Binaries/Lua Ima.zip#Lua Ima.zip"
+            "Lua Binaries/*.zip"
