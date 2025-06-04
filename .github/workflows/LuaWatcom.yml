@@ -76,6 +76,10 @@ jobs:
       run: |
         lua demo/xtra/DOSFREN.LUA demo/core/*.LUA demo/xtra/*.LUA
 
+    - name: Set constant time information on PE header
+      run: |
+        lua demo/xtra/PE95TIME.LUA dist/bin/LUANT.EXE
+
     - name: Create Binaries Zip
       run: |
         zip -j9 --DOS-names dist/LuaExe.zip dist/bin/*.EXE demo/core/*.LUA demo/xtra/*.LUA
