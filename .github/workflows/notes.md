@@ -2,8 +2,9 @@ Lua for Watcom builds from {{DATE}}
 
 ### File contents:
 
-- `Lua Exe.zip`: Zip file containing binaries for each platform
-- `Lua Ima.zip`: Zip files containing two floppy disk images (useful for emulators)
+- `{{WLE}}` - **W**atcom **L**ua **E**xecutables: A zip file containing binaries for each platform.
+- `{{WLI}}` - **W**atcom **L**ua **I**mages: A zip file containing floppy disk images
+  (for direct use on floppy drives, 86Box, MISTer FPGAs AO486/PCXT cores, etc...)
     - 1.44mb disk image containing binaries for each platform
     - 160kb disk image containing just `LUA16.EXE`
 
