@@ -1,5 +1,7 @@
 # Lua for Open Watcom
 
+[![Lua for Watcom](https://github.com/Lethja/lua-watcom/actions/workflows/LuaWatcom.yml/badge.svg)](https://github.com/Lethja/lua-watcom/actions/workflows/LuaWatcom.yml)
+
 This repository contains `wmake` style makefiles and patches to build [Lua](https://lua.org) on Open Watcom 1.9 or later. 
 The primary goal was to allow Lua scripts to be run on DOS systems in real mode but has expanded
 to include all Open Watcom targets that don't require external dependencies to build.
