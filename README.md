@@ -19,11 +19,11 @@ See [Binary Native Targets](#binary-native-targets)
 and [Binary Compatibility Matrix](#binary-compatibility-matrix)
 to determine which binary is right for your system.
 
-#### Lua Exe.zip 
+#### Watcom Lua Executables (WLE#####.zip) 
 This zip contains all demo scripts and platform binaries as regular files.
 The zip is formatted with DOS headers and has 8.3 friendly names.
 
-#### Lua Ima.zip 
+#### Watcom Lua floppy disk Images (WLI#####.zip) 
 This zip contains two floppy disk format images (`.ima` format)
 which are ready to be written to real disks for distributing to retro machines 
 or opened by [emulators](#emulators) directly. 
@@ -122,12 +122,13 @@ If you do not have retro hardware but want to try Lua for Watcom
 any of the following emulators can be used to run the Lua binaries
 from a modern machine.
 
-| Emulator                                 | Emulation Type | Repository                                 | Comment                                                                                           |
-|------------------------------------------|----------------|--------------------------------------------|---------------------------------------------------------------------------------------------------|
-| [86Box](https://86box.net/)              | PC Hardware    | https://github.com/86Box/86Box             | Requires firmware blobs. For best experience use with 86Box launcher                              |
-| [DOSBox-X](https://dosbox-x.com/)        | DOS Software   | https://github.com/joncampbell123/dosbox-x | Not to be confused with DOSBox                                                                    |
-| [PCem](https://www.pcem-emulator.co.uk/) | PC Hardware    | https://github.com/sarah-walker-pcem/pcem/ | Requires firmware blobs.                                                                          |
-| [Qemu](https://www.qemu.org/)            | Hypervisor     | https://gitlab.com/qemu-project/qemu       | Often used with `libvirt`. Only recommended for guests with driver support (Windows XP and later) |
+| Emulator                                                        | Emulation Type                | Repository                                                                                   | Comment                                                                                           |
+|-----------------------------------------------------------------|-------------------------------|----------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------|
+| [86Box](https://86box.net/)                                     | PC Hardware                   | https://github.com/86Box/86Box                                                               | Requires firmware blobs. For best experience use with 86Box launcher                              |
+| [DOSBox-X](https://dosbox-x.com/)                               | DOS Software                  | https://github.com/joncampbell123/dosbox-x                                                   | Not to be confused with DOSBox                                                                    |
+| [MISTer FPGA](https://github.com/MiSTer-devel/Wiki_MiSTer/wiki) | Field Programmable Gate Array | https://github.com/MiSTer-devel/ao486_MiSTer</br>https://github.com/MiSTer-devel/PCXT_MiSTer | Requires compatible field programmable gate array (FPGA) hardware.                                |
+| [PCem](https://www.pcem-emulator.co.uk/)                        | PC Hardware                   | https://github.com/sarah-walker-pcem/pcem/                                                   | Requires firmware blobs.                                                                          |
+| [Qemu](https://www.qemu.org/)                                   | Hypervisor                    | https://gitlab.com/qemu-project/qemu                                                         | Often used with `libvirt`. Only recommended for guests with driver support (Windows XP and later) |
 
 ## Other software
 
