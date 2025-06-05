@@ -40,6 +40,7 @@ local function Shebang(inFile)
 		end
 		return o
 	end
+	inFile:seek("set", 0)
 	return nil
 end
 
@@ -62,36 +63,34 @@ for j = 1, #arg do
 			print(t .. ": " .. e)
 		else
 			local s = Shebang(i)
-			if s then
-				o:write(s)
+			if s then o:write(s) end
+			while true do
+				local l = i:read("*l")
+				if l then
+					o:write(StripCarriage(l) .. CRLF)
+				else
+					break
+				end
+			end
+			i:close() o:close()
+
+			--[[
+				Swap the temporary file and original file around
+				so that the original files is being copied to.
+				This allows system file permissions to remain unchanged.
+			--]]
+
+			i = io.open(t, "rb")
+			o = io.open(arg[j], "wb")
+			if i and o then
 				while true do
-					local l = i:read("*l")
-					if l then
-						o:write(StripCarriage(l) .. CRLF)
-					else
+					local d = i:read(1024)
+					if not d then
 						break
 					end
+					o:write(d)
 				end
 				i:close() o:close()
-
-				--[[
-					Swap the temporary file and original file around
-					so that the original files is being copied to.
-					This allows system file permissions to remain unchanged.
-				--]]
-
-				i = io.open(t, "rb")
-				o = io.open(arg[j], "wb")
-				if i and o then
-					while true do
-						local d = i:read(1024)
-						if not d then
-							break
-						end
-						o:write(d)
-					end
-					i:close() o:close()
-				end
 			end
 			os.remove(t)
 		end
