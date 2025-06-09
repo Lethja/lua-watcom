@@ -1,29 +1,24 @@
 #!/usr/bin/env lua
 
--- This script will set PE executable timestamps to a constant so NT builds are repeatable
+--Set PE timestamps to a constant so builds are repeatable
 C="cur" E="Unexpected EOF" F="<I4" S="set" V=809222400
-local function rs(f)
-    local b = f:read(2) if not b or #b < 2 then error(E) end return string.unpack("<I2", b)
-end local function rd(f)
-    local b = f:read(4) if not b or #b < 4 then error(E) end return string.unpack(F, b)
-end local function wd(f, pos, val)
-    f:seek(S, pos) f:write(string.pack(F, val))
-end local function pe_offset(f)
-    f:seek(S, 0) local mz = f:read(2) if mz ~= "MZ" then error("Not MZ") end f:seek(S, 0x3C) return rd(f)
-end local function find_rsrc(f, peho)
-    f:seek(S, peho) local sig = f:read(4) if sig ~= "PE\0\0" then error("Invalid PE") end f:seek(C, 2)
-    local nos = rs(f) f:seek(C, 12) local soh = rs(f) f:seek(C, 2) local ohs, m = f:seek(), rs(f)
-    if m ~= 0x10b and m ~= 0x20b then error("Unknown magic: " .. string.format("%x", m)) end f:seek(S, ohs + soh)
-    for _ = 1, nos do
-        local ss, name = f:seek(), f:read(8):gsub("\0.*", "") f:seek(C, 4) local _, sord, ptrd = rd(f), rd(f), rd(f) f:seek(S, ss + 40)
-        if name == ".rsrc" then return { s = sord, r = ptrd } end
-    end return nil
-end local function patch(f, bo, oir)
-    local dp = bo + oir + 4 wd(f, dp, V) f:seek(C, 4) local nn, ni = rs(f), rs(f) local te, eo = nn + ni, dp + 16
-    for i = 0, te -1 do local ep = eo + (i * 8) f:seek(S, ep) local dodr = rd(f) if (dodr & 0x80000000) ~= 0 then local o = dodr & 0x7FFFFFFF patch(f, bo, o) end end
+local function R(f,l) local b=f:read(l) if not b or #b<l then error(E) end return string.unpack(l==2 and"<I2"or F,b) end
+local function W(f,p,v) f:seek(S,p) f:write(string.pack(F,v)) end
+local function peo(f) f:seek(S,0) local mz=f:read(2) if mz~="MZ" then error("!MZ") end f:seek(S,0x3C) return R(f,4) end
+local function rsrc(f,p)
+	f:seek(S,p) local sig=f:read(4) if sig~="PE\0\0" then error("Invalid PE") end f:seek(C,2)
+	local n=R(f,2) f:seek(C,12) local s=R(f,2) f:seek(C,2) local h,m=f:seek(),R(f,2)
+	if m~=0x10b and m~=0x20b then error("Unknown magic: "..string.format("%x",m)) end f:seek(S,h+s)
+	for _=1,n do
+		local ss,o=f:seek(),f:read(8):gsub("\0.*",""),f:seek(C,4) local _,t,q=R(f,4),R(f,4),R(f,4) f:seek(S,ss+40)
+		if o==".rsrc" then return {s=t,r=q} end
+	end return nil end
+local function pat(f,bo,oir)
+	local dp=bo+oir+4 W(f,dp,V) f:seek(C,4) local nn,ni=R(f,2),R(f,2) local te,eo=nn+ni,dp+16
+	for i=0,te-1 do local ep=eo+(i*8) f:seek(S,ep) local d=R(f,4) if (d &0x80000000)~=0 then local o=d&0x7FFFFFFF pat(f,bo,o) end end
 end
-if #arg < 1 then os.exit(1) end
-local f = assert(io.open(arg[1], "r+b")) local p = pe_offset(f) wd(f, p+8, V) local r = find_rsrc(f, p)
+if #arg<1 then os.exit(1) end
+local f=assert(io.open(arg[1],"r+b")) local p=peo(f) W(f,p+8,V) local r=rsrc(f,p)
 if not r then error(".rsrc not found") end
-patch(f, r.r, 0) f:close()
-print(".rsrc @: " .. r.r .. ", size: " .. r.s .. " DONE")
+pat(f,r.r,0) f:close()
+print(".rsrc @: "..r.r..", size: "..r.s.." DONE")
