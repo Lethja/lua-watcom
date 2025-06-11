@@ -13,12 +13,13 @@ local function rsrc(f,p)
 		local ss,o=f:seek(),f:read(8):gsub("\0.*",""),f:seek(C,4) local _,t,q=R(f,4),R(f,4),R(f,4) f:seek(S,ss+40)
 		if o==".rsrc" then return {s=t,r=q} end
 	end return nil end
-local function pat(f,bo,oir)
-	local dp=bo+oir+4 W(f,dp,V) f:seek(C,4) local nn,ni=R(f,2),R(f,2) local te,eo=nn+ni,dp+16
-	for i=0,te-1 do local ep=eo+(i*8) f:seek(S,ep) local d=R(f,4) if (d &0x80000000)~=0 then local o=d&0x7FFFFFFF pat(f,bo,o) end end
+local function pat(f,bo,oir,l)
+	local dp=bo+oir+4 W(f,dp,V) f:seek(C,4) local nn,ni=R(f,2),R(f,2) local te,eo=nn+ni,dp+12
+	for j=0,te-1 do f:seek(S,eo+(j*8)) local i,d=R(f,4),R(f,4) if (d&0x80000000)~=0 then pat(f,bo,d&0x7FFFFFFF,l+1) end end
+	--TODO: if l==1 and i==16 then parse_VS_VERSION_INFO() end
 end
 if #arg<1 then os.exit(1) end
 local f=assert(io.open(arg[1],"r+b")) local p=peo(f) W(f,p+8,V) local r=rsrc(f,p)
 if not r then error(".rsrc not found") end
-pat(f,r.r,0) f:close()
+pat(f,r.r,0,1) f:close()
 print(".rsrc @: "..r.r..", size: "..r.s.." DONE")
