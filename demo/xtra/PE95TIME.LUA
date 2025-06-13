@@ -11,9 +11,7 @@ function O()
 	for _=1,n do local u,o=F:seek(),F:read(8):gsub("\0.*","")F:seek(C,4)J=R(4)F:seek(C,4)K=R(4)F:seek(S,u+40)if o==".rsrc"then return end end error("!rsrc")end
 function B(p,s)
 	F:seek(S,(p-J)+K)local d,t,k=F:read(s),("VS_VERSION_INFO"):gsub(".","\0%1").."\0\0"k=d:find(t,1,true)
-	if k then k=k+#t+((4-((k+#t)%4))%4)+44 F:seek(C,k-s)d,t=R(4),R(4)
-		print(string.format("FileDateMS = 0x%X\nFileDateLS = 0x%X",d,t))
-	end
+	if k then k=k+#t+((4-((k+#t)%4))%4)+44 d,t=F:seek()+(k-s)W(d,0)W(d+4,V)end
 end
 function A(o,l,v)
 	local d,n,i,t,e=K+o+4 W(d,V)F:seek(C,4)n,i=R(2),R(2)t,e=n+i,d+12
