@@ -80,10 +80,21 @@ jobs:
       run: |
         lua demo/xtra/PE95TIME.LUA dist/bin/LUANT.EXE
 
+    - name: Set modification time on all repository files to their respective commit
+      run: |
+        git ls-files -z | xargs -0 -I{} touch --date="$(git log -1 --pretty=format:%cI -- {})" {}
+
+    - name: Set modification time on built binaries to the latest commit
+      run: |
+        touch --date="$(git log -1 --pretty=format:%cI)" dist/bin/*.EXE
+
     - name: Create Binaries Zip
       run: |
-        zip -j9 --DOS-names dist/LuaExe.zip dist/bin/*.EXE demo/core/*.LUA demo/xtra/*.LUA
-        mv dist/LuaExe.zip "dist/WLE$(sha256sum dist/LuaExe.zip | awk '{print $1}' | cut -c1-5).zip"
+        files=$(find dist/bin/*.EXE demo/core/*.LUA demo/xtra/*.LUA | sort | xargs)
+        zip -j9 --DOS-names dist/LuaExe.zip $files
+        name="dist/WLE$(sha256sum dist/LuaExe.zip | awk '{print $1}' | cut -c1-5).zip"
+        mv dist/LuaExe.zip $name
+        touch --date="$(git log -1 --pretty=format:%cI)" $name
 
     - name: UPX Binary Compression
       uses: crazy-max/ghaction-upx@v3
@@ -95,26 +106,38 @@ jobs:
           dist/bin/LUA4G.EXE
           dist/bin/LUANT.EXE
 
+    - name: Set modification time on UPX compressed binaries to the latest commit
+      run: |
+        touch --date="$(git log -1 --pretty=format:%cI)" dist/bin/*.EXE          
+
     - name: Create 160k 16-bit DOS Floppy Diskette Image
       run: |
         mformat -C -i dist/Lua160k.ima -v "LUA DOS" -f 160
-        mcopy -i dist/Lua160k.ima dist/bin/LUA16.EXE demo/core/*.LUA ::
+        files=$(find dist/bin/LUA16.EXE demo/core/*.LUA | sort | xargs)
+        mcopy -i dist/Lua160k.ima $files ::
 
     - name: Create 1.4M Multi-Platform Floppy Diskette Image
       run: |
         mformat -C -i dist/LuaMulti.ima -v "LUA MULTIOS" -f 1440
-        mcopy -i dist/LuaMulti.ima dist/bin/*.EXE demo/core/*.LUA demo/xtra/*.LUA ::
+        files=$(find dist/bin/*.EXE demo/core/*.LUA demo/xtra/*.LUA | sort | xargs)
+        mcopy -i dist/LuaMulti.ima $files ::
 
     - name: Create Floppy Disk Images Zip
       run: |
-        zip -j9 --DOS-names dist/LuaIma.zip dist/*.ima
-        mv dist/LuaIma.zip "dist/WLI$(sha256sum dist/LuaIma.zip | awk '{print $1}' | cut -c1-5).zip"
+        files=$(find dist/*ima | sort | xargs)
+        touch --date="$(git log -1 --pretty=format:%cI)" $files
+        zip -j9 --DOS-names dist/LuaIma.zip $files
+        name="dist/WLI$(sha256sum dist/LuaIma.zip | awk '{print $1}' | cut -c1-5).zip"
+        mv dist/LuaIma.zip $name
+        touch --date="$(git log -1 --pretty=format:%cI)" $name
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: 'LuaBin'
-        path: dist/*.zip
+        name: 'LuaDist'
+        path: |
+          dist/WLE*.zip
+          dist/WLI*.zip
         compression-level: 0
 
   Draft:
@@ -153,9 +176,9 @@ jobs:
 
           formatted_date="${day}${suffix} of ${month} ${year}"
           sed -i "s/{{DATE}}/${formatted_date}/g" .github/workflows/notes.md
-          name="$(ls LuaBin/WLE*.zip | xargs -n 1 basename)"
+          name="$(ls LuaDist/WLE*.zip | xargs -n 1 basename)"
           sed -i "s/{{WLE}}/${name}/g" .github/workflows/notes.md
-          name="$(ls LuaBin/WLI*.zip | xargs -n 1 basename)"
+          name="$(ls LuaDist/WLI*.zip | xargs -n 1 basename)"
           sed -i "s/{{WLI}}/${name}/g" .github/workflows/notes.md
 
       - name: Create Draft Release
@@ -167,4 +190,4 @@ jobs:
             --draft \
             --title "$TAG_NAME" \
             --notes-file .github/workflows/notes.md \
-            "LuaBin/*.zip"
+            "LuaDist/*.zip"
