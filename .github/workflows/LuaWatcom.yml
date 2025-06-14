@@ -115,8 +115,12 @@ jobs:
         label="LUA DOS"
         serial="0x$(echo "$label$(git log -1 --format=%ct)" | sha256sum | cut -c1-8)"
         date=$(git log -1 --format=%cd --date=format:'%Y-%m-%d %H:%M:%S')
-        faketime -f "$date" mformat -C -i dist/Lua160k.ima -v "$label" -f 160 -N $serial
         files=$(find dist/bin/LUA16.EXE demo/core/*.LUA | sort | xargs)
+        echo "Date: $date"
+        echo "Files: $files"
+        echo "Label: $label"
+        echo "Serial: $serial"
+        faketime -f "$date" mformat -C -i dist/Lua160k.ima -v "$label" -f 160 -N $serial
         faketime -f "$date" mcopy -mi dist/Lua160k.ima $files ::
 
     - name: Create 1.4M Multi-Platform Floppy Diskette Image
@@ -124,8 +128,12 @@ jobs:
         label="LUA MULTIOS"
         serial="0x$(echo "$label$(git log -1 --format=%ct)" | sha256sum | cut -c1-8)"
         date=$(git log -1 --format=%cd --date=format:'%Y-%m-%d %H:%M:%S')
-        faketime -f "$date" mformat -C -i dist/LuaMulti.ima -v "$label" -f 1440 -N $serial
         files=$(find dist/bin/*.EXE demo/core/*.LUA demo/xtra/*.LUA | sort | xargs)
+        echo "Date: $date"
+        echo "Files: $files"
+        echo "Label: $label"
+        echo "Serial: $serial"
+        faketime -f "$date" mformat -C -i dist/LuaMulti.ima -v "$label" -f 1440 -N $serial
         faketime -f "$date" mcopy -mi dist/LuaMulti.ima $files ::
 
     - name: Create Floppy Disk Images Zip
