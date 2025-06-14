@@ -15,7 +15,7 @@ jobs:
     - name: Install Tools
       run: |
         sudo apt-get update
-        sudo apt-get install -y gcc libreadline-dev lua5.4 make mtools zip
+        sudo apt-get install -y faketime gcc libreadline-dev lua5.4 make mtools zip
 
     - uses: actions/checkout@v4
       with:
@@ -114,17 +114,19 @@ jobs:
       run: |
         label="LUA DOS"
         serial="0x$(echo "$label$(git log -1 --format=%ct)" | sha256sum | cut -c1-8)"
-        mformat -C -i dist/Lua160k.ima -v "$label" -f 160 -N $serial
+        date=$(git log -1 --format=%cd --date=format:'%Y-%m-%d %H:%M:%S')
+        faketime -f "$date" mformat -C -i dist/Lua160k.ima -v "$label" -f 160 -N $serial
         files=$(find dist/bin/LUA16.EXE demo/core/*.LUA | sort | xargs)
-        mcopy -mi dist/Lua160k.ima $files ::
+        faketime -f "$date" mcopy -mi dist/Lua160k.ima $files ::
 
     - name: Create 1.4M Multi-Platform Floppy Diskette Image
       run: |
         label="LUA MULTIOS"
         serial="0x$(echo "$label$(git log -1 --format=%ct)" | sha256sum | cut -c1-8)"
-        mformat -C -i dist/LuaMulti.ima -v "$label" -f 1440 -N $serial
+        date=$(git log -1 --format=%cd --date=format:'%Y-%m-%d %H:%M:%S')
+        faketime -f "$date" mformat -C -i dist/LuaMulti.ima -v "$label" -f 1440 -N $serial
         files=$(find dist/bin/*.EXE demo/core/*.LUA demo/xtra/*.LUA | sort | xargs)
-        mcopy -mi dist/LuaMulti.ima $files ::
+        faketime -f "$date" mcopy -mi dist/LuaMulti.ima $files ::
 
     - name: Create Floppy Disk Images Zip
       run: |
