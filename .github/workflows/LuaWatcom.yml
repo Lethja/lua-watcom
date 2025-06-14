@@ -124,29 +124,31 @@ jobs:
 
     - name: Create 160k 16-bit DOS Floppy Diskette Image
       run: |
+        export FAKETIME=$(TZ=UTC0 git show --quiet --date='format-local:%Y-%m-%d %H:%M:%S' --format="%cd")
+        export LD_PRELOAD=$(dpkg -L libfaketime | grep libfaketime.so.1)
         label="LUA DOS"
-        serial="0x$(echo "$label$(git log -1 --format=%ct)" | sha256sum | cut -c1-8)"
-        date=$(git log -1 --format=%cd --date=format:'%Y-%m-%d %H:%M:%S')
+        serial="0x$(echo "$label$FAKETIME" | sha256sum | cut -c1-8)"
         files=$(find dist/bin/LUA16.EXE demo/core/*.LUA | sort | xargs)
-        echo "Date: $date"
+        echo "Faketime: $FAKETIME"
         echo "Files: $files"
         echo "Label: $label"
         echo "Serial: $serial"
-        faketime -f "$date" mformat -C -i dist/Lua160k.ima -v "$label" -f 160 -N $serial
-        faketime -f "$date" mcopy -mi dist/Lua160k.ima $files ::
+        mformat -C -i dist/Lua160k.ima -v "$label" -f 160 -N $serial
+        mcopy -mi dist/Lua160k.ima $files ::
 
     - name: Create 1.4M Multi-Platform Floppy Diskette Image
       run: |
+        export FAKETIME=$(TZ=UTC0 git show --quiet --date='format-local:%Y-%m-%d %H:%M:%S' --format="%cd")
+        export LD_PRELOAD=$(dpkg -L libfaketime | grep libfaketime.so.1)
         label="LUA MULTIOS"
-        serial="0x$(echo "$label$(git log -1 --format=%ct)" | sha256sum | cut -c1-8)"
-        date=$(git log -1 --format=%cd --date=format:'%Y-%m-%d %H:%M:%S')
+        serial="0x$(echo "$label$FAKETIME" | sha256sum | cut -c1-8)"
         files=$(find dist/bin/*.EXE demo/core/*.LUA demo/xtra/*.LUA | sort | xargs)
-        echo "Date: $date"
+        echo "Faketime: $FAKETIME"
         echo "Files: $files"
         echo "Label: $label"
         echo "Serial: $serial"
-        faketime -f "$date" mformat -C -i dist/LuaMulti.ima -v "$label" -f 1440 -N $serial
-        faketime -f "$date" mcopy -mi dist/LuaMulti.ima $files ::
+        mformat -C -i dist/LuaMulti.ima -v "$label" -f 1440 -N $serial
+        mcopy -mi dist/LuaMulti.ima $files ::
 
     - name: Create Floppy Disk Images Zip
       run: |
