@@ -116,7 +116,7 @@ jobs:
         serial="0x$(echo "$label$(git log -1 --format=%ct)" | sha256sum | cut -c1-8)"
         mformat -C -i dist/Lua160k.ima -v "$label" -f 160 -N $serial
         files=$(find dist/bin/LUA16.EXE demo/core/*.LUA | sort | xargs)
-        mcopy -i dist/Lua160k.ima $files ::
+        mcopy -mi dist/Lua160k.ima $files ::
 
     - name: Create 1.4M Multi-Platform Floppy Diskette Image
       run: |
@@ -124,7 +124,7 @@ jobs:
         serial="0x$(echo "$label$(git log -1 --format=%ct)" | sha256sum | cut -c1-8)"
         mformat -C -i dist/LuaMulti.ima -v "$label" -f 1440 -N $serial
         files=$(find dist/bin/*.EXE demo/core/*.LUA demo/xtra/*.LUA | sort | xargs)
-        mcopy -i dist/LuaMulti.ima $files ::
+        mcopy -mi dist/LuaMulti.ima $files ::
 
     - name: Create Floppy Disk Images Zip
       run: |
