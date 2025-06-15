@@ -17,6 +17,11 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y gcc libfaketime libreadline-dev lua5.4 make mtools zip
 
+    - uses: actions/checkout@v4
+      with:
+        submodules: recursive
+        fetch-depth: 0
+
     - name: Test libfaketime works
       run: |
         export FAKETIME=$(TZ=UTC0 git show --quiet --date='format-local:%Y-%m-%d %H:%M:%S' --format="%cd")
@@ -28,11 +33,6 @@ jobs:
         if [ "$FAKETIME" != "$DATE" ]; then
           exit 1
         fi
-
-    - uses: actions/checkout@v4
-      with:
-        submodules: recursive
-        fetch-depth: 0
 
     - name: Test Lua Core Demo Scripts function
       run: |
