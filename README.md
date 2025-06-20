@@ -19,20 +19,20 @@ See [Binary Native Targets](#binary-native-targets)
 and [Binary Compatibility Matrix](#binary-compatibility-matrix)
 to determine which binary is right for your system.
 
-#### Watcom Lua Executables (WLE#####.zip) 
+#### Watcom Lua Executables
 This zip contains all demo scripts and platform binaries as regular files.
 The zip is formatted with DOS headers and has 8.3 friendly names.
 
-#### Watcom Lua floppy disk Images (WLI#####.zip) 
+#### Watcom Lua floppy disk Images
 This zip contains two floppy disk format images (`.ima` format)
 which are ready to be written to real disks for distributing to retro machines 
 or opened by [emulators](#emulators) directly. 
-To save space on these disk images binaries have been compressed 
+To save space on these disk images, binaries have been compressed 
 by [UPX](https://upx.github.io/) where possible.
 
 | Disk Image     | Description                                                                                                               |
 |----------------|---------------------------------------------------------------------------------------------------------------------------|
-| `LUAMULTI.IMA` | A 1.4MB 3½ floppy disk image that contains all the same files as [Lua Exe.zip](#lua-exezip-)                              |
+| `LUAMULTI.IMA` | A 1.4MB 3½ floppy disk image that contains all the same files as [executable zip](#Watcom-Lua-Executables)                |
 | `LUA160k.IMA`  | A 160k 5¼ floppy disk image with subset of scripts with only the DOS binary due to space limitations of this type of disk |
 
 ## System Requirements
