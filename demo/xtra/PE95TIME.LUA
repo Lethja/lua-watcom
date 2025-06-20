@@ -6,7 +6,7 @@ function C(x)return F:seek("cur",x)end
 function S(x)return F:seek("set",x)end
 function R(l)local b=F:read(l)if b and#b>=l then return string.unpack(l==2 and"<I2"or I,b)end error("!EOF")end
 function W(p,v)S(p)F:write(string.pack(I,v))end
-function P()S(0)local mz=F:read(2)S(60)if mz=="MZ"then return R(4)end error("!MZ")end
+function P()local mz=F:read(2)S(60)if mz=="MZ"then return R(4)end error("!MZ")end
 function O()
 	S(J)local s,n,h,m=F:read(4)if s~="PE\0\0"then error("!PE")end C(2)n=R(2)C(12)s=R(2)C(2)h,m=C(),R(2)
 	if m~=267 then error("!10")end S(h+s)
@@ -20,6 +20,4 @@ function A(o,l,v)
 	if(d&X)~=0 then A(d&(X-1),l+1,v or(l==1 and i==16))
     elseif v and l==3 then local r=C()S(K+d)B(R(4),R(4))S(r)end end end
 if #arg<1 then print(arg[0],"'PEFORMAT.EXE'\n\n"..H)os.exit(1)end
-F=assert(io.open(arg[1],"r+b"))J=P()W(J+8,V)O()
-A(0,1)F:close()
-print("OK")
+F=assert(io.open(arg[1],"r+b"))J=P()W(J+8,V)O()A(0,1)F:close()print("OK")
