@@ -150,6 +150,10 @@ jobs:
         mformat -C -i dist/LuaMulti.ima -v "$label" -f 1440 -N $serial
         mcopy -mi dist/LuaMulti.ima $files ::
 
+    - name: Zero-out Unallocated Clusters
+      run: |
+        lua demo/xtra/FATSTAT.LUA -z dist/*ima
+
     - name: Create Floppy Disk Images Zip
       run: |
         files=$(find dist/*ima | sort | xargs)
