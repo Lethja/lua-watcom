@@ -1,8 +1,8 @@
 #!/usr/bin/env lua
 
 H=[[This script shows what blocks are allocated to what files on a FAT12/16 formatted floppy disk image (.IMA).
-The -z option will zero out unallocated clusters. Always backup the IMA before using the -z option on it.]]
-if #arg<1 then print(arg[-1].." "..arg[0].." [-z] [FILE...]"..'\n\n'..H)os.exit(1)end
+The -z option will shred unallocated clusters. Backup any file before using the -z option on it.]]
+if #arg<1 then print(arg[-1].." "..arg[0].." [-z] [IMA...]"..'\n\n'..H)os.exit(1)end
 function R16(s,o)local a,b=s:byte(o,o+1)return a+b*256 end
 function R32(s,o)local a,b,c,d=s:byte(o,o+3)return a+b*256+c*65536+d*16777216 end
 function F12(f,o,s)f:seek("set",o)local fd,fat,mc=f:read(s),{},math.floor(s*8/12)
