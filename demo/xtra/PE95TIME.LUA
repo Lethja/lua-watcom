@@ -9,7 +9,7 @@ function W(p,v)S(p)F:write(string.pack(I,v))end
 function P()local mz=F:read(2)S(60)if mz=="MZ"then return R(4)end error("!MZ")end
 function O()
 	S(J)local s,n,h,m=F:read(4)if s~="PE\0\0"then error("!PE")end C(2)n=R(2)C(12)s=R(2)C(2)h,m=C(),R(2)
-	if m~=267 then error("!10")end S(h+s)
+	if m~=267 and m~=523 then error("!MN")end S(h+s)
 	for _=1,n do local u,o=C(),F:read(8):gsub("\0.*","")C(4)J=R(4)C(4)K=R(4)S(u+40)if o==".rsrc"then return end end error("!rsrc")end
 function B(p,s)
 	S((p-J)+K)local d,t,k=F:read(s),("VS_VERSION_INFO"):gsub(".","\0%1").."\0\0"k=d:find(t,1,1)
