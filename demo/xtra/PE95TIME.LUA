@@ -20,4 +20,4 @@ function A(o,l,v)
 	if(d&X)~=0 then A(d&(X-1),l+1,v or(l==1 and i==16))
     elseif v and l==3 then local r=C()S(K+d)B(R(4),R(4))S(r)end end end
 if #arg<1 then print(arg[0],"'PEFORMAT.EXE'\n\n"..H)os.exit(1)end
-F=assert(io.open(arg[1],"r+b"))J=P()W(J+8,V)O()A(0,1)F:close()print("OK")
+for _,v in ipairs(arg)do io.write(v..": ")F=assert(io.open(v,"r+b"))J=P()W(J+8,V)O()A(0,1)F:close()print("OK")end
