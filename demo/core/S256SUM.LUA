@@ -37,7 +37,7 @@ function sha256_file(file)
 		return p
 	end
 	local H, l = {0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19}, 0
-	while true do
+	while 1 do
 		local c = file:read(64)
 		if not c then break end
 		l = l + #c

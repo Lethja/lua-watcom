@@ -60,7 +60,7 @@ function md5_file(file)
 	end
     local A, B, C, D, l = 0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476, 0
 
-    while true do
+    while 1 do
         local c = file:read(64)
         if not c then break end
         l = l + #c

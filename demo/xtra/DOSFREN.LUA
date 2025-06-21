@@ -64,7 +64,7 @@ for j = 1, #arg do
 		else
 			local s = Shebang(i)
 			if s then o:write(s) end
-			while true do
+			while 1 do
 				local l = i:read("*l")
 				if l then
 					o:write(StripCarriage(l) .. CRLF)
@@ -83,7 +83,7 @@ for j = 1, #arg do
 			i = io.open(t, "rb")
 			o = io.open(arg[j], "wb")
 			if i and o then
-				while true do
+				while 1 do
 					local d = i:read(1024)
 					if not d then
 						break
