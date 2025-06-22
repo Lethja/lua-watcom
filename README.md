@@ -78,42 +78,8 @@ the OS is newer and has higher minimum requirements.
 | Windows Vista - 10                  | 80686<br/>x86_64            | No        | No        | No        | No         | Yes       |
 | Windows 11                          | x86_64                      | No        | No        | No        | No         | Yes       |
 
-## Build System Requirements
-To build Lua with Open Watcom you will need the following:
-
-| Build Requirement                                                   | Sources                                                                                                       |
-|---------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------|
-| Lua 5.4 source code (or `git submodules`)                           | [lua.org](https://lua.org/ftp/) ([GitHub](https://github.com/lua/lua/tree/v5.4.7))                            |
-| Open Watcom 1.9 (or later)                                          | [openwatcom.org](https://www.openwatcom.org/)                                                                 |
-| Operating System supported by Open Watcom<br/>(at least MS-DOS 5.0) | [FreeDOS](https://www.freedos.org/download/), [SvarDOS](http://svardos.org/) and/or an [emulator](#emulators) |
-| [80386 compatible processor](https://en.wikipedia.org/wiki/I386)    | AMD/Intel processor made after 2008 or an [emulator](#emulators)                                              |
-| A patching utility                                                  | [GNU Patch](https://savannah.gnu.org/projects/patch/) or [DifPat](https://github.com/deverac/difpat)          |
-
-> If in doubt, an [emulator](#emulators) can be used 
-  to run the DOS version of Open Watcom on a modern machine
-
-## How to build
-1) Extract Luas source code to the `Lua` folder. This can be achieved in two ways:
-   * Use `git submodules init` then `git submodules update --recursive` to get the sources directly from the Lua mirror repository
-   * Download the Lua 5.4.x sources tarballs from https://lua.org/ftp/, extract them and copy all files in `src` to `Lua`
-2) Patch the source code for Watcom (optional):
-
-   | GNU Patch              | DifPat          |
-   |------------------------|-----------------|
-   | `patch -p0 -i lua.pat` | `pat lua.pat .` |
-   > If no patching program is available mimic the changes in each `.pat` file manually. 
-   > Patch changes are minimal and only serve to silence Watcom compiler warnings
-
-3) Build Lua with the following commands:
-
-   | Make Command            | Binary File          | Target OS   | Target ISA     |
-   |-------------------------|----------------------|-------------|----------------|
-   | `wmake -f wm_dos16.mak` | `dist/bin/lua16.exe` | PC-DOS 2.0+ | 8086 or later  |
-   | `wmake -f wm_dos4g.mak` | `dist/bin/lua4g.exe` | MS-DOS 5.0+ | 80386 or later |
-   | `wmake -f wm_os216.mak` | `dist/bin/lua21.exe` | OS/2 1.2    | 80286 or later |
-   | `wmake -f wm_os232.mak` | `dist/bin/lua22.exe` | OS/2 2.0    | 80386 or later |
-   | `wmake -f wm_winnt.mak` | `dist/bin/luant.exe` | Windows 95+ | 80386 or later |
-
+## Build
+See the [Build documentation](BUILD.md) 
 
 # See also
 
