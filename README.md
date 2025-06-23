@@ -79,7 +79,7 @@ the OS is newer and has higher minimum requirements.
 | Windows 11                          | x86_64                      | No        | No        | No        | No         | Yes       |
 
 ## Build
-See the [Build documentation](BUILD.md) 
+See the [Build documentation](BUILD.md) and [GitHub Workflow](.github/workflows/LuaWatcom.yml)
 
 # See also
 
