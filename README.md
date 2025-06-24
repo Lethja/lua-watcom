@@ -73,6 +73,7 @@ the OS is newer and has higher minimum requirements.
 | OS2 4.x                             | 80486SX                     | Yes       | Yes       | Yes       | Yes        | No        |
 | Windows 95                          | 80386SX                     | Yes       | No        | No        | Yes        | Yes       |
 | Windows 98                          | 80486DX<br/>80486SX+80487SX | Yes       | No        | No        | Yes        | Yes       |
+| ReactOS 0.4.15                      | 80586                       | Yes       | No        | No        | No         | Yes       |
 | Windows 2000 - ME                   | 80586                       | No        | No        | No        | No         | Yes       |
 | Windows XP                          | 80586<br/>x86_64            | No        | No        | No        | No         | Yes       |
 | Windows Vista - 10                  | 80686<br/>x86_64            | No        | No        | No        | No         | Yes       |
