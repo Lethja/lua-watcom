@@ -32,10 +32,10 @@ BINDIR = dist$(SEP)bin
 OBJDIR = obj$(SEP)$(PLATFORM)
 SRCDIR = lua
 
-$(BINDIR)$(SEP)LUA$(PLATFORM).EXE: $(OBJDIR) $(BINDIR) $(objs) $(lua_obj) $(XTRA)
+$(BINDIR)$(SEP)LUA$(PLATFORM)$(SUFFIX): $(OBJDIR) $(BINDIR) $(objs) $(lua_obj) $(XTRA)
     *wlink NAME $@ $(LFLAGS) FILE {$(objs) $(lua_obj)}
 
-$(BINDIR)$(SEP)LUAC$(PLATFORM).EXE: $(BINDIR) $(OBJDIR) $(objs) $(luac_obj) $(XTRA)
+$(BINDIR)$(SEP)LUAC$(PLATFORM)$(SUFFIX): $(BINDIR) $(OBJDIR) $(objs) $(luac_obj) $(XTRA)
     *wlink NAME $@ $(LFLAGS) FILE {$(objs) $(luac_obj)}
 
 {$(SRCDIR)}.c{$(OBJDIR)}.obj:
@@ -44,11 +44,11 @@ $(BINDIR)$(SEP)LUAC$(PLATFORM).EXE: $(BINDIR) $(OBJDIR) $(objs) $(luac_obj) $(XT
 clean: .SYMBOLIC
 !ifdef __UNIX__
     @!if [ -e $(OBJDIR) ]; then rm -R $(OBJDIR); fi
-    @!if [ -e $(BINDIR)LUA$(PLATFORM).EXE ]; then rm $(BINDIR)LUA$(PLATFORM).EXE; fi
-    @!if [ -e $(BINDIR)LUAC$(PLATFORM).EXE ]; then rm $(BINDIR)LUAC$(PLATFORM).EXE; fi
+    @!if [ -e $(BINDIR)LUA$(PLATFORM)$(SUFFIX) ]; then rm $(BINDIR)LUA$(PLATFORM)$(SUFFIX); fi
+    @!if [ -e $(BINDIR)LUAC$(PLATFORM)$(SUFFIX) ]; then rm $(BINDIR)LUAC$(PLATFORM)$(SUFFIX); fi
 !else # Assuming DOS 5.0 +
-    @!if exist $(BINDIR)$(SEP)LUA$(PLATFORM).EXE del $(BINDIR)$(SEP)LUA$(PLATFORM).EXE
-    @!if exist $(BINDIR)$(SEP)LUAC$(PLATFORM).EXE del $(BINDIR)$(SEP)LUAC$(PLATFORM).EXE
+    @!if exist $(BINDIR)$(SEP)LUA$(PLATFORM)$(SUFFIX) del $(BINDIR)$(SEP)LUA$(PLATFORM)$(SUFFIX)
+    @!if exist $(BINDIR)$(SEP)LUAC$(PLATFORM)$(SUFFIX) del $(BINDIR)$(SEP)LUAC$(PLATFORM)$(SUFFIX)
     @!if exist $(OBJDIR)$(SEP)*.* echo Run `DEL $(OBJDIR)$(SEP)*.* && RD $(OBJDIR)` to clean compiler objects
 !endif
 

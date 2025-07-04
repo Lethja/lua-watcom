@@ -13,6 +13,7 @@ RFLAGS = -q -bt=nt -r -zm
 XTRA = $(OBJDIR)$(SEP)pe.res
 
 PLATFORM = NT
+SUFFIX = .EXE
 
 !include common.inc
 

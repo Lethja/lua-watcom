@@ -9,5 +9,6 @@ CFLAGS = -q -bt=dos -ml -0 -d0 -osr -zc
 LFLAGS = SYS dos OPT st=8192
 
 PLATFORM = 16
+SUFFIX = .EXE
 
 !include common.inc
