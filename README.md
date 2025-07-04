@@ -45,39 +45,40 @@ you want to run.
 ### Binary Native Targets
 
 Since Open Watcom can produce binaries for several operating systems, 
-each binary has been given a unique name to distinguish the native **Operating System** (OS) 
-and **Instruction Set Architecture** (ISA) it is intended for.  
+each binary has been given a unique name to distinguish the native **Operating System** 
+and **Instruction Set Architecture** it is intended for.  
 
-| Binary Name   | Native OS       | Native ISA |
-|---------------|-----------------|------------|
-| **LUA16.EXE** | Real mode DOS   | 8086       |
-| **LUA21.EXE** | OS/2 1.2        | 80286      |
-| **LUA22.EXE** | OS/2 2.0        | 80386      |
-| **LUA4G.EXE** | DOS4GW extender | 80386      |
-| **LUANT.EXE** | Windows 95      | 80386      |
+| Binary Name   | Native Operating System | Native Instruction Set Architecture |
+|---------------|-------------------------|-------------------------------------|
+| **LUA16.EXE** | Real mode DOS           | 8086                                |
+| **LUA21.EXE** | OS/2 1.2                | 80286                               |
+| **LUA22.EXE** | OS/2 2.0                | 80386                               |
+| **LUA4G.EXE** | DOS4GW extender         | 80386                               |
+| **LUANT.EXE** | Windows 95              | 80386                               |
+| **LUAUX.ELF** | Linux 1.2.13            | 80386                               |
 
 ### Binary Compatibility Matrix
 
-Some OSes can run binaries intended for another out of the box. 
-Do keep in mind, however, that in most of these cases 
-the OS is newer and has higher minimum requirements.
+Some operating systems can run binaries intended for another out of the box. 
+In most cases, the operating system is newer and has higher hardware requirements.
 
-| Operating System                    | Minimum OS ISA(s)           | LUA16.EXE | LUA21.EXE | LUA22.EXE | LUA4G.EXE  | LUANT.EXE |
-|-------------------------------------|-----------------------------|-----------|-----------|-----------|------------|-----------|
-| DOS 2.x - 4.x<br/>Windows 1.x - 3.x | 8086                        | Yes       | No        | No        | No         | No        |
-| DOS 5.x - 7.x                       | 8086<br/>80386SX            | Yes       | No        | No        | No<br/>Yes | No        |
-| OS2 1.0 - 1.1                       | 80286                       | Yes       | No        | No        | No         | No        |
-| OS2 1.2 - 1.3                       | 80286                       | Yes       | Yes       | No        | No         | No        |
-| OS2 2.x                             | 80386SX                     | Yes       | Yes       | Yes       | No         | No        |
-| OS2 3.x                             | 80386SX                     | Yes       | Yes       | Yes       | Yes        | No        |
-| OS2 4.x                             | 80486SX                     | Yes       | Yes       | Yes       | Yes        | No        |
-| Windows 95                          | 80386SX                     | Yes       | No        | No        | Yes        | Yes       |
-| Windows 98                          | 80486DX<br/>80486SX+80487SX | Yes       | No        | No        | Yes        | Yes       |
-| ReactOS 0.4.15                      | 80586                       | Yes       | No        | No        | No         | Yes       |
-| Windows 2000 - ME                   | 80586                       | No        | No        | No        | No         | Yes       |
-| Windows XP                          | 80586<br/>x86_64            | No        | No        | No        | No         | Yes       |
-| Windows Vista - 10                  | 80686<br/>x86_64            | No        | No        | No        | No         | Yes       |
-| Windows 11                          | x86_64                      | No        | No        | No        | No         | Yes       |
+| Operating System                    | Instruction Set Architecture | LUA16.EXE | LUA21.EXE | LUA22.EXE | LUA4G.EXE  | LUANT.EXE | LUAUX.ELF |
+|-------------------------------------|------------------------------|-----------|-----------|-----------|------------|-----------|-----------|
+| DOS 2.x - 4.x<br/>Windows 1.x - 3.x | 8086                         | Yes       | No        | No        | No         | No        | No        |
+| DOS 5.x - 7.x                       | 8086<br/>80386SX             | Yes       | No        | No        | No<br/>Yes | No        | No        |
+| OS2 1.0 - 1.1                       | 80286                        | Yes       | No        | No        | No         | No        | No        |
+| OS2 1.2 - 1.3                       | 80286                        | Yes       | Yes       | No        | No         | No        | No        |
+| OS2 2.x                             | 80386SX                      | Yes       | Yes       | Yes       | No         | No        | No        |
+| OS2 3.x                             | 80386SX                      | Yes       | Yes       | Yes       | Yes        | No        | No        |
+| OS2 4.x                             | 80486SX                      | Yes       | Yes       | Yes       | Yes        | No        | No        |
+| Linux 1.2.13+                       | 80386SX                      | No        | No        | No        | No         | No        | Yes       |
+| Windows 95                          | 80386SX                      | Yes       | No        | No        | Yes        | Yes       | No        |
+| Windows 98                          | 80486DX<br/>80486SX+80487SX  | Yes       | No        | No        | Yes        | Yes       | No        |
+| ReactOS 0.4.15                      | 80586                        | Yes       | No        | No        | No         | Yes       | No        |
+| Windows 2000 - ME                   | 80586                        | No        | No        | No        | No         | Yes       | No        |
+| Windows XP                          | 80586<br/>x86_64             | No        | No        | No        | No         | Yes       | No        |
+| Windows Vista - 10                  | 80686<br/>x86_64             | No        | No        | No        | No         | Yes       | No        |
+| Windows 11                          | x86_64                       | No        | No        | No        | No         | Yes       | No        |
 
 ## Build
 See the [Build documentation](BUILD.md) and [GitHub Workflow](.github/workflows/LuaWatcom.yml)

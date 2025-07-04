@@ -113,13 +113,14 @@ Run any of commands in the table below for the targets that should be built
 and be mindful of how the `INCLUDE` environment variable changes
 between different targets and development environments.
 
-| INCLUDE (DOS/NT)            | INCLUDE (UNIX)            | Make Command            | Binary File          | Target OS   | Target ISA |
-|-----------------------------|---------------------------|-------------------------|----------------------|-------------|------------|
-| `%WATCOM%\h`                | `$WATCOM/h`               | `wmake -f wm_dos16.mak` | `dist/bin/LUA16.EXE` | PC-DOS 2.0+ | 8086+      |
-| `%WATCOM%\h`                | `$WATCOM/h`               | `wmake -f wm_dos4g.mak` | `dist/bin/LUA4G.EXE` | MS-DOS 5.0+ | 80386+     |
-| `%WATCOM%\h;%WATCOM%\h\os2` | `$WATCOM/h:$WATCOM/h/os2` | `wmake -f wm_os216.mak` | `dist/bin/LUA21.EXE` | OS/2 1.2    | 80286+     |
-| `%WATCOM%\h;%WATCOM%\h\os2` | `$WATCOM/h:$WATCOM/h/os2` | `wmake -f wm_os232.mak` | `dist/bin/LUA22.EXE` | OS/2 2.0    | 80386+     |
-| `%WATCOM%\h;%WATCOM%\h\nt`  | `$WATCOM/h:$WATCOM/h/nt`  | `wmake -f wm_winnt.mak` | `dist/bin/LUANT.EXE` | Windows 95+ | 80386+     |
+| INCLUDE (DOS/NT)            | INCLUDE (UNIX)            | Make Command            | Binary File          | Target OS     | Target ISA |
+|-----------------------------|---------------------------|-------------------------|----------------------|---------------|------------|
+| `%WATCOM%\h`                | `$WATCOM/h`               | `wmake -f wm_dos16.mak` | `dist/bin/LUA16.EXE` | PC-DOS 2.0+   | 8086+      |
+| `%WATCOM%\h`                | `$WATCOM/h`               | `wmake -f wm_dos4g.mak` | `dist/bin/LUA4G.EXE` | MS-DOS 5.0+   | 80386+     |
+| `%WATCOM%\h;%WATCOM%\h\os2` | `$WATCOM/h:$WATCOM/h/os2` | `wmake -f wm_os216.mak` | `dist/bin/LUA21.EXE` | OS/2 1.2      | 80286+     |
+| `%WATCOM%\h;%WATCOM%\h\os2` | `$WATCOM/h:$WATCOM/h/os2` | `wmake -f wm_os232.mak` | `dist/bin/LUA22.EXE` | OS/2 2.0      | 80386+     |
+| `%WATCOM%\h;%WATCOM%\h\nt`  | `$WATCOM/h:$WATCOM/h/nt`  | `wmake -f wm_winnt.mak` | `dist/bin/LUANT.EXE` | Windows 95+   | 80386+     |
+| `%WATCOM%\lh`               | `$WATCOM/lh`              | `wmake -f wm_linux.mak` | `dist/bin/LUAUX.ELF` | Linux 1.2.13+ | 80386+     |
 
 ## Copy DOS4GW (optional)
 `LUA4G.EXE` requires `DOS4GW.EXE` to be accessible to it to run. 
