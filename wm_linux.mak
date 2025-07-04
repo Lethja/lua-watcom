@@ -8,7 +8,7 @@ CC = *wcc386
 CFLAGS = -q -bt=linux -mf -3 -d0 -osr -zc
 LFLAGS = SYS linux OPT st=8192
 
-PLATFORM = IX
+PLATFORM = UX
 SUFFIX = .ELF
 
 !include common.inc
