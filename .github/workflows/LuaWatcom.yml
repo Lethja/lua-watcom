@@ -62,11 +62,11 @@ jobs:
       run: |
         wmake -f wm_dos4g.mak
 
-    - name: Build Lua for Windows 95
+    - name: Build Lua for Linux
       env:
-        INCLUDE: "${{ env.WATCOM }}/h/nt:${{ env.WATCOM }}/h"
+        INCLUDE: "${{ env.WATCOM }}/lh"
       run: |
-        wmake -f wm_winnt.mak
+        wmake -f wm_linux.mak
 
     - name: Build Lua for OS/2 16-bit
       env:
@@ -79,6 +79,12 @@ jobs:
         INCLUDE: "${{ env.WATCOM }}/h/os2:${{ env.WATCOM }}/h"
       run: |
         wmake -f wm_os232.mak
+
+    - name: Build Lua for Windows 95
+      env:
+        INCLUDE: "${{ env.WATCOM }}/h/nt:${{ env.WATCOM }}/h"
+      run: |
+        wmake -f wm_winnt.mak
 
     - name: Copy DOS4GW Binary
       run: |
@@ -98,11 +104,11 @@ jobs:
 
     - name: Set modification time on built binaries to the latest commit
       run: |
-        touch --date="$(git log -1 --pretty=format:%cI)" dist/bin/*.EXE
+        touch --date="$(git log -1 --pretty=format:%cI)" dist/bin/*.ELF dist/bin/*.EXE
 
     - name: Create Binaries Zip
       run: |
-        files=$(find dist/bin/*.EXE demo/core/*.LUA demo/xtra/*.LUA | sort | xargs)
+        files=$(find dist/bin/*.ELF dist/bin/*.EXE demo/core/*.LUA demo/xtra/*.LUA | sort | xargs)
         zip -j9 --DOS-names dist/LuaExe.zip $files
         name="dist/WLE$(sha256sum dist/LuaExe.zip | awk '{print $1}' | cut -c1-5).zip"
         mv dist/LuaExe.zip $name
@@ -120,7 +126,7 @@ jobs:
 
     - name: Set modification time on UPX compressed binaries to the latest commit
       run: |
-        touch --date="$(git log -1 --pretty=format:%cI)" dist/bin/*.EXE          
+        touch --date="$(git log -1 --pretty=format:%cI)" dist/bin/*.ELF dist/bin/*.EXE          
 
     - name: Create 160k 16-bit DOS Floppy Diskette Image
       run: |
@@ -142,7 +148,7 @@ jobs:
         export LD_PRELOAD=$(dpkg -L libfaketime | grep libfaketime.so.1)
         label="LUA MULTIOS"
         serial="0x$(echo "$label$FAKETIME" | sha256sum | cut -c1-8)"
-        files=$(find dist/bin/*.EXE demo/core/*.LUA demo/xtra/*.LUA | sort | xargs)
+        files=$(find dist/bin/*.ELF dist/bin/*.EXE demo/core/*.LUA demo/xtra/*.LUA | sort | xargs)
         echo "Faketime: $FAKETIME"
         echo "Files: $files"
         echo "Label: $label"
