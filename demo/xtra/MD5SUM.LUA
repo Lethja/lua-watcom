@@ -40,7 +40,7 @@ function md5_file(file)
 			local t = d
 			d = c
 			c = b
-			b = (b + LS((a + f + wo[g + 1] + T[i]) & 0xFFFFFFFF, s)) & 0xFFFFFFFF
+			b = (b + LS((a + f + wo[g + 1] + SINE[i]) & 0xFFFFFFFF, s)) & 0xFFFFFFFF
 			a = t
 		end
 		A = (A + a) & 0xFFFFFFFF
@@ -76,8 +76,8 @@ function md5_file(file)
 end
 
 local function init()
-	T = {}
-	for i = 1, 64 do T[i] = math.floor(2 ^ 32 * math.abs(math.sin(i))) end
+	SINE = {}
+	for i = 1, 64 do SINE[i] = math.floor(2 ^ 32 * math.abs(math.sin(i))) end
 end
 
 if LIB then init() return end
