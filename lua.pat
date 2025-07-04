@@ -48,7 +48,18 @@
  
  /* }================================================================== */
  
-
+@@ -231,7 +236,10 @@
+ #define LUA_PATH_DEFAULT  \
+ 		LUA_LDIR"?.lua;"  LUA_LDIR"?/init.lua;" \
+ 		LUA_CDIR"?.lua;"  LUA_CDIR"?/init.lua;" \
+-		"./?.lua;" "./?/init.lua"
++		"./?.lua;" "./?/init.lua" \
++		LUA_LDIR"?.LUA;"  LUA_LDIR"?/init.LUA;" \
++		LUA_CDIR"?.LUA;"  LUA_CDIR"?/init.LUA;" \
++		"./?.LUA;" "./?/init.LUA"
+ #endif
+ 
+ #if !defined(LUA_CPATH_DEFAULT)
 --- lua/lutf8lib.c
 +++ lua/lutf8lib.c
 @@ -31,7 +31,9 @@
