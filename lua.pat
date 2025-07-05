@@ -48,18 +48,60 @@
  
  /* }================================================================== */
  
-@@ -231,7 +236,10 @@
+@@ -221,17 +226,43 @@
+ 		LUA_CDIR"loadall.dll;" ".\\?.dll"
+ #endif
+ 
++#elif defined(_DOS) || defined(__OS2__)
++/*
++** DOS and OS/2 do not have any mechanism to get the running process path.
++** Default to the current directory instead.
++*/
++
++#if !defined(LUA_PATH_DEFAULT)
++#define LUA_PATH_DEFAULT ".\\?.lua;" ".\\?\\init.lua"
++#endif
++
++#if !defined(LUA_CPATH_DEFAULT)
++#define LUA_CPATH_DEFAULT ".\\?.dll"
++#endif
++
+ #else			/* }{ */
+ 
++/*
++** For Linux and (hopefully) compatible with other Unix-like systems
++*/
++
+ #define LUA_ROOT	"/usr/local/"
+ #define LUA_LDIR	LUA_ROOT "share/lua/" LUA_VDIR "/"
+ #define LUA_CDIR	LUA_ROOT "lib/lua/" LUA_VDIR "/"
+ 
+ #if !defined(LUA_PATH_DEFAULT)
++/*
++ * Linux is notorious for case-sensitive filenames.
++ * Check for .LUA in addition to .lua
++ * in case scripts are on a mount that uppercased the all filenames.
++ */
  #define LUA_PATH_DEFAULT  \
  		LUA_LDIR"?.lua;"  LUA_LDIR"?/init.lua;" \
  		LUA_CDIR"?.lua;"  LUA_CDIR"?/init.lua;" \
 -		"./?.lua;" "./?/init.lua"
 +		"./?.lua;" "./?/init.lua" \
-+		LUA_LDIR"?.LUA;"  LUA_LDIR"?/init.LUA;" \
-+		LUA_CDIR"?.LUA;"  LUA_CDIR"?/init.LUA;" \
-+		"./?.LUA;" "./?/init.LUA"
++		LUA_LDIR"?.LUA;"  LUA_LDIR"?/INIT.LUA;" \
++		LUA_CDIR"?.LUA;"  LUA_CDIR"?/INIT.LUA;" \
++		"./?.LUA;" "./?/INIT.LUA"
  #endif
  
  #if !defined(LUA_CPATH_DEFAULT)
+@@ -249,7 +280,7 @@
+ */
+ #if !defined(LUA_DIRSEP)
+ 
+-#if defined(_WIN32)
++#if defined(_WIN32) || defined(_DOS) || defined(__OS2__)
+ #define LUA_DIRSEP	"\\"
+ #else
+ #define LUA_DIRSEP	"/"
 --- lua/lutf8lib.c
 +++ lua/lutf8lib.c
 @@ -31,7 +31,9 @@
