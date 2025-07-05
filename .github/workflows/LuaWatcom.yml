@@ -8,11 +8,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: open-watcom/setup-watcom@v0
+    - name: Install Open Watcom 1.9
+      uses: open-watcom/setup-watcom@v0
       with:
         version: "1.9"
 
-    - name: Install Tools
+    - name: Install Other Tools
       run: |
         sudo apt-get update
         sudo apt-get install -y gcc libfaketime libreadline-dev lua5.4 make mtools zip
@@ -21,6 +22,22 @@ jobs:
       with:
         submodules: recursive
         fetch-depth: 0
+
+    - name: Check S256SUM.LUA Integrity
+      run: |
+        LUA=$(lua demo/core/S256SUM.LUA demo/core/S256SUM.LUA)
+        GNU=$(sha256sum demo/core/S256SUM.LUA)
+        echo "LUA=$LUA"
+        echo "GNU=$GNU"
+        if [ "$LUA" != "$GNU" ]; then exit 1; fi
+
+    - name: Check MD5SUM.LUA Integrity
+      run: |
+        LUA=$(lua demo/xtra/MD5SUM.LUA demo/xtra/MD5SUM.LUA)
+        GNU=$(md5sum demo/xtra/MD5SUM.LUA)
+        echo "LUA=$LUA"
+        echo "GNU=$GNU"
+        if [ "$LUA" != "$GNU" ]; then exit 1; fi
 
     - name: Test libfaketime works
       run: |
@@ -33,12 +50,6 @@ jobs:
         if [ "$FAKETIME" != "$DATE" ]; then
           exit 1
         fi
-
-    - name: Test Lua Core Demo Scripts function
-      run: |
-        lua demo/core/README.LUA
-        lua demo/core/BENCH.LUA
-        lua demo/core/S256SUM.LUA demo/core/S256SUM.LUA
 
     - name: Patch Lua Source Code for Open Watcom
       run: |
