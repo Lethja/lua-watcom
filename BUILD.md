@@ -45,9 +45,9 @@ These tools are not strictly needed to build Lua with Open Watcom
 but are beneficial.
 
 ### Patching Utility
-There are a few patches for the Lua source code available,
-however, the patch changes are minimal 
-and only serve to silence Watcom compiler warnings.
+There are a few patches for the Lua source code available.
+Open Watcom can build usable binaries without the patches; however, 
+some platform-specific functionality may not be correct without them.
 
 #### GNU Patch
 The standard patch utility on GNU systems. 
@@ -83,6 +83,12 @@ to the development environment. This may include the one being built.
 
 # Building
 ## Patch the source code for Open Watcom (optional):
+
+While Open Watcom will build functional Lua interpreters without any patches,
+`lua.pat` includes compiler warning fixes
+and corrections to platform-specific behaviors missed in the upstream codebase
+such as DOS and OS/2 being given the Unix default package path.
+It is therefore highly recommended to apply the patch.
 
 Depending on which patching utility is installed, run the applicable command:
 
