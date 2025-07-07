@@ -26,7 +26,7 @@ The zip is formatted with DOS headers and has 8.3 friendly names.
 #### Watcom Lua floppy disk Images
 This zip contains two floppy disk format images (`.ima` format)
 which are ready to be written to real disks for distributing to retro machines 
-or opened by [emulators](#emulators) directly. 
+or opened by [emulators](#emulators-and-compatibility-layers) directly. 
 To save space on these disk images, binaries have been compressed 
 by [UPX](https://upx.github.io/) where possible.
 
@@ -80,23 +80,66 @@ In most cases, the operating system is newer and has higher hardware requirement
 | Windows Vista - 10                  | 80686<br/>x86_64             | No        | No        | No        | No         | Yes       | No        |
 | Windows 11                          | x86_64                       | No        | No        | No        | No         | Yes       | No        |
 
+### Software Dependencies
+
+#### DOS
+The 32-bit DOS4GW extender version of Lua for Watcom (`LUA4G.EXE`)
+requires `DOS4GW.EXE` to either be in the same directory or discoverable
+in a directory specified by the `%PATH%` environment variable.
+
+The real-mode version of Lua for Watcom (`LUA16.EXE`)
+is completely self-contained and requires no extra files or directory structure.
+
+#### Linux
+The Linux version of Lua for Watcom (`LUAUX.ELF`) is completely self-contained
+and requires no libraries from a distribution, not even libc.
+
+The Linux kernel itself needs support for running "i386" ELF binaries.
+
+#### OS/2
+OS/2 version 2.0 and later have 32-bit executable support 
+and can run both the 16-bit (`LUA21.EXE`)
+and 32-bit (`LUA22.EXE`) OS/2 versions of Lua for Watcom.
+
+OS/2 version 1.3 and earlier are 16-bit and can only run `LUA21.EXE`. 
+`DOSCALL1.DLL` is required to run `LUA21.EXE`
+which is included in OS/2 v1.2 and later.
+
+OS/2 version 1.1 and earlier should run `LUA16.EXE`
+in a DOS command prompt.
+
+#### Windows
+All the dependencies of the Windows version of Lua for Watcom (`LUANT.EXE`)
+ship in a minimal installation of Windows 95, 
+there are effectively no dependencies. 
+
 ## Build
-See the [Build documentation](BUILD.md) and [GitHub Workflow](.github/workflows/LuaWatcom.yml)
+See the [Build documentation](BUILD.md).
+
+Additionally, the [GitHub Workflow](.github/workflows/LuaWatcom.yml) 
+can be studied to understand the release build workflow. 
 
 # See also
 
-## Emulators
-If you do not have retro hardware but want to try Lua for Watcom 
-any of the following emulators can be used to run the Lua binaries
-from a modern machine.
+## Emulators and Compatibility Layers
+As shown in the [Binary Compatibility Matrix](#binary-compatibility-matrix)
+both `LUANT.EXE` and `LUAUX.ELF` are compatible
+with current versions of Windows and Linux operating systems respectively. 
+An emulator should not be necessary to run these binaries
+on current Linux/Windows PCs with AMD/Intel processors.
 
-| Emulator                                                        | Emulation Type                | Repository                                                                                   | Comment                                                                                           |
-|-----------------------------------------------------------------|-------------------------------|----------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------|
-| [86Box](https://86box.net/)                                     | PC Hardware                   | https://github.com/86Box/86Box                                                               | Requires firmware blobs. For best experience use with 86Box launcher                              |
-| [DOSBox-X](https://dosbox-x.com/)                               | DOS Software                  | https://github.com/joncampbell123/dosbox-x                                                   | Not to be confused with DOSBox                                                                    |
-| [MISTer FPGA](https://github.com/MiSTer-devel/Wiki_MiSTer/wiki) | Field Programmable Gate Array | https://github.com/MiSTer-devel/ao486_MiSTer</br>https://github.com/MiSTer-devel/PCXT_MiSTer | Requires compatible field programmable gate array (FPGA) hardware.                                |
-| [PCem](https://www.pcem-emulator.co.uk/)                        | PC Hardware                   | https://github.com/sarah-walker-pcem/pcem/                                                   | Requires firmware blobs.                                                                          |
-| [Qemu](https://www.qemu.org/)                                   | Hypervisor                    | https://gitlab.com/qemu-project/qemu                                                         | Often used with `libvirt`. Only recommended for guests with driver support (Windows XP and later) |
+If you want to run the DOS or OS/2 version on a modern PC
+or have a non-x86 processor in your machine,
+then any of the following software projects can be used to run the Lua binaries.
+
+| Name                                                            | Type                                       | Repository                                                                                   | Comment                                                                                                                                                                                                                                                                                         |
+|-----------------------------------------------------------------|--------------------------------------------|----------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [86Box](https://86box.net/)                                     | Full x86 PC Hardware Emulation             | https://github.com/86Box/86Box                                                               | Requires firmware blobs. For best experience use with a 86Box launcher.                                                                                                                                                                                                                         |
+| [DOSBox-X](https://dosbox-x.com/)                               | DOS Environment Emulation                  | https://github.com/joncampbell123/dosbox-x                                                   | Only useful for running DOS applications like `LUA16.EXE` and `LUA4G.EXE` on non-DOS operating systems (including Windows versions after Windows 98). Not to be confused with DOSBox.                                                                                                           |
+| [MISTer FPGA](https://github.com/MiSTer-devel/Wiki_MiSTer/wiki) | Field Programmable Gate Array              | https://github.com/MiSTer-devel/ao486_MiSTer</br>https://github.com/MiSTer-devel/PCXT_MiSTer | Requires compatible field programmable gate array (FPGA) hardware.                                                                                                                                                                                                                              |
+| [PCem](https://www.pcem-emulator.co.uk/)                        | Full x86 PC Hardware Emulation             | https://github.com/sarah-walker-pcem/pcem/                                                   | Requires firmware blobs.                                                                                                                                                                                                                                                                        |
+| [Qemu](https://www.qemu.org/)                                   | Processor Compatibility Layer & Hypervisor | https://gitlab.com/qemu-project/qemu                                                         | It might be possible set up `qemu-i386` to run `LUAUX.ELF` on a non-x86 Linux system.</br>Full virtual machines (`qemu-i386-system` & `qemu-x86_64-system`) are only recommended for running operating systems with guest driver support (Windows XP and later, Linux 2.6.26 and later etc...). |
+| [Wine](https://www.winehq.org/)                                 | Windows Application Compatibility Layer    | https://gitlab.winehq.org/wine/wine                                                          | Only useful for running Windows applications like `LUANT.EXE` on non-Windows operating systems.                                                                                                                                                                                                 | 
 
 ## Other software
 
