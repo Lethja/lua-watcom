@@ -12,8 +12,8 @@ Pre-compiled builds are available on the
 [Release](https://github.com/Lethja/lua-watcom/releases/latest) page. 
 
 ### Files
-There are two zips available for download in each release. 
-Which one you should download depends on how you plan to use the software.
+There are two zips available for download in each release; 
+which one you should download depends on how you plan to use the software.
 Both zips contain binaries for all listed platforms. 
 See [Binary Native Targets](#binary-native-targets) 
 and [Binary Compatibility Matrix](#binary-compatibility-matrix)
