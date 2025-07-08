@@ -1,8 +1,17 @@
 # PE95TIME.LUA
 
-This Lua script modifies timestamps in a Portable Executable (PE) format EXE file to align them with the release date of Windows 95. The goal is to ensure reproducible builds for checksum verification purposes. Key points of usage include backing up files before modification, as this script directly edits the binary files.
+This Lua script modifies timestamps
+in a Portable Executable (PE) format EXE file
+to align them with the release date of Windows 95.
+The goal is to ensure reproducible builds for checksum verification purposes.
+This script is used in continuous integration of LUA for Watcom 
+to ensure LUANT.EXE built from the same source code
+always has the same checksum.
 
 ## Documentation
+
+This script has been squashed to save on disk space. 
+The documentation for the scripts variables and functions are below. 
 
 ### **Globals**
 | Global Variable         | Description                                                                                                                                                                                                    |
