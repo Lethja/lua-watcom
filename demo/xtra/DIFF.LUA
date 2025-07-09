@@ -36,8 +36,8 @@ local function diff_u(fn1,fn2)
 
 	if diff_b then
 		for _, v in ipairs(diff_b) do
-			dl, tl = lines(v.data.l)
-			dr, tr = lines(v.data.r)
+			dl, tl = lines(v.data.l, tl)
+			dr, tr = lines(v.data.r, tr)
 			local max = #dl > #dr and #dl or #dr
 
 			for k = 1, max do
