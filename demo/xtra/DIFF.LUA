@@ -17,7 +17,7 @@ local function diff_u(fn1,fn2)
 		else
 			table.insert(pre, l2)
 		end
-		x = x + 1 y = y + 1
+		x, y = x + 1, y + 1
 		l1, l2 = f1:read("*l"), f2:read("*l")
 	end
 	local function right()
