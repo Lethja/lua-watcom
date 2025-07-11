@@ -4,49 +4,43 @@ local function open(filename)
 	return f
 end
 
-local function blocks(f1, f2)
-	local bs, b = 4096, {}
-	repeat
-		local l, r, lines, data = f1:read(bs), f2:read(bs), {}, nil
-		if l then _, lines.l = string.gsub(l,"\n", "\n") end
-		if r then _, lines.r = string.gsub(r,"\n", "\n") end
-		if l ~= r then data = { l = l, r = r } end
-		if lines.l or lines.r then
-		  table.insert(b, { data = data, lines = lines })
-		end
-	until not l and not r
-	return b
-end
-
-local function lines(str, prev)
-	local l, last = {}
-
-	for line, newline in str:gmatch("([^\n]*)(\n?)") do
-		if newline ~= "\n" then last = line else table.insert(l, line) end
-	end
-
-	if prev and #l > 0 then l[1] = prev .. l[1] end
-	return l, last
-end
-
 local function diff_u(fn1,fn2)
-	local f1, f2 = open(fn1), open(fn2)
-	local diff_b, dl, dr, tl, tr = blocks(f1, f2)
-	f1:close() f2:close()
-
-	if diff_b then
-		for _, v in ipairs(diff_b) do
-			dl, tl = lines(v.data.l, tl)
-			dr, tr = lines(v.data.r, tr)
-			local max = #dl > #dr and #dl or #dr
-
-			for k = 1, max do
-				if dl[k] ~= dr[k] then
-					print("-"..dl[k].."\n+"..dr[k].."\n")
-				end
-			end
-		end
+	local f1, f2, pre, post, x, y, l1, l2 = open(fn1), open(fn2), {}, 0, 0, 0
+	local function flush_pre()
+		for _, v in ipairs(pre) do print(" " .. v) end
+		pre = {}
 	end
+	local function diagonal()
+		if #pre >= 3 then table.remove(pre, 1) end
+		if #pre <= 0 and post > 0 then
+			print(" " .. l2) post = post - 1
+		else
+			table.insert(pre, l2)
+		end
+		x = x + 1 y = y + 1
+		l1, l2 = f1:read("*l"), f2:read("*l")
+	end
+	local function right()
+		flush_pre()
+		post = 3
+		print("-" .. l1)
+		l2 = f2:read("*l")
+	end
+	local function down()
+		flush_pre()
+		post = 3
+		print("+" .. l2)
+		l1 = f1:read("*l")
+	end
+	repeat
+		if l1 == l2 then diagonal()
+		elseif not l2 then right()
+		elseif not l1 then down()
+		else right() down()
+		end
+
+	until not l1 and not l2
+	f1:close() f2:close()
 end
 
 if #arg < 2 then return end
