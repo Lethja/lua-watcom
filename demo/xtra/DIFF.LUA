@@ -23,14 +23,14 @@ local function diff_u(fn1,fn2)
 	local function right()
 		flush_pre()
 		post = 3
-		print("-" .. l1)
-		l2 = f2:read("*l")
+		if l1 then print("-" .. l1) end
+		l1 = f1:read("*l")
 	end
 	local function down()
 		flush_pre()
 		post = 3
-		print("+" .. l2)
-		l1 = f1:read("*l")
+		if l2 then print("+" .. l2) end
+		l2 = f2:read("*l")
 	end
 	repeat
 		if l1 == l2 then diagonal()
