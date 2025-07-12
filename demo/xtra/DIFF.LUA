@@ -1,10 +1,5 @@
-local function open(filename)
-	local f,e=io.open(filename)
-	if not f then print(e) os.exit(1) end
-	return f
-end
-
 local function diff_u(fn1,fn2)
+	local function open(fn) local f, e = io.open(fn) if not f then print(e) os.exit(1) end return f end
 	local f1, f2, pre, add, del, post, x, y, h, l1, l2 = open(fn1), open(fn2), {}, {}, {}, 0, 0, 0
 	local function flush_pre()
 		if not h then print("--- " .. fn1 .. "\n+++ " .. fn2) h = true end
