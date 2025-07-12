@@ -5,8 +5,9 @@ local function open(filename)
 end
 
 local function diff_u(fn1,fn2)
-	local f1, f2, pre, post, x, y, l1, l2 = open(fn1), open(fn2), {}, 0, 0, 0
+	local f1, f2, pre, post, x, y, h, l1, l2 = open(fn1), open(fn2), {}, 0, 0, 0
 	local function flush_pre()
+		if not h then print("--- " .. fn1 .. "\n+++ " .. fn2) h = true end
 		for _, v in ipairs(pre) do print(" " .. v) end
 		pre = {}
 	end
