@@ -5,13 +5,19 @@ local function open(filename)
 end
 
 local function diff_u(fn1,fn2)
-	local f1, f2, pre, post, x, y, h, l1, l2 = open(fn1), open(fn2), {}, 0, 0, 0
+	local f1, f2, pre, add, del, post, x, y, h, l1, l2 = open(fn1), open(fn2), {}, {}, {}, 0, 0, 0
 	local function flush_pre()
 		if not h then print("--- " .. fn1 .. "\n+++ " .. fn2) h = true end
 		for _, v in ipairs(pre) do print(" " .. v) end
 		pre = {}
 	end
+	local function flush_hunks()
+		for _, v in ipairs(del) do print("-" .. v) end
+		for _, v in ipairs(add) do print("+" .. v) end
+		del, add = {}, {}
+	end
 	local function diagonal()
+		flush_hunks()
 		if #pre >= 3 then table.remove(pre, 1) end
 		if #pre <= 0 and post > 0 then
 			print(" " .. l2) post = post - 1
@@ -24,13 +30,13 @@ local function diff_u(fn1,fn2)
 	local function right()
 		flush_pre()
 		post = 3
-		if l1 then print("-" .. l1) end
+		table.insert(del, l1)
 		l1 = f1:read("*l")
 	end
 	local function down()
 		flush_pre()
 		post = 3
-		if l2 then print("+" .. l2) end
+		table.insert(add, l2)
 		l2 = f2:read("*l")
 	end
 	repeat
@@ -42,6 +48,7 @@ local function diff_u(fn1,fn2)
 
 	until not l1 and not l2
 	f1:close() f2:close()
+	if #add > 0 or #del > 0 then flush_pre() flush_hunks() end
 end
 
 if #arg < 2 then return end
