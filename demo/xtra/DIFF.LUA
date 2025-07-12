@@ -14,23 +14,16 @@ local function diff_u(fn1,fn2)
 	local function diagonal()
 		flush_hunks()
 		if #pre >= 3 then table.remove(pre, 1) end
-		if #pre <= 0 and post > 0 then
-			print(" " .. l2) post = post - 1
-		else
-			table.insert(pre, l2)
-		end
-		x, y = x + 1, y + 1
-		l1, l2 = f1:read("*l"), f2:read("*l")
+		if #pre <= 0 and post > 0 then print(" " .. l2) post = post - 1 else table.insert(pre, l2) end
+		x, y, l1, l2 = x + 1, y + 1, f1:read("*l"), f2:read("*l")
 	end
 	local function right()
-		flush_pre()
-		post = 3
+		flush_pre() post = 3
 		table.insert(del, l1)
 		l1 = f1:read("*l")
 	end
 	local function down()
-		flush_pre()
-		post = 3
+		flush_pre() post = 3
 		table.insert(add, l2)
 		l2 = f2:read("*l")
 	end
