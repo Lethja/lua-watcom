@@ -1,6 +1,6 @@
 local function diff_u(fn1,fn2)
 	local function open(fn) local f, e = io.open(fn) if not f then print(e) os.exit(1) end return f end
-	local f1, f2, pre, add, del, post, x, y, h, l1, l2 = open(fn1), open(fn2), {}, {}, {}, 0, 0, 0
+	local f1, f2, pre, add, del, p1, p2, x, y, h, l1, l2 = open(fn1), open(fn2), {}, {}, {}, 0, 0, 0, 0
 	local buf = {add = 0, del = 0, line = {}}
 	local function flush_pre()
 		if not h then print("--- " .. fn1 .. "\n+++ " .. fn2) h = true end
@@ -24,21 +24,21 @@ local function diff_u(fn1,fn2)
 	local function diagonal()
 		flush_hunk()
 		if #pre >= 3 then table.remove(pre, 1) end
-		if #pre <= 0 and post > 0 then
-			table.insert(buf.line, " " .. l2) post = post - 1
-			if post == 0 then flush_buf() end
+		if #pre <= 0 and p1 > 0 then
+			table.insert(buf.line, " " .. l2) p1 = p1 - 1
+			if p1 == 0 then flush_buf() end
 		else
 			table.insert(pre, l2)
 		end
 		x, y, l1, l2 = x + 1, y + 1, f1:read("*l"), f2:read("*l")
 	end
 	local function right()
-		flush_pre() post = 3
+		flush_pre() p1 = 3
 		table.insert(del, l1)
 		l1 = f1:read("*l")
 	end
 	local function down()
-		flush_pre() post = 3
+		flush_pre() p1 = 3
 		table.insert(add, l2)
 		l2 = f2:read("*l")
 	end
