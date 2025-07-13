@@ -113,6 +113,10 @@ jobs:
       run: |
         git ls-files -z | xargs -0 -I{} touch --date="$(git log -1 --pretty=format:%cI -- {})" {}
 
+    - name: Remove UNIX executable permission from EXE files
+      run: |
+        chmod -x dist/bin/*.EXE
+
     - name: Set modification time on built binaries to the latest commit
       run: |
         touch --date="$(git log -1 --pretty=format:%cI)" dist/bin/*.ELF dist/bin/*.EXE
