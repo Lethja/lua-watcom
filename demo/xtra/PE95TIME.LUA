@@ -18,6 +18,6 @@ function A(o,l,v)
 	local d,n,i,t,e=K+o+4 W(d,V)C(4)n,i=R(2),R(2)t,e=n+i,d+12
 	for j=0,t-1 do S(e+(j*8))i,d=R(4),R(4)
 	if(d&X)~=0 then A(d&(X-1),l+1,v or(l==1 and i==16))
-    elseif v and l==3 then local r=C()S(K+d)B(R(4),R(4))S(r)end end end
+	elseif v and l==3 then local r=C()S(K+d)B(R(4),R(4))S(r)end end end
 if #arg<1 then print(arg[0],"'[PE...]'\n\n"..H)os.exit(1)end
 for _,v in ipairs(arg)do io.write(v..": ")F=assert(io.open(v,"r+b"))J=P()W(J+8,V)O()A(0,1)F:close()print("OK")end

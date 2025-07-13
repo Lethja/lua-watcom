@@ -1,3 +1,5 @@
+#!/usr/bin/env lua
+
 local function diff_u(fn1,fn2)
 	local function open(fn) local f, e = io.open(fn) if not f then print(e) os.exit(1) end return f end
 	local f1, f2, pre, add, del, p1, p2, x, y, h, l1, l2 = open(fn1), open(fn2), {}, {}, {}, 0, 0, 0, 0

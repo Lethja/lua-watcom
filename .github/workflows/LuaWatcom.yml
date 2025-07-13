@@ -113,7 +113,7 @@ jobs:
       run: |
         git ls-files -z | xargs -0 -I{} touch --date="$(git log -1 --pretty=format:%cI -- {})" {}
 
-    - name: Remove UNIX executable permission from EXE files
+    - name: Remove UNIX executable permission from non-UNIX executable files
       run: |
         chmod -x dist/bin/*.EXE
 

@@ -20,10 +20,10 @@ function md5_file(file)
 		if pl<=0 then pl=pl+64 end p=p..string.rep("\0",pl-1)
 		for i=0,7 do p=p..string.char((ml>>(8*i))&0xFF)end return p end
 
-    local A,B,C,D,l=0x67452301,0xefcdab89,0x98badcfe,0x10325476,0
-    while 1 do local c=file:read(64) if not c then break end l=l+#c if #c<64 then c=c..P(l)end A,B,C,D=T(c,A,B,C,D) if #c>64 then break end end
-    local function hex(x)return string.format("%02x%02x%02x%02x",x&0xFF,(x>>8)&0xFF,(x>>16)&0xFF,(x>>24)&0xFF)end
-    return hex(A)..hex(B)..hex(C)..hex(D)
+	local A,B,C,D,l=0x67452301,0xefcdab89,0x98badcfe,0x10325476,0
+	while 1 do local c=file:read(64) if not c then break end l=l+#c if #c<64 then c=c..P(l)end A,B,C,D=T(c,A,B,C,D) if #c>64 then break end end
+	local function hex(x)return string.format("%02x%02x%02x%02x",x&0xFF,(x>>8)&0xFF,(x>>16)&0xFF,(x>>24)&0xFF)end
+	return hex(A)..hex(B)..hex(C)..hex(D)
 end
 
 local function init()SINE={}for i=1,64 do SINE[i]=math.floor(2^32*math.abs(math.sin(i)))end end
