@@ -119,8 +119,10 @@ jobs:
 
     - name: Create Binaries Zip
       run: |
-        files=$(find dist/bin/*.ELF dist/bin/*.EXE demo/core/*.LUA demo/xtra/*.LUA | sort | xargs)
+        files=$(find dist/bin/*.EXE demo/core/*.LUA demo/xtra/*.LUA ! -executable | sort | xargs)
         zip -j9 --DOS-names dist/LuaExe.zip $files
+        exe=$(find dist/bin/*.ELF demo/core/*.LUA demo/xtra/*.LUA -executable | sort | xargs)
+        zip -j9 -X dist/LuaExe.zip $exe
         name="dist/WLE$(sha256sum dist/LuaExe.zip | awk '{print $1}' | cut -c1-5).zip"
         mv dist/LuaExe.zip $name
         touch --date="$(git log -1 --pretty=format:%cI)" $name
