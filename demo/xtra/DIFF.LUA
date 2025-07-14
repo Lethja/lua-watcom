@@ -27,7 +27,7 @@ local function diff_u(fn1,fn2)
 	local function diagonal()
 		flush_hunk()
 		if #pre >= 3 then table.remove(pre, 1) end
-		if #pre <= 0 then
+		if p1 > 0 or p2 > 0 then
 			if p1 > 0 and p2 > 0 then table.insert(buf.line, " " .. l2) p1, p2 = p1 - 1, p2 - 1
 			elseif p1 > 0 then table.insert(buf.line, " " .. l1) p1 = p1 - 1
 			elseif p2 > 0 then table.insert(buf.line, " " .. l2) p2 = p2 - 1 end
