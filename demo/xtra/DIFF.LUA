@@ -31,9 +31,16 @@ local function diff_u(fn1,fn2)
 		flush_hunk()
 		if #pre >= 3 then table.remove(pre, 1) end
 		if p1 > 0 or p2 > 0 then
-			if p1 > 0 and p2 > 0 then table.insert(buf.line, " " .. l2) p1, p2 = p1 - 1, p2 - 1
-			elseif p1 > 0 then table.insert(buf.line, " " .. l1) p1 = p1 - 1
-			elseif p2 > 0 then table.insert(buf.line, " " .. l2) p2 = p2 - 1 end
+			if p1 > 0 and p2 > 0 then
+				if p1 > 1 or p2 > 1 then table.insert(buf.line, " " .. l2) end
+				p1, p2 = p1 - 1, p2 - 1
+			elseif p1 > 0 then
+				if p1 > 1 then table.insert(buf.line, " " .. l1) end
+				p1 = p1 - 1
+			elseif p2 > 0 then
+				if p2 > 1 then table.insert(buf.line, " " .. l2) end
+				p2 = p2 - 1
+			end
 			if p1 == 0 or p2 == 0 then flush_buf() end
 		else
 			table.insert(pre, l2)
@@ -41,12 +48,12 @@ local function diff_u(fn1,fn2)
 		x, y, l1, l2 = x + 1, y + 1, f1:read("*l"), f2:read("*l")
 	end
 	local function right()
-		flush_pre() p1 = 3
+		flush_pre() p1 = 4
 		table.insert(del, l1)
 		l1 = f1:read("*l")
 	end
 	local function down()
-		flush_pre() p2 = 3
+		flush_pre() p2 = 4
 		table.insert(add, l2)
 		l2 = f2:read("*l")
 	end
