@@ -6,8 +6,11 @@ local function diff_u(fn1,fn2)
 	local buf = {add = 0, del = 0, line = {}}
 	local function flush_pre()
 		if not h then print("--- " .. fn1 .. "\n+++ " .. fn2) h = true end
-		for _, v in ipairs(pre) do table.insert(buf.line, " " .. v) end
-		buf.ls, buf.rs, pre = x, y, {}
+		if #pre > 0 then
+			for _, v in ipairs(pre) do table.insert(buf.line, " " .. v) end
+			buf.ls, buf.rs = x - #pre, y - #pre
+		end
+		pre = {}
 	end
 	local function flush_hunk()
 		for _, v in ipairs(del) do table.insert(buf.line, "-" .. v) end
