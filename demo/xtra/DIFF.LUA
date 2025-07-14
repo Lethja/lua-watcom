@@ -16,6 +16,7 @@ local function diff_u(fn1,fn2)
 	end
 	local function flush_buf()
 		if #buf.line > 0 then
+			buf.del, buf.add = #buf.line - buf.add - p1, #buf.line - buf.del - p2
 			local header = "@@ -" .. (buf.ls or "0") .. (buf.del == 1 and "" or "," .. buf.del) ..
 					" +" .. (buf.rs or "0") .. (buf.add == 1 and "" or "," .. buf.add) .. " @@"
 			table.insert(buf.line, 1, header)
@@ -26,9 +27,11 @@ local function diff_u(fn1,fn2)
 	local function diagonal()
 		flush_hunk()
 		if #pre >= 3 then table.remove(pre, 1) end
-		if #pre <= 0 and p1 > 0 then
-			table.insert(buf.line, " " .. l2) p1 = p1 - 1
-			if p1 == 0 then flush_buf() end
+		if #pre <= 0 then
+			if p1 > 0 and p2 > 0 then table.insert(buf.line, " " .. l2) p1, p2 = p1 - 1, p2 - 1
+			elseif p1 > 0 then table.insert(buf.line, " " .. l1) p1 = p1 - 1
+			elseif p2 > 0 then table.insert(buf.line, " " .. l2) p2 = p2 - 1 end
+			if p1 == 0 or p2 == 0 then flush_buf() end
 		else
 			table.insert(pre, l2)
 		end
@@ -40,7 +43,7 @@ local function diff_u(fn1,fn2)
 		l1 = f1:read("*l")
 	end
 	local function down()
-		flush_pre() p1 = 3
+		flush_pre() p2 = 3
 		table.insert(add, l2)
 		l2 = f2:read("*l")
 	end
