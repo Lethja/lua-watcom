@@ -42,6 +42,7 @@ local function diff_u(fn1,fn2)
 				(buf.del == 1 and "" or "," .. buf.del) ..
 				" +" .. (buf.rs or buf.add > 0 and "1" or "0") ..
 				(buf.add == 1 and "" or "," .. buf.add) .. " @@"
+
 			table.insert(buf.line, 1, header)
 			for _, v in ipairs(buf.line) do print(v) end
 		end
@@ -61,7 +62,7 @@ local function diff_u(fn1,fn2)
 				if p2 > 1 then table.insert(buf.line, " " .. l2) end
 				p2 = p2 - 1
 			end
-			if p1 == 0 or p2 == 0 then flush_buf() end
+			if p1 == 0 or p2 == 0 then flush_buf() table.insert(pre, l2) end
 		else
 			table.insert(pre, l2)
 		end
