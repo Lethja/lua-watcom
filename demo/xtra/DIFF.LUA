@@ -20,8 +20,10 @@ local function diff_u(fn1,fn2)
 	local function flush_buf()
 		if #buf.line > 0 then
 			buf.del, buf.add = #buf.line - buf.add, #buf.line - buf.del
-			local header = "@@ -" .. (buf.ls or "1") .. (buf.del == 1 and "" or "," .. buf.del) ..
-					" +" .. (buf.rs or "1") .. (buf.add == 1 and "" or "," .. buf.add) .. " @@"
+			local header = "@@ -" .. (buf.ls or buf.del > 0 and "1" or "0") .. 
+				(buf.del == 1 and "" or "," .. buf.del) ..
+				" +" .. (buf.rs or buf.add > 0 and "1" or "0") ..
+				(buf.add == 1 and "" or "," .. buf.add) .. " @@"
 			table.insert(buf.line, 1, header)
 			for _, v in ipairs(buf.line) do print(v) end
 		end
