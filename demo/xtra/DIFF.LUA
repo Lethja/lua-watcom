@@ -13,8 +13,26 @@ local function diff_u(fn1,fn2)
 		pre = {}
 	end
 	local function flush_hunk()
+		local pol = {}
+		local function optimize()
+			local i, j = 1
+			repeat
+				j = 1
+				repeat
+					if del[i] == add[j] then
+					table.insert(pol, table.remove(del, i)) table.remove(add, j)
+					break
+					end
+					j = j + 1
+				until j > #add
+				i = i + 1
+			until i > #del
+		end
+
+    	if #del > 0 and #add > 0 then optimize() end
 		for _, v in ipairs(del) do table.insert(buf.line, "-" .. v) end
 		for _, v in ipairs(add) do table.insert(buf.line, "+" .. v) end
+		for _, v in ipairs(pol) do table.insert(buf.line, " " .. v) end
 		buf.add, buf.del = buf.add + #add, buf.del + #del del, add = {}, {}
 	end
 	local function flush_buf()
