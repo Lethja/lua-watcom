@@ -86,7 +86,8 @@ local function diff_u(fn1,fn2)
 
 	until not l1 and not l2
 	f1:close() f2:close()
-	if #add > 0 or #del > 0 then flush_pre() flush_hunk() flush_buf() end
+	if #add > 0 or #del > 0 then flush_pre() flush_hunk() end
+	if #buf.line > 0 then flush_buf() end
 end
 
 if #arg < 2 then return end
