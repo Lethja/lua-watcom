@@ -70,12 +70,12 @@ local function diff_u(fn1,fn2)
 	local function right()
 		flush_pre() p1 = 4
 		table.insert(del, l1)
-		l1 = f1:read("*l")
+		x, l1 = x + 1, f1:read("*l")
 	end
 	local function down()
 		flush_pre() p2 = 4
 		table.insert(add, l2)
-		l2 = f2:read("*l")
+		y, l2 = y + 1, f2:read("*l")
 	end
 	repeat
 		if l1 == l2 then diagonal()
