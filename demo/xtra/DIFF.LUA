@@ -1,5 +1,6 @@
 #!/usr/bin/env lua
 
+CONTEXT_LINES = 3
 local function diff_u(fn1, fn2)
 	local function open(fn) local f, e = io.open(fn) if not f then print(e) os.exit(1) end return f end
 	local f1, f2, pre, add, del, p1, p2, x, y, h, l1, l2 = open(fn1), open(fn2), {}, {}, {}, 0, 0, 0, 0
@@ -50,18 +51,20 @@ local function diff_u(fn1, fn2)
 	end
 	local function diagonal()
 		flush_hunk()
-		if #pre >= 3 then table.remove(pre, 1) end
+		if #pre > CONTEXT_LINES then table.remove(pre, 1) end
 		if p1 > 0 or p2 > 0 then
 			if p1 > 0 and p2 > 0 then
-				if p1 > 1 or p2 > 1 then table.insert(buf.line, " " .. l2) end
+				if p1 > CONTEXT_LINES or p2 > CONTEXT_LINES then table.insert(buf.line, " " .. l2) end
 				p1, p2 = p1 - 1, p2 - 1
 			elseif p1 > 0 then
-				if p1 > 1 then table.insert(buf.line, " " .. l1) end
+				if p1 > CONTEXT_LINES then table.insert(buf.line, " " .. l1) end
 				p1 = p1 - 1
 			elseif p2 > 0 then
-				if p2 > 1 then table.insert(buf.line, " " .. l2) end
+				if p2 > CONTEXT_LINES then table.insert(buf.line, " " .. l2) end
 				p2 = p2 - 1
-			end
+			elseif p2 <= CONTEXT_LINES then table.insert(pre, l2)
+			elseif p1 <= CONTEXT_LINES then table.insert(pre, l1) end
+
 			if p1 == 0 or p2 == 0 then flush_buf() table.insert(pre, l2) end
 		else
 			table.insert(pre, l2)
@@ -69,12 +72,12 @@ local function diff_u(fn1, fn2)
 		x, y, l1, l2 = x + 1, y + 1, f1:read("*l"), f2:read("*l")
 	end
 	local function right()
-		flush_pre() p1 = 4
+		flush_pre() p1 = (CONTEXT_LINES * 2) + 1
 		table.insert(del, l1)
 		x, l1 = x + 1, f1:read("*l")
 	end
 	local function down()
-		flush_pre() p2 = 4
+		flush_pre() p2 = (CONTEXT_LINES * 2) + 1
 		table.insert(add, l2)
 		y, l2 = y + 1, f2:read("*l")
 	end
