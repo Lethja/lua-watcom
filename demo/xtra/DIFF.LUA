@@ -93,5 +93,14 @@ local function diff_u(fn1, fn2)
 	if #buf.line > 0 then flush_buf() end
 end
 
-if #arg < 2 then return end
-diff_u(arg[1], arg[2])
+if #arg < 2 or #arg % 2 ~= 0 then
+	print(arg[-1] .. " " .. arg[0] .. [[ old new ...
+
+Compare differences between old and new files and print them as unified context.
+To compare multiple sets of files at a time, write as sequential parameters.
+Example: ']] .. arg[0] .. [[ old1 new1 old2 new2 old3 new3' etc...]])
+	os.exit(1)
+end
+for i = 1, #arg, 2 do
+	diff_u(arg[i], arg[i + 1])
+end
