@@ -59,23 +59,20 @@ The script performs the following steps:
         e.g., `@@ -start,count +start,count @@`.
         - If the old and new files are identical, nothing will be printed
 
-## Code Breakdown
-Here’s an explanation of core components:
-
-### Global Variable
+## Global Variables
 
 | Variable | Description                                                                                                                                    |
 |----------|------------------------------------------------------------------------------------------------------------------------------------------------|
 | `CL`     | **C**ontext **L**ines to print above and below a hunk. Defaults to `3`, can be to something else with the `DIFF_CONTEXT` environment variable. |
 
-### Functions
+## Functions
 
-| Function     | Parameters              | Description                                                         |
-|--------------|-------------------------|---------------------------------------------------------------------|
-| `diff_u`     | filename1<br/>filename2 | Prints differences between the two files in to stdout.              |
-| `flush_pre`  |                         | Flushes pre-context lines into the buffer when changes are detected |
-| `flush_hunk` |                         | Outputs a complete hunk of changes into the buffer                  |
-| `flush_buf`  |                         | Print and clear the buffer                                          |
-| `diagonal`   |                         | Iterate over lines that match in both files                         |
-| `right`      |                         | Iterate over a line only present in the old file                    |
-| `down`       |                         | Iterate over a line only present in the new file                    |
+| Function | Parameters                                      | Description                                                                 |
+|----------|-------------------------------------------------|-----------------------------------------------------------------------------|
+| `diff_u` | **f**ile**n**ame**1**<br/>**f**ile**n**ame**2** | Prints differences between the two files in to stdout.                      |
+| `fp`     |                                                 | **F**lushes **p**re-context lines into the buffer when changes are detected |
+| `fh`     |                                                 | **F**lushes a complete **h**unk of changes into the buffer                  |
+| `fb`     |                                                 | **F**lush (print) and clear the **b**uffer                                  |
+| `di`     |                                                 | **D**iagonally **i**terate (lines that match in both files)                 |
+| `ri`     |                                                 | **Ri**ght iterate (for a line only present in the old file)                 |
+| `dn`     |                                                 | **D**ow**n** Iterate (for a line only present in the new file)              |
