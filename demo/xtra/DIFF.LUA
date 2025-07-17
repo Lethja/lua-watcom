@@ -19,7 +19,7 @@ local function diff_u(fn1,fn2)
 		d,a={},{}end
 	local function FB()
 		if#B.l>0 then B.d,B.a=#B.l-B.a,#B.l-B.d
-			local he="@@-"..(B.o or B.d>0 and "1" or "0")..(B.d==1 and "" or ","..B.d).."+"..(B.n or B.a>0 and "1" or "0")..(B.a==1 and "" or ","..B.a).." @@"
+			local he="@@ -"..(B.o or B.d>0 and "1" or "0")..(B.d==1 and "" or ","..B.d).." +"..(B.n or B.a>0 and "1" or "0")..(B.a==1 and "" or ","..B.a).." @@"
 			table.insert(B.l,1,he)for _,v in ipairs(B.l)do print(v)end end
 		B.l,B.a,B.d,B.o,B.n={},0,0,nil,nil end
 	local function di()
