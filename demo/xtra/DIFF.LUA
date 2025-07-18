@@ -5,7 +5,8 @@ local function diff_u(fn1,fn2)
 	local function open(fn)local f,e=io.open(fn)if not f then print(e)os.exit(1)end return f end
 	local f1,f2,p,a,d,p1,p2,x,y,B,h,l1,l2=open(fn1),open(fn2),{},{},{},0,0,0,0,{a=0,d=0,l={}}
 	local function FP()
-		if not h then print("--- "..fn1.."\n+++ "..fn2)h=true end
+		local function SW(s) return string.match(s,"%s")and '"'..s..'"'or s end
+		if not h then print("--- "..SW(fn1).."\n+++ "..SW(fn2))h=true end
 		if#p>0 then for _,v in ipairs(p)do table.insert(B.l," "..v)end B.o,B.n=x-#p,y-#p end
 		p={}end
 	local function FH()
