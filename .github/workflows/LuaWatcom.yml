@@ -109,9 +109,11 @@ jobs:
       run: |
         lua demo/util/PE95TIME.LUA dist/bin/LUANT.EXE
 
-    - name: Set modification time on all repository files to their respective commit
+    - name: Set modification time on scripts to their respective commit
       run: |
-        git ls-files -z | xargs -0 -I{} touch --date="$(git log -1 --pretty=format:%cI -- {})" {}
+        cd demo
+        git ls-files -z | xargs -0 -I{} bash -c 'touch --date="$(git log -1 --pretty=format:%cI -- "$0")" "$0"' {}
+        cd ..
 
     - name: Remove UNIX executable permission from non-UNIX executable files
       run: |
