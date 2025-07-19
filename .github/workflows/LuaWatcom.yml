@@ -107,7 +107,7 @@ jobs:
 
     - name: Set constant time information on PE header
       run: |
-        lua demo/xtra/PE95TIME.LUA dist/bin/LUANT.EXE
+        lua demo/util/PE95TIME.LUA dist/bin/LUANT.EXE
 
     - name: Set modification time on all repository files to their respective commit
       run: |
@@ -175,7 +175,7 @@ jobs:
 
     - name: Zero-out Unallocated Clusters
       run: |
-        lua demo/xtra/FATSTAT.LUA -z dist/*ima
+        lua demo/util/FATSTAT.LUA -z dist/*ima
 
     - name: Create Floppy Disk Images Zip
       run: |
