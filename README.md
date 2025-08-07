@@ -1,15 +1,27 @@
-# Lua for Open Watcom
+# Lua for Watcom
 
 [![Lua for Watcom](https://github.com/Lethja/lua-watcom/actions/workflows/LuaWatcom.yml/badge.svg)](https://github.com/Lethja/lua-watcom/actions/workflows/LuaWatcom.yml)
+[![Lua Scripts](https://github.com/Lethja/lua-scripts/actions/workflows/LuaScripts.yml/badge.svg)](https://github.com/Lethja/lua-scripts/actions/workflows/LuaScripts.yml)
 
-This repository contains `wmake` style makefiles and patches to build [Lua](https://lua.org) on Open Watcom 1.9 or later. 
-The primary goal was to allow Lua scripts to be run on DOS systems in real mode but has expanded
-to include all Open Watcom targets that don't require external dependencies to build.
+This repository contains `wmake` style makefiles and patches to build 
+[Lua](https://lua.org) on Open Watcom 1.9 or later. 
+
+Initially, the goal of the project was to allow modern Lua scripts 
+to be run on DOS systems in real mode. 
+The project has since expanded to include all Open Watcom targets 
+that don't require external dependencies to build.
+Additionally, the simple scripts originally part of Lua for Open Watcoms 
+disk images made to test these ports has been made into its own repository, 
+[Lua Scripts](https://github.com/Lethja/lua-scripts). 
+It includes several example and utility scripts 
+that can be used on any Lua 5.4 interpreter, including Lua for Watcom.
 
 ## Download
 
 Pre-compiled builds are available on the 
-[Release](https://github.com/Lethja/lua-watcom/releases/latest) page. 
+[Release](https://github.com/Lethja/lua-watcom/releases/latest) page.
+These releases are built from a
+[GitHub Action workflow](.github/workflows/LuaWatcom.yml).
 
 ### Files
 There are two zips available for download in each release; 
