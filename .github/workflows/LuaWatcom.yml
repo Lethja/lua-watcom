@@ -53,7 +53,7 @@ jobs:
 
     - name: Patch Lua Source Code for Open Watcom
       run: |
-        patch -p0 -i lua.pat
+        lua demo/xtra/PATCH.LUA lua.pat
 
     - name: Check GCC can build Lua after patches
       run: |
