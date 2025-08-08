@@ -74,23 +74,23 @@ and **Instruction Set Architecture** it is intended for.
 Some operating systems can run binaries intended for another out of the box. 
 In most cases, the operating system is newer and has higher hardware requirements.
 
-| Operating System                    | Instruction Set Architecture | LUA16.EXE | LUA21.EXE | LUA22.EXE | LUA4G.EXE  | LUANT.EXE | LUAUX.ELF |
-|-------------------------------------|------------------------------|-----------|-----------|-----------|------------|-----------|-----------|
-| DOS 2.x - 4.x<br/>Windows 1.x - 3.x | 8086                         | Yes       | No        | No        | No         | No        | No        |
-| DOS 5.x - 7.x                       | 8086<br/>80386SX             | Yes       | No        | No        | No<br/>Yes | No        | No        |
-| OS2 1.0 - 1.1                       | 80286                        | Yes       | No        | No        | No         | No        | No        |
-| OS2 1.2 - 1.3                       | 80286                        | Yes       | Yes       | No        | No         | No        | No        |
-| OS2 2.x                             | 80386SX                      | Yes       | Yes       | Yes       | No         | No        | No        |
-| OS2 3.x                             | 80386SX                      | Yes       | Yes       | Yes       | Yes        | No        | No        |
-| OS2 4.x                             | 80486SX                      | Yes       | Yes       | Yes       | Yes        | No        | No        |
-| Linux 1.2.13+                       | 80386SX                      | No        | No        | No        | No         | No        | Yes       |
-| Windows 95                          | 80386SX                      | Yes       | No        | No        | Yes        | Yes       | No        |
-| Windows 98                          | 80486DX<br/>80486SX+80487SX  | Yes       | No        | No        | Yes        | Yes       | No        |
-| ReactOS 0.4.15                      | 80586                        | Yes       | No        | No        | No         | Yes       | No        |
-| Windows 2000 - ME                   | 80586                        | No        | No        | No        | No         | Yes       | No        |
-| Windows XP                          | 80586<br/>x86_64             | No        | No        | No        | No         | Yes       | No        |
-| Windows Vista - 10                  | 80686<br/>x86_64             | No        | No        | No        | No         | Yes       | No        |
-| Windows 11                          | x86_64                       | No        | No        | No        | No         | Yes       | No        |
+| Operating System                    | Instruction Set Architecture | LUA16 | LUA21 | LUA22 | LUA4G      | LUANT | LUAUX |
+|-------------------------------------|------------------------------|-------|-------|-------|------------|-------|-------|
+| DOS 2.x - 4.x<br/>Windows 1.x - 3.x | 8086                         | Yes   | No    | No    | No         | No    | No    |
+| DOS 5.x - 7.x                       | 8086<br/>80386SX             | Yes   | No    | No    | No<br/>Yes | No    | No    |
+| OS2 1.0 - 1.1                       | 80286                        | Yes   | No    | No    | No         | No    | No    |
+| OS2 1.2 - 1.3                       | 80286                        | Yes   | Yes   | No    | No         | No    | No    |
+| OS2 2.x                             | 80386SX                      | Yes   | Yes   | Yes   | No         | No    | No    |
+| OS2 3.x                             | 80386SX                      | Yes   | Yes   | Yes   | Yes        | No    | No    |
+| OS2 4.x                             | 80486SX                      | Yes   | Yes   | Yes   | Yes        | No    | No    |
+| Linux 1.2.13+                       | 80386SX                      | No    | No    | No    | No         | No    | Yes   |
+| Windows 95                          | 80386SX                      | Yes   | No    | No    | Yes        | Yes   | No    |
+| Windows 98                          | 80486DX<br/>80486SX+80487SX  | Yes   | No    | No    | Yes        | Yes   | No    |
+| ReactOS 0.4.15                      | 80586                        | Yes   | No    | No    | No         | Yes   | No    |
+| Windows 2000 - ME                   | 80586                        | No    | No    | No    | No         | Yes   | No    |
+| Windows XP                          | 80586<br/>x86_64             | No    | No    | No    | No         | Yes   | No    |
+| Windows Vista - 10                  | 80686<br/>x86_64             | No    | No    | No    | No         | Yes   | No    |
+| Windows 11                          | x86_64                       | No    | No    | No    | No         | Yes   | No    |
 
 ### Software Dependencies
 
