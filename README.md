@@ -3,31 +3,31 @@
 [![Lua for Watcom](https://github.com/Lethja/lua-watcom/actions/workflows/LuaWatcom.yml/badge.svg)](https://github.com/Lethja/lua-watcom/actions/workflows/LuaWatcom.yml)
 [![Lua Scripts](https://github.com/Lethja/lua-scripts/actions/workflows/LuaScripts.yml/badge.svg)](https://github.com/Lethja/lua-scripts/actions/workflows/LuaScripts.yml)
 
-This repository contains `wmake` style makefiles and patches to build 
-[Lua](https://lua.org) on Open Watcom 1.9 or later. 
+This repository contains `wmake` style makefiles and patches to build
+[Lua](https://lua.org) on Open Watcom 1.9 or later.
 
-Initially, the goal of the project was to allow modern Lua scripts 
-to be run on DOS systems in real mode. 
-The project has since expanded to include all Open Watcom targets 
+Initially, the goal of the project was to allow modern Lua scripts
+to be run on DOS systems in real mode.
+The project has since expanded to include all Open Watcom targets
 that don't require external dependencies to build.
-Additionally, the simple scripts originally part of Lua for Open Watcoms 
-disk images made to test these ports has been made into its own repository, 
-[Lua Scripts](https://github.com/Lethja/lua-scripts). 
-It includes several example and utility scripts 
+Additionally, the simple scripts originally part of Lua for Open Watcoms
+disk images made to test these ports have been made into its own repository,
+[Lua Scripts](https://github.com/Lethja/lua-scripts).
+It includes several example and utility scripts
 that can be used on any Lua 5.4 interpreter, including Lua for Watcom.
 
 ## Download
 
-Pre-compiled builds are available on the 
+Pre-compiled builds are available on the
 [Release](https://github.com/Lethja/lua-watcom/releases/latest) page.
 These releases are built from a
 [GitHub Action workflow](.github/workflows/LuaWatcom.yml).
 
 ### Files
-There are two zips available for download in each release; 
+There are two zips available for download in each release;
 which one you should download depends on how you plan to use the software.
-Both zips contain binaries for all listed platforms. 
-See [Binary Native Targets](#binary-native-targets) 
+Both zips contain binaries for all listed platforms.
+See [Binary Native Targets](#binary-native-targets)
 and [Binary Compatibility Matrix](#binary-compatibility-matrix)
 to determine which binary is right for your system.
 
@@ -37,9 +37,9 @@ The zip is formatted with DOS headers and has 8.3 friendly names.
 
 #### Watcom Lua floppy disk Images
 This zip contains two floppy disk format images (`.ima` format)
-which are ready to be written to real disks for distributing to retro machines 
-or opened by [emulators](#emulators-and-compatibility-layers) directly. 
-To save space on these disk images, binaries have been compressed 
+which are ready to be written to real disks for distributing to retro machines
+or opened by [emulators](#emulators-and-compatibility-layers) directly.
+To save space on these disk images, binaries have been compressed
 by [UPX](https://upx.github.io/) where possible.
 
 | Disk Image     | Description                                                                                                               |
@@ -49,16 +49,16 @@ by [UPX](https://upx.github.io/) where possible.
 
 ## System Requirements
 
-Lua for Watcom binaries can run on a number of legacy systems 
-as well as some modern ones. 
+Lua for Watcom binaries can run on a number of legacy systems
+as well as some modern ones.
 The exact memory requirements will depend on the complexity of the script
 you want to run.
 
 ### Binary Native Targets
 
-Since Open Watcom can produce binaries for several operating systems, 
-each binary has been given a unique name to distinguish the native **Operating System** 
-and **Instruction Set Architecture** it is intended for.  
+Since Open Watcom can produce binaries for several operating systems,
+each binary has been given a unique name to distinguish the native
+**Operating System** and **Instruction Set Architecture** it is intended for.
 
 | Binary Name   | Native Operating System | Native Instruction Set Architecture |
 |---------------|-------------------------|-------------------------------------|
@@ -71,7 +71,7 @@ and **Instruction Set Architecture** it is intended for.
 
 ### Binary Compatibility Matrix
 
-Some operating systems can run binaries intended for another out of the box. 
+Some operating systems can run binaries intended for another out of the box.
 In most cases, the operating system is newer and has higher hardware requirements.
 
 | Operating System                    | Instruction Set Architecture | LUA16 | LUA21 | LUA22 | LUA4G      | LUANT | LUAUX |
@@ -109,11 +109,11 @@ and requires no libraries from a distribution, not even libc.
 The Linux kernel itself needs support for running "i386" ELF binaries.
 
 #### OS/2
-OS/2 version 2.0 and later have 32-bit executable support 
+OS/2 version 2.0 and later have 32-bit executable support
 and can run both the 16-bit (`LUA21.EXE`)
 and 32-bit (`LUA22.EXE`) OS/2 versions of Lua for Watcom.
 
-OS/2 version 1.3 and earlier are 16-bit and can only run `LUA21.EXE`. 
+OS/2 version 1.3 and earlier are 16-bit and can only run `LUA21.EXE`.
 `DOSCALL1.DLL` is required to run `LUA21.EXE`
 which is included in OS/2 v1.2 and later.
 
@@ -121,22 +121,22 @@ OS/2 version 1.1 and earlier should run `LUA16.EXE`
 in a DOS command prompt.
 
 #### Windows
-All the dependencies of the Windows version of Lua for Watcom (`LUANT.EXE`)
-ship in a minimal installation of Windows 95, 
-there are effectively no dependencies. 
+All the dependencies for the Windows version of Lua for Watcom (`LUANT.EXE`)
+ship in a minimal installation of Windows 95,
+there are effectively no dependencies.
 
 ## Build
 See the [Build documentation](BUILD.md).
 
-Additionally, the [GitHub Workflow](.github/workflows/LuaWatcom.yml) 
-can be studied to understand the release build workflow. 
+Additionally, the [GitHub Workflow](.github/workflows/LuaWatcom.yml)
+can be studied to understand the release build workflow.
 
 # See also
 
 ## Emulators and Compatibility Layers
 As shown in the [Binary Compatibility Matrix](#binary-compatibility-matrix)
 both `LUANT.EXE` and `LUAUX.ELF` are compatible
-with current versions of Windows and Linux operating systems respectively. 
+with current versions of Windows and Linux operating systems respectively.
 An emulator should not be necessary to run these binaries
 on current Linux/Windows PCs with AMD/Intel processors.
 
@@ -151,7 +151,7 @@ then any of the following software projects can be used to run the Lua binaries.
 | [MISTer FPGA](https://github.com/MiSTer-devel/Wiki_MiSTer/wiki) | Field Programmable Gate Array              | https://github.com/MiSTer-devel/ao486_MiSTer</br>https://github.com/MiSTer-devel/PCXT_MiSTer | Requires compatible field programmable gate array (FPGA) hardware.                                                                                                                                                                                                                              |
 | [PCem](https://www.pcem-emulator.co.uk/)                        | Full x86 PC Hardware Emulation             | https://github.com/sarah-walker-pcem/pcem/                                                   | Requires firmware blobs.                                                                                                                                                                                                                                                                        |
 | [Qemu](https://www.qemu.org/)                                   | Processor Compatibility Layer & Hypervisor | https://gitlab.com/qemu-project/qemu                                                         | It might be possible set up `qemu-i386` to run `LUAUX.ELF` on a non-x86 Linux system.</br>Full virtual machines (`qemu-i386-system` & `qemu-x86_64-system`) are only recommended for running operating systems with guest driver support (Windows XP and later, Linux 2.6.26 and later etc...). |
-| [Wine](https://www.winehq.org/)                                 | Windows Application Compatibility Layer    | https://gitlab.winehq.org/wine/wine                                                          | Only useful for running Windows applications like `LUANT.EXE` on non-Windows operating systems.                                                                                                                                                                                                 | 
+| [Wine](https://www.winehq.org/)                                 | Windows Application Compatibility Layer    | https://gitlab.winehq.org/wine/wine                                                          | Only useful for running Windows applications like `LUANT.EXE` on non-Windows operating systems.                                                                                                                                                                                                 |
 
 ## Other software
 
