@@ -85,6 +85,7 @@ In most cases, the operating system is newer and has higher hardware requirement
 | OS2 4.x                             | 80486SX                      | Yes   | Yes   | Yes   | Yes        | No    | No    |
 | Linux 1.2.13+                       | 80386SX                      | No    | No    | No    | No         | No    | Yes   |
 | Windows 95                          | 80386SX                      | Yes   | No    | No    | Yes        | Yes   | No    |
+| Windows NT 4.0                      | 80486SX                      | Yes   | Yes   | No    | Yes        | Yes   | No    |
 | Windows 98                          | 80486DX<br/>80486SX+80487SX  | Yes   | No    | No    | Yes        | Yes   | No    |
 | ReactOS 0.4.15                      | 80586                        | Yes   | No    | No    | No         | Yes   | No    |
 | Windows 2000 - ME                   | 80586                        | No    | No    | No    | No         | Yes   | No    |
