@@ -143,9 +143,20 @@ jobs:
           dist/bin/LUA4G.EXE
           dist/bin/LUANT.EXE
 
+    - name: Squish Lua Scripts for Floppy Disk Images
+      run: |
+        find demo -name "*.LUA" -type f -exec demo/util/SQUISH.LUA {} +
+        find demo -name "*.LUA" -type f -exec demo/xtra/DOSFREN.LUA {} +
+
     - name: Set modification time on UPX compressed binaries to the latest commit
       run: |
         touch --date="$(git log -1 --pretty=format:%cI)" dist/bin/*.ELF dist/bin/*.EXE          
+
+    - name: Set modification time on squished scripts to their respective commit
+      run: |
+        cd demo
+        git ls-files -z | xargs -0 -I{} bash -c 'touch --date="$(git log -1 --pretty=format:%cI -- "$0")" "$0"' {}
+        cd ..
 
     - name: Create 160k 16-bit DOS Floppy Diskette Image
       run: |
