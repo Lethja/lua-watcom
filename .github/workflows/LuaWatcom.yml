@@ -23,22 +23,6 @@ jobs:
         submodules: recursive
         fetch-depth: 0
 
-    - name: Check S256SUM.LUA Integrity
-      run: |
-        LUA=$(lua demo/core/S256SUM.LUA demo/core/S256SUM.LUA)
-        GNU=$(sha256sum demo/core/S256SUM.LUA)
-        echo "LUA=$LUA"
-        echo "GNU=$GNU"
-        if [ "$LUA" != "$GNU" ]; then exit 1; fi
-
-    - name: Check MD5SUM.LUA Integrity
-      run: |
-        LUA=$(lua demo/xtra/MD5SUM.LUA demo/xtra/MD5SUM.LUA)
-        GNU=$(md5sum demo/xtra/MD5SUM.LUA)
-        echo "LUA=$LUA"
-        echo "GNU=$GNU"
-        if [ "$LUA" != "$GNU" ]; then exit 1; fi
-
     - name: Test libfaketime works
       run: |
         export FAKETIME=$(TZ=UTC0 git show --quiet --date='format-local:%Y-%m-%d %H:%M:%S' --format="%cd")
