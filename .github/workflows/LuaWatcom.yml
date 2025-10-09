@@ -37,7 +37,7 @@ jobs:
 
     - name: Patch Lua Source Code for Open Watcom
       run: |
-        lua demo/xtra/PATCH.LUA lua.pat
+        lua scripts/dev/PATCH.LUA lua.pat
 
     - name: Check GCC can build Lua after patches
       run: |
@@ -87,15 +87,15 @@ jobs:
 
     - name: Ensure Lua Scripts Have CR/LF Line Endings
       run: |
-        lua demo/xtra/DOSFREN.LUA demo/core/*.LUA demo/xtra/*.LUA
+        lua scripts/util/DOSFREN.LUA scripts/meta/floppy/1440k/*/*.LUA
 
     - name: Set constant time information on PE header
       run: |
-        lua demo/util/PE95TIME.LUA dist/bin/LUANT.EXE
+        lua scripts/dev/PE95TIME.LUA dist/bin/LUANT.EXE
 
     - name: Set modification time on scripts to their respective commit
       run: |
-        cd demo
+        cd scripts
         git ls-files -z | xargs -0 -I{} bash -c 'touch --date="$(git log -1 --pretty=format:%cI -- "$0")" "$0"' {}
         cd ..
 
@@ -109,9 +109,9 @@ jobs:
 
     - name: Create Binaries Zip
       run: |
-        files=$(find dist/bin/*.EXE demo/core/*.LUA demo/xtra/*.LUA ! -executable | sort | xargs)
+        files=$(find dist/bin/*.EXE scripts/meta/floppy/1440k/*/*.LUA ! -executable | sort | xargs)
         zip -j9 --DOS-names dist/LuaExe.zip $files
-        exe=$(find dist/bin/*.ELF demo/core/*.LUA demo/xtra/*.LUA -executable | sort | xargs)
+        exe=$(find dist/bin/*.ELF scripts/meta/floppy/1440k/*/*.LUA -executable | sort | xargs)
         zip -j9 -X dist/LuaExe.zip $exe
         name="dist/WLE$(sha256sum dist/LuaExe.zip | awk '{print $1}' | cut -c1-5).zip"
         mv dist/LuaExe.zip $name
@@ -129,8 +129,8 @@ jobs:
 
     - name: Squish Lua Scripts for Floppy Disk Images
       run: |
-        find demo -name "*.LUA" -type f -exec demo/util/SQUISH.LUA {} +
-        find demo -name "*.LUA" -type f -exec demo/xtra/DOSFREN.LUA {} +
+        find scripts -name "*.LUA" -type f -exec scripts/util/SQUISH.LUA {} +
+        find scripts -name "*.LUA" -type f -exec scripts/util/DOSFREN.LUA {} +
 
     - name: Set modification time on UPX compressed binaries to the latest commit
       run: |
@@ -138,7 +138,7 @@ jobs:
 
     - name: Set modification time on squished scripts to their respective commit
       run: |
-        cd demo
+        cd scripts
         git ls-files -z | xargs -0 -I{} bash -c 'touch --date="$(git log -1 --pretty=format:%cI -- "$0")" "$0"' {}
         cd ..
 
@@ -148,7 +148,7 @@ jobs:
         export LD_PRELOAD=$(dpkg -L libfaketime | grep libfaketime.so.1)
         label="LUA DOS"
         serial="0x$(echo "$label$FAKETIME" | sha256sum | cut -c1-8)"
-        files=$(find dist/bin/LUA16.EXE demo/core/*.LUA | sort | xargs)
+        files=$(find dist/bin/LUA16.EXE scripts/meta/floppy/160k/1/*.LUA | sort | xargs)
         echo "Faketime: $FAKETIME"
         echo "Files: $files"
         echo "Label: $label"
@@ -162,7 +162,7 @@ jobs:
         export LD_PRELOAD=$(dpkg -L libfaketime | grep libfaketime.so.1)
         label="LUA MULTIOS"
         serial="0x$(echo "$label$FAKETIME" | sha256sum | cut -c1-8)"
-        files=$(find dist/bin/*.ELF dist/bin/*.EXE demo/core/*.LUA demo/xtra/*.LUA | sort | xargs)
+        files=$(find dist/bin/*.ELF dist/bin/*.EXE scripts/meta/floppy/1440k/1/*.LUA | sort | xargs)
         echo "Faketime: $FAKETIME"
         echo "Files: $files"
         echo "Label: $label"
@@ -172,7 +172,7 @@ jobs:
 
     - name: Zero-out Unallocated Clusters
       run: |
-        lua demo/util/FATSTAT.LUA -z dist/*ima
+        lua scripts/util/FATSTAT.LUA -z dist/*ima
 
     - name: Create Floppy Disk Images Zip
       run: |
