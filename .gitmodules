@@ -1,6 +1,9 @@
 [submodule "lua"]
 	path = lua
 	url = https://github.com/lua/lua.git
+[submodule "luac"]
+	path = luac
+	url = https://github.com/lua/luac.git
 [submodule "scripts"]
 	path = scripts
 	url = https://github.com/Lethja/lua-scripts.git
