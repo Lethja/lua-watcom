@@ -162,7 +162,7 @@ jobs:
         export LD_PRELOAD=$(dpkg -L libfaketime | grep libfaketime.so.1)
         label="LUA MULTIOS"
         serial="0x$(echo "$label$FAKETIME" | sha256sum | cut -c1-8)"
-        files=$(find dist/bin/*.ELF dist/bin/*.EXE scripts/meta/floppy/1440k/1/*.LUA | sort | xargs)
+        files=$(find dist/bin/LUAUX.ELF dist/bin/LUA16.EXE dist/bin/LUA4G.EXE dist/bin/LUANT.EXE dist/bin/DOS4GW.EXE scripts/meta/floppy/1440k/1/*.LUA | sort | xargs)
         echo "Faketime: $FAKETIME"
         echo "Files: $files"
         echo "Label: $label"
