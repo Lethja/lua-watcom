@@ -40,11 +40,18 @@ help: .SYMBOLIC
 $(BINDIR)$(SEP)LUA$(PLATFORM)$(SUFFIX): $(OBJDIR) $(BINDIR) $(objs) $(lua_obj) $(XTRA)
     *wlink NAME $@ $(LFLAGS) FILE {$(objs) $(lua_obj)}
 
-$(BINDIR)$(SEP)LUAC$(PLATFORM)$(SUFFIX): $(BINDIR) $(OBJDIR) $(objs) $(luac_obj) $(XTRA)
+$(BINDIR)$(SEP)LUAC$(PLATFORM)$(SUFFIX): $(BINDIR) $(OBJDIR) $(SRCDIR)$(SEP)luac.c $(objs) $(luac_obj) $(XTRA)
     *wlink NAME $@ $(LFLAGS) FILE {$(objs) $(luac_obj)}
 
 {$(SRCDIR)}.c{$(OBJDIR)}.obj:
     $(CC) $(CFLAGS) -fo=$@ $<
+
+$(SRCDIR)$(SEP)luac.c: luac$(SEP)luac.c
+!ifdef __UNIX__
+    @!cp $< $@
+!else # Assuming DOS 5.0 +
+    @!COPY $< $@
+!endif
 
 clean: .SYMBOLIC
 !ifdef __UNIX__
