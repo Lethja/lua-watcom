@@ -32,6 +32,11 @@ BINDIR = dist$(SEP)bin
 OBJDIR = obj$(SEP)$(PLATFORM)
 SRCDIR = lua
 
+help: .SYMBOLIC
+    @!echo "Build the standard Lua interpreter:      $(BINDIR)$(SEP)LUA$(PLATFORM)$(SUFFIX)"
+    @!echo "Build the experimental JIT interpreter:  $(BINDIR)$(SEP)LUAC$(PLATFORM)$(SUFFIX)"
+    @!echo "Clean all previous builds:               clean"
+
 $(BINDIR)$(SEP)LUA$(PLATFORM)$(SUFFIX): $(OBJDIR) $(BINDIR) $(objs) $(lua_obj) $(XTRA)
     *wlink NAME $@ $(LFLAGS) FILE {$(objs) $(lua_obj)}
 
