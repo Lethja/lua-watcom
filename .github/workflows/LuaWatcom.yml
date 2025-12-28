@@ -37,7 +37,7 @@ jobs:
 
     - name: Patch Lua Source Code for Open Watcom
       run: |
-        lua scripts/dev/PATCH.LUA lua.pat
+        lua scripts/dev/PATCH.LUA lua.pat luac.pat
 
     - name: Check GCC can build Lua after patches
       run: |
@@ -49,37 +49,37 @@ jobs:
       env:
         INCLUDE: "${{ env.WATCOM }}/h"
       run: |
-        wmake -f wm_dos16.mak
+        wmake -f wm_dos16.mak lua luac
 
     - name: Build Lua for DOS4GW 32-bit Extender
       env:
         INCLUDE: "${{ env.WATCOM }}/h"
       run: |
-        wmake -f wm_dos4g.mak
+        wmake -f wm_dos4g.mak lua luac
 
     - name: Build Lua for Linux
       env:
         INCLUDE: "${{ env.WATCOM }}/lh"
       run: |
-        wmake -f wm_linux.mak
+        wmake -f wm_linux.mak lua luac
 
     - name: Build Lua for OS/2 16-bit
       env:
         INCLUDE: "${{ env.WATCOM }}/h/os2:${{ env.WATCOM }}/h"
       run: |
-        wmake -f wm_os216.mak
+        wmake -f wm_os216.mak lua luac
 
     - name: Build Lua for OS/2 32-bit
       env:
         INCLUDE: "${{ env.WATCOM }}/h/os2:${{ env.WATCOM }}/h"
       run: |
-        wmake -f wm_os232.mak
+        wmake -f wm_os232.mak lua luac
 
     - name: Build Lua for Windows 95
       env:
         INCLUDE: "${{ env.WATCOM }}/h/nt:${{ env.WATCOM }}/h"
       run: |
-        wmake -f wm_winnt.mak
+        wmake -f wm_winnt.mak lua luac
 
     - name: Copy DOS4GW Binary
       run: |
@@ -214,7 +214,7 @@ jobs:
           day=$(date -d "$input_date" '+%-d')
           month=$(date -d "$input_date" '+%B')
           year=$(date -d "$input_date" '+%Y')
-          
+
           if [[ $day -eq 11 || $day -eq 12 || $day -eq 13 ]]; then
             suffix="th"
           else
