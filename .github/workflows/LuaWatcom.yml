@@ -161,13 +161,14 @@ jobs:
 
     - name: Zip OS/2 Binaries
       run: |
-        zip -j9 --DOS-names dist/bin/OS2.zip dist/bin/LUA21.EXE dist/bin/LUA22.EXE dist/bin/LUAC21.EXE dist/bin/LUAC22.EXE
-        rm dist/bin/LUA21.EXE dist/bin/LUA22.EXE dist/bin/LUAC21.EXE dist/bin/LUAC22.EXE
+        zip -j9 --DOS-names dist/bin/OS2.zip dist/bin/LUA21.EXE dist/bin/LUA22.EXE
+        rm dist/bin/LUA21.EXE dist/bin/LUA22.EXE
 
     - name: Zip DOS, Linux & Windows Lua Compiler Binaries
       run: |
-        zip -j9 --DOS-names dist/bin/LUAC.zip dist/bin/LUAC*.EXE
-        zip -j9 -X dist/bin/LUAC.zip dist/bin/LUAC*.ELF
+        #TODO: put Lua byte compilers on disk 2
+        #zip -j9 --DOS-names dist/bin/LUAC.zip dist/bin/LUAC*.EXE
+        #zip -j9 -X dist/bin/LUAC.zip dist/bin/LUAC*.ELF
         rm dist/bin/LUAC*
 
     - name: Set modification time on Zip binaries to the latest commit
