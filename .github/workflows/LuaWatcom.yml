@@ -126,6 +126,9 @@ jobs:
           dist/bin/LUA16.EXE
           dist/bin/LUA4G.EXE
           dist/bin/LUANT.EXE
+          dist/bin/LUAC16.EXE
+          dist/bin/LUAC4G.EXE
+          dist/bin/LUACNT.EXE
 
     - name: Squish Lua Scripts for Floppy Disk Images
       run: |
@@ -156,13 +159,28 @@ jobs:
         mformat -C -i dist/Lua160k.ima -v "$label" -f 160 -N $serial
         mcopy -mi dist/Lua160k.ima $files ::
 
+    - name: Zip OS/2 Binaries
+      run: |
+        zip -j9 --DOS-names dist/bin/OS2.zip dist/bin/LUA21.EXE dist/bin/LUA22.EXE dist/bin/LUAC21.EXE dist/bin/LUAC22.EXE
+        rm dist/bin/LUA21.EXE dist/bin/LUA22.EXE dist/bin/LUAC21.EXE dist/bin/LUAC22.EXE
+
+    - name: Zip DOS, Linux & Windows Lua Compiler Binaries
+      run: |
+        zip -j9 --DOS-names dist/bin/LUAC.zip dist/bin/LUAC*.EXE
+        zip -j9 -X dist/bin/LUAC.zip dist/bin/LUAC*.ELF
+        rm dist/bin/LUAC*
+
+    - name: Set modification time on Zip binaries to the latest commit
+      run: |
+        touch --date="$(git log -1 --pretty=format:%cI)" dist/bin/*.zip
+
     - name: Create 1.4M Multi-Platform Floppy Diskette Image
       run: |
         export FAKETIME=$(TZ=UTC0 git show --quiet --date='format-local:%Y-%m-%d %H:%M:%S' --format="%cd")
         export LD_PRELOAD=$(dpkg -L libfaketime | grep libfaketime.so.1)
         label="LUA MULTIOS"
         serial="0x$(echo "$label$FAKETIME" | sha256sum | cut -c1-8)"
-        files=$(find dist/bin/LUAUX.ELF dist/bin/LUA16.EXE dist/bin/LUA4G.EXE dist/bin/LUANT.EXE dist/bin/DOS4GW.EXE scripts/meta/floppy/1440k/1/*.LUA | sort | xargs)
+        files=$(find dist/bin/*.ELF dist/bin/*.EXE dist/bin/*.zip scripts/meta/floppy/1440k/1/*.LUA | sort | xargs)
         echo "Faketime: $FAKETIME"
         echo "Files: $files"
         echo "Label: $label"
