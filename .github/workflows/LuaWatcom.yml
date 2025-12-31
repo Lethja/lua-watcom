@@ -169,7 +169,7 @@ jobs:
         serial="0x$(echo "$label$FAKETIME" | sha256sum | cut -c1-8)"
         files=$(find dist/bin/LUA16.EXE scripts/meta/floppy/160k/1/*.LUA | sort | xargs)
         echo "Faketime: $FAKETIME"
-        echo "Files: $(du -b --total $files)"
+        echo "Files: $(du -bL --total $files)"
         echo "Label: $label"
         echo "Serial: $serial"
         mformat -C -i dist/Lua160k1.ima -v "$label" -f 160 -N $serial
@@ -183,7 +183,7 @@ jobs:
         serial="0x$(echo "$label$FAKETIME" | sha256sum | cut -c1-8)"
         files=$(find scripts/meta/floppy/160k/2/* | sort | xargs)
         echo "Faketime: $FAKETIME"
-        echo "Files: $(du -b --total $files)"
+        echo "Files: $(du -bL --total $files)"
         echo "Label: $label"
         echo "Serial: $serial"
         mformat -C -i dist/Lua160k2.ima -v "$label" -f 160 -N $serial
@@ -198,7 +198,7 @@ jobs:
         files=$(find dist/bin/*.ELF dist/bin/*.EXE scripts/meta/floppy/1440k/1/* | sort | xargs)
         echo "Disk 1:"
         echo "Faketime: $FAKETIME"
-        echo "Files: $(du -b --total $files)"
+        echo "Files: $(du -bL --total $files)"
         echo "Label: $label"
         echo "Serial: $serial"
         mformat -C -i dist/Lua14D1.ima -v "$label" -f 1440 -N $serial
@@ -213,7 +213,7 @@ jobs:
         files=$(find dist/bin/*.zip scripts/meta/floppy/1440k/2/* | sort | xargs)
         echo "Disk 2:"
         echo "Faketime: $FAKETIME"
-        echo "Files: $(du -b --total $files)"
+        echo "Files: $(du -bL --total $files)"
         echo "Label: $label"
         echo "Serial: $serial"
         mformat -C -i dist/Lua14D2.ima -v "$label" -f 1440 -N $serial
