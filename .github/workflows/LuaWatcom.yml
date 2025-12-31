@@ -154,12 +154,13 @@ jobs:
       run: |
         zip -j9 --DOS-names scripts/meta/floppy/1440k/2/LUAC.zip dist/bin/LUAC*.EXE
         zip -j9 -X scripts/meta/floppy/1440k/2/LUAC.zip dist/bin/LUAC*.ELF
-        zip -j9 --DOS-names scripts/meta/floppy/160k/2/LUAC16.zip dist/bin/LUAC16.EXE
+        mkdir -p scripts/meta/floppy/160k/3/
+        cp dist/bin/LUAC16.EXE scripts/meta/floppy/160k/3/
         rm dist/bin/LUAC*
 
     - name: Set modification time on Zip binaries to the latest commit
       run: |
-        touch --date="$(git log -1 --pretty=format:%cI)" scripts/meta/floppy/160k/2/*.zip scripts/meta/floppy/1440k/1/*.zip scripts/meta/floppy/1440k/2/*.zip
+        touch --date="$(git log -1 --pretty=format:%cI)" scripts/meta/floppy/160k/3/*.EXE scripts/meta/floppy/1440k/1/*.zip scripts/meta/floppy/1440k/2/*.zip
 
     - name: Create 160k 16-bit DOS Floppy Diskette Image 1
       run: |
@@ -188,6 +189,20 @@ jobs:
         echo "Serial: $serial"
         mformat -C -i dist/Lua160k2.ima -v "$label" -f 160 -N $serial
         mcopy -mi dist/Lua160k2.ima $files ::
+
+    - name: Create 160k 16-bit DOS Floppy Diskette Image 3
+      run: |
+        export FAKETIME=$(TZ=UTC0 git show --quiet --date='format-local:%Y-%m-%d %H:%M:%S' --format="%cd")
+        export LD_PRELOAD=$(dpkg -L libfaketime | grep libfaketime.so.1)
+        label="LUA DISK 3"
+        serial="0x$(echo "$label$FAKETIME" | sha256sum | cut -c1-8)"
+        files=$(find scripts/meta/floppy/160k/3/* | sort | xargs)
+        echo "Faketime: $FAKETIME"
+        echo "Files: $(du -bL --total $files)"
+        echo "Label: $label"
+        echo "Serial: $serial"
+        mformat -C -i dist/Lua160k3.ima -v "$label" -f 160 -N $serial
+        mcopy -mi dist/Lua160k3.ima $files ::
 
     - name: Create 1.4M Multi-Platform Floppy Diskette Image 1
       run: |
