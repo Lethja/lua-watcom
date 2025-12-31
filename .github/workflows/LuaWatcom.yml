@@ -145,49 +145,79 @@ jobs:
         git ls-files -z | xargs -0 -I{} bash -c 'touch --date="$(git log -1 --pretty=format:%cI -- "$0")" "$0"' {}
         cd ..
 
-    - name: Create 160k 16-bit DOS Floppy Diskette Image
-      run: |
-        export FAKETIME=$(TZ=UTC0 git show --quiet --date='format-local:%Y-%m-%d %H:%M:%S' --format="%cd")
-        export LD_PRELOAD=$(dpkg -L libfaketime | grep libfaketime.so.1)
-        label="LUA DOS"
-        serial="0x$(echo "$label$FAKETIME" | sha256sum | cut -c1-8)"
-        files=$(find dist/bin/LUA16.EXE scripts/meta/floppy/160k/1/*.LUA | sort | xargs)
-        echo "Faketime: $FAKETIME"
-        echo "Files: $files"
-        echo "Label: $label"
-        echo "Serial: $serial"
-        mformat -C -i dist/Lua160k.ima -v "$label" -f 160 -N $serial
-        mcopy -mi dist/Lua160k.ima $files ::
-
     - name: Zip OS/2 Binaries
       run: |
-        zip -j9 --DOS-names dist/bin/OS2.zip dist/bin/LUA21.EXE dist/bin/LUA22.EXE
+        zip -j9 --DOS-names scripts/meta/floppy/1440k/1/OS2.zip dist/bin/LUA21.EXE dist/bin/LUA22.EXE
         rm dist/bin/LUA21.EXE dist/bin/LUA22.EXE
 
-    - name: Zip DOS, Linux & Windows Lua Compiler Binaries
+    - name: Zip Lua Byte Compiler Binaries
       run: |
-        #TODO: put Lua byte compilers on disk 2
-        #zip -j9 --DOS-names dist/bin/LUAC.zip dist/bin/LUAC*.EXE
-        #zip -j9 -X dist/bin/LUAC.zip dist/bin/LUAC*.ELF
+        zip -j9 --DOS-names scripts/meta/floppy/1440k/2/LUAC.zip dist/bin/LUAC*.EXE
+        zip -j9 -X scripts/meta/floppy/1440k/2/LUAC.zip dist/bin/LUAC*.ELF
+        zip -j9 --DOS-names scripts/meta/floppy/160k/2/LUAC16.zip dist/bin/LUAC16.EXE
         rm dist/bin/LUAC*
 
     - name: Set modification time on Zip binaries to the latest commit
       run: |
-        touch --date="$(git log -1 --pretty=format:%cI)" dist/bin/*.zip
+        touch --date="$(git log -1 --pretty=format:%cI)" scripts/meta/floppy/160k/2/*.zip scripts/meta/floppy/1440k/1/*.zip scripts/meta/floppy/1440k/2/*.zip
 
-    - name: Create 1.4M Multi-Platform Floppy Diskette Image
+    - name: Create 160k 16-bit DOS Floppy Diskette Image 1
       run: |
         export FAKETIME=$(TZ=UTC0 git show --quiet --date='format-local:%Y-%m-%d %H:%M:%S' --format="%cd")
         export LD_PRELOAD=$(dpkg -L libfaketime | grep libfaketime.so.1)
-        label="LUA MULTIOS"
+        label="LUA DISK 1"
         serial="0x$(echo "$label$FAKETIME" | sha256sum | cut -c1-8)"
-        files=$(find dist/bin/*.ELF dist/bin/*.EXE dist/bin/*.zip scripts/meta/floppy/1440k/1/*.LUA | sort | xargs)
+        files=$(find dist/bin/LUA16.EXE scripts/meta/floppy/160k/1/*.LUA | sort | xargs)
         echo "Faketime: $FAKETIME"
-        echo "Files: $files"
+        echo "Files: $(du -b --total $files)"
         echo "Label: $label"
         echo "Serial: $serial"
-        mformat -C -i dist/LuaMulti.ima -v "$label" -f 1440 -N $serial
-        mcopy -mi dist/LuaMulti.ima $files ::
+        mformat -C -i dist/Lua160k1.ima -v "$label" -f 160 -N $serial
+        mcopy -mi dist/Lua160k1.ima $files ::
+
+    - name: Create 160k 16-bit DOS Floppy Diskette Image 2
+      run: |
+        export FAKETIME=$(TZ=UTC0 git show --quiet --date='format-local:%Y-%m-%d %H:%M:%S' --format="%cd")
+        export LD_PRELOAD=$(dpkg -L libfaketime | grep libfaketime.so.1)
+        label="LUA DISK 2"
+        serial="0x$(echo "$label$FAKETIME" | sha256sum | cut -c1-8)"
+        files=$(find scripts/meta/floppy/160k/2/* | sort | xargs)
+        echo "Faketime: $FAKETIME"
+        echo "Files: $(du -b --total $files)"
+        echo "Label: $label"
+        echo "Serial: $serial"
+        mformat -C -i dist/Lua160k2.ima -v "$label" -f 160 -N $serial
+        mcopy -mi dist/Lua160k2.ima $files ::
+
+    - name: Create 1.4M Multi-Platform Floppy Diskette Image 1
+      run: |
+        export FAKETIME=$(TZ=UTC0 git show --quiet --date='format-local:%Y-%m-%d %H:%M:%S' --format="%cd")
+        export LD_PRELOAD=$(dpkg -L libfaketime | grep libfaketime.so.1)
+        label="LUA DISK 1"
+        serial="0x$(echo "$label$FAKETIME" | sha256sum | cut -c1-8)"
+        files=$(find dist/bin/*.ELF dist/bin/*.EXE scripts/meta/floppy/1440k/1/* | sort | xargs)
+        echo "Disk 1:"
+        echo "Faketime: $FAKETIME"
+        echo "Files: $(du -b --total $files)"
+        echo "Label: $label"
+        echo "Serial: $serial"
+        mformat -C -i dist/Lua14D1.ima -v "$label" -f 1440 -N $serial
+        mcopy -mi dist/Lua14D1.ima $files ::
+
+    - name: Create 1.4M Multi-Platform Floppy Diskette Image 2
+      run: |
+        export FAKETIME=$(TZ=UTC0 git show --quiet --date='format-local:%Y-%m-%d %H:%M:%S' --format="%cd")
+        export LD_PRELOAD=$(dpkg -L libfaketime | grep libfaketime.so.1)
+        label="LUA DISK 2"
+        serial="0x$(echo "$label$FAKETIME" | sha256sum | cut -c1-8)"
+        files=$(find dist/bin/*.zip scripts/meta/floppy/1440k/2/* | sort | xargs)
+        echo "Disk 2:"
+        echo "Faketime: $FAKETIME"
+        echo "Files: $(du -b --total $files)"
+        echo "Label: $label"
+        echo "Serial: $serial"
+        mformat -C -i dist/Lua14D2.ima -v "$label" -f 1440 -N $serial
+        mcopy -mi dist/Lua14D2.ima $files ::
 
     - name: Zero-out Unallocated Clusters
       run: |
