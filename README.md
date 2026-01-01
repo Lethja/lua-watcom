@@ -103,6 +103,8 @@ in a directory specified by the `%PATH%` environment variable.
 
 The real-mode version of Lua for Watcom (`LUA16.EXE`)
 is completely self-contained and requires no extra files or directory structure.
+This version of Lua uses a large memory model, 
+meaning Lua scripts are limited to 64k of memory.
 
 #### Linux
 The Linux version of Lua for Watcom (`LUAUX.ELF`) is completely self-contained
@@ -118,6 +120,8 @@ and 32-bit (`LUA22.EXE`) OS/2 versions of Lua for Watcom.
 OS/2 version 1.3 and earlier are 16-bit and can only run `LUA21.EXE`.
 `DOSCALL1.DLL` is required to run `LUA21.EXE`
 which is included in OS/2 v1.2 and later.
+This version of Lua uses a large memory model,
+meaning Lua scripts are limited to 64k of memory.
 
 OS/2 version 1.1 and earlier should run `LUA16.EXE`
 in a DOS command prompt.
