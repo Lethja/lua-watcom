@@ -18,7 +18,7 @@ that can be used on any Lua 5.4 interpreter, including Lua for Watcom.
 
 ## Download
 
-Pre-compiled builds are available on the
+Pre-compiled binaries and floppy disk images are available on the
 [Release](https://github.com/Lethja/lua-watcom/releases/latest) page.
 These releases are built from a
 [GitHub Action workflow](.github/workflows/LuaWatcom.yml).
@@ -40,12 +40,13 @@ This zip contains two floppy disk format images (`.ima` format)
 which are ready to be written to real disks for distributing to retro machines
 or opened by [emulators](#emulators-and-compatibility-layers) directly.
 To save space on these disk images, binaries have been compressed
-by [UPX](https://upx.github.io/) where possible.
+by [UPX](https://upx.github.io/) where possible. When that is not possible,
+the binaries are compressed in a zip.
 
-| Disk Image     | Description                                                                                                               |
-|----------------|---------------------------------------------------------------------------------------------------------------------------|
-| `LUAMULTI.IMA` | A 1.4MB 3½ floppy disk image that contains all the same files as [executable zip](#Watcom-Lua-Executables)                |
-| `LUA160k.IMA`  | A 160k 5¼ floppy disk image with subset of scripts with only the DOS binary due to space limitations of this type of disk |
+| Disk Image           | Description                                                                                                                  |
+|----------------------|------------------------------------------------------------------------------------------------------------------------------|
+| `LUA14D{1/2}.IMA`    | 2 1.4MB 3½ floppy disk images that contains all the same files as [executable zip](#Watcom-Lua-Executables)                  |
+| `LUA160k{1/2/3}.IMA` | 3 160k 5¼ floppy disk images with subset of scripts with only the DOS binaries due to space limitations of this type of disk |
 
 ## System Requirements
 
