@@ -6,7 +6,7 @@
 CC = *wcc386
 
 CFLAGS = -q -bt=dos4g -mf -3 -d0 -osr -zc
-LFLAGS = SYS dos4g OPT st=8192
+LFLAGS = SYS dos4g OPT st=16384
 
 PLATFORM = 4G
 SUFFIX = .EXE
