@@ -1,4 +1,4 @@
-# Watcom Makefile for building Lua 5.4
+# Watcom Makefile for building Lua 5.5
 # This is the OS/2 1.2 16-bit version
 # There are no configurable parts to this file
 # Run with `wmake -f wm_os216.mak`

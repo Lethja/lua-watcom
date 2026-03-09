@@ -1,4 +1,4 @@
-# Watcom Makefile for building Lua 5.4
+# Watcom Makefile for building Lua 5.5
 # This is the DOS 16-bit large model version
 # There are no configurable parts to this file
 # Run with `wmake -f mw_dos16.mak`

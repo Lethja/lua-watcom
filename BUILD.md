@@ -14,7 +14,7 @@ with `git submodules init` then `git submodules update --recursive`.
 #### Website archive
 If Git is not available in the development environment,
 then Lua sources can be acquired from https://lua.org/ftp.
-Download any 5.4 version of the tarball sources and extract them. 
+Download any 5.5 version of the tarball sources and extract them. 
 Then copy the contents inside the extracted `src` folder
 into the projects `lua` folder.
 

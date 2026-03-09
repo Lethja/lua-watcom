@@ -1,4 +1,4 @@
-# Watcom Makefile for building Lua 5.4
+# Watcom Makefile for building Lua 5.5
 # This is the Linux version
 # There are no configurable parts to this file
 # Run with `wmake -f wm_linux.mak`
