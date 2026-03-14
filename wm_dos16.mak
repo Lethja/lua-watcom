@@ -5,8 +5,8 @@
 
 CC = *wcc
 
-CFLAGS = -q -bt=dos -ml -0 -d0 -osr -zc
-LFLAGS = SYS dos OPT st=8192
+CFLAGS = -q -bt=dos -mh -0 -d0 -osr -zc
+LFLAGS = SYS dos OPT st=16384
 
 PLATFORM = 16
 SUFFIX = .EXE
