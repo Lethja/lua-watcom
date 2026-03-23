@@ -23,8 +23,10 @@ lua_obj = $(OBJDIR)$(SEP)lua.obj
 luac_obj = $(OBJDIR)$(SEP)luac.obj
 
 !ifdef __UNIX__
+MD = mkdir -p
 SEP = /
 !else
+MD = mkdir
 SEP = \
 !endif
 
@@ -72,13 +74,13 @@ clean: .SYMBOLIC
 !endif
 
 dist:
-    mkdir dist
+    $(MD) dist
 
 obj:
-    mkdir obj
+    $(MD) obj
 
 $(BINDIR): dist
-    mkdir $(BINDIR)
+    $(MD) $(BINDIR)
 
 $(OBJDIR): obj
-    mkdir $(OBJDIR)
+    $(MD) $(OBJDIR)
