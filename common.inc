@@ -24,9 +24,17 @@ luac_obj = $(OBJDIR)$(SEP)luac.obj
 
 !ifdef __UNIX__
 MD = mkdir -p
+RD = rm -rf --
 SEP = /
 !else
 MD = mkdir
+
+!if "%OS%" == "Windows_NT"
+RD = rd /S /Q
+!else
+RD = deltree /Y
+!endif
+
 SEP = \
 !endif
 
@@ -64,13 +72,13 @@ $(SRCDIR)$(SEP)luac.c: luac$(SEP)luac.c
 
 clean: .SYMBOLIC
 !ifdef __UNIX__
-    @!if [ -e $(OBJDIR) ]; then rm -R $(OBJDIR); fi
+    @!if [ -e $(OBJDIR) ]; then $(RD) $(OBJDIR); fi
     @!if [ -e $(BINDIR)LUA$(PLATFORM)$(SUFFIX) ]; then rm $(BINDIR)LUA$(PLATFORM)$(SUFFIX); fi
     @!if [ -e $(BINDIR)LUAC$(PLATFORM)$(SUFFIX) ]; then rm $(BINDIR)LUAC$(PLATFORM)$(SUFFIX); fi
 !else # Assuming DOS 5.0 +
     @!if exist $(BINDIR)$(SEP)LUA$(PLATFORM)$(SUFFIX) del $(BINDIR)$(SEP)LUA$(PLATFORM)$(SUFFIX)
     @!if exist $(BINDIR)$(SEP)LUAC$(PLATFORM)$(SUFFIX) del $(BINDIR)$(SEP)LUAC$(PLATFORM)$(SUFFIX)
-    @!if exist $(OBJDIR)$(SEP)*.* echo Run `DEL $(OBJDIR)$(SEP)*.* && RD $(OBJDIR)` to clean compiler objects
+    @!if exist $(OBJDIR)\nul $(RD) $(OBJDIR)
 !endif
 
 dist:
