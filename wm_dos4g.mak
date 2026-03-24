@@ -12,3 +12,4 @@ PLATFORM = 4G
 SUFFIX = .EXE
 
 !include common.inc
+!include flat.inc

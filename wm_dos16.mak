@@ -12,3 +12,4 @@ PLATFORM = 16
 SUFFIX = .EXE
 
 !include common.inc
+!include flat.inc

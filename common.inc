@@ -54,12 +54,6 @@ lua: $(BINDIR)$(SEP)LUA$(PLATFORM)$(SUFFIX)
 
 luac: $(BINDIR)$(SEP)LUAC$(PLATFORM)$(SUFFIX)
 
-$(BINDIR)$(SEP)LUA$(PLATFORM)$(SUFFIX): $(OBJDIR) $(BINDIR) $(objs) $(lua_obj) $(XTRA)
-    *wlink NAME $@ $(LFLAGS) FILE {$(objs) $(lua_obj)}
-
-$(BINDIR)$(SEP)LUAC$(PLATFORM)$(SUFFIX): $(BINDIR) $(OBJDIR) $(SRCDIR)$(SEP)luac.c $(objs) $(luac_obj) $(XTRA)
-    *wlink NAME $@ $(LFLAGS) FILE {$(objs) $(luac_obj)}
-
 {$(SRCDIR)}.c{$(OBJDIR)}.obj:
     $(CC) $(CFLAGS) -fo=$@ $<
 

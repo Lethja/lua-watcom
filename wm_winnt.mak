@@ -16,6 +16,7 @@ PLATFORM = NT
 SUFFIX = .EXE
 
 !include common.inc
+!include flat.inc
 
 $(OBJDIR)$(SEP)pe.res: pe.rc
 	$(RC) $(RFLAGS) -fo=$@ $<
