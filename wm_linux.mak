@@ -12,3 +12,4 @@ PLATFORM = UX
 SUFFIX = .ELF
 
 !include common.inc
+!include flat.inc
