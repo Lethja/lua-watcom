@@ -32,6 +32,66 @@
  #define MAXARG_sJ	((1 << SIZE_sJ) - 1)
  #else
  #define MAXARG_sJ	INT_MAX
+--- lua/loslib.c
++++ lua/loslib.c
+@@ -134,6 +134,57 @@
+ #if defined(LUA_USE_IOS)
+ /* Despite claiming to be ISO C, iOS does not implement 'system'. */
+ #define l_system(cmd) ((cmd) == NULL ? 0 : -1)
++
++/* DOS interrupt version of 'system' to avoid clib bloat */
++#elif defined(_M_I86) && defined(_DOS)
++
++#include <dos.h>
++
++typedef struct ExecParamRec {
++  unsigned short int envseg; /* Segment address of environment block */
++  char far *cmdline;         /* Pointer to command line string (ES:BX) */
++  unsigned short int fcb1;   /* Reserved */
++  unsigned short int fcb2;
++} ExecParamRec;
++
++static int l_system(const char *str) {
++  size_t l;
++  char *p, command[128];
++  union REGS regs;
++  struct SREGS sregs;
++  ExecParamRec exec;
++
++  if (!str || (l = 4 + strlen(str)) > 127) /* Maximum cmdline under DOS */
++    return -1;
++
++  if (!(p = getenv("COMSPEC")))
++    p = "COMMAND.COM";
++
++/* Copy Lua string onto command.com */
++  command[0] = (unsigned char) l;
++  memcpy(&command[1], " /C ", 4);
++  memcpy(&command[5], str, strlen(str));
++  command[l + 1] = '\r';
++
++/* Clear registers and structures */
++  memset(&exec, 0, sizeof(ExecParamRec)), memset(&regs, 0, sizeof(union REGS)), memset(&sregs, 0, sizeof(struct SREGS));
++  exec.cmdline = command;
++
++  regs.x.ax = 0x4b00;            /* Exec + load */
++  regs.x.dx = FP_OFF(p);         /* Offset of the command path string (DS:DX) */
++  sregs.ds = FP_SEG(p);          /* Segment of the command path string (DS:DX) */
++  regs.x.bx = FP_OFF(&exec);     /* Offset of the ExecParamRec structure (ES:BX) */
++  sregs.es = FP_SEG(&exec);      /* Segment of the ExecParamRec structure (ES:BX) */
++  intdosx(&regs, &regs, &sregs); /* 0x21 Send it! */
++
++  if (regs.x.cflag)
++    return -1;
++
++  regs.x.ax = 0x4D00;
++  intdos(&regs, &regs);
++  return regs.x.ax & 0xFF;
++}
++
+ #else
+ #define l_system(cmd)	system(cmd)  /* default definition */
+ #endif
 --- lua/luaconf.h
 +++ lua/luaconf.h
 @@ -95,7 +95,12 @@
