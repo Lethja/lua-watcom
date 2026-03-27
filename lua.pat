@@ -1,3 +1,32 @@
+--- lua/lauxlib.c
++++ lua/lauxlib.c
+@@ -1046,7 +1046,10 @@ LUALIB_API const char *luaL_gsub (lua_State *L, const char *s,
+ }
+ 
+ 
+-void *luaL_alloc (void *ud, void *ptr, size_t osize, size_t nsize) {
++LUALIB_API LUA_HEAP_PTR_T *luaL_alloc (void *ud,
++                                       LUA_HEAP_PTR_T *ptr,
++                                       LUA_HEAP_SIZE_T osize,
++                                       LUA_HEAP_SIZE_T nsize) {
+   UNUSED(ud); UNUSED(osize);
+   if (nsize == 0) {
+     free(ptr);
+
+--- lua/lauxlib.h
++++ lua/lauxlib.h
+@@ -81,8 +81,9 @@ LUALIB_API int (luaL_checkoption) (lua_State *L, int arg, const char *def,
+ LUALIB_API int (luaL_fileresult) (lua_State *L, int stat, const char *fname);
+ LUALIB_API int (luaL_execresult) (lua_State *L, int stat);
+ 
+-LUALIB_API void *luaL_alloc (void *ud, void *ptr, size_t osize,
+-                                                  size_t nsize);
++LUALIB_API LUA_HEAP_PTR_T *luaL_alloc (void *ud, LUA_HEAP_PTR_T *ptr,
++                                                 LUA_HEAP_SIZE_T osize,
++                                                 LUA_HEAP_SIZE_T nsize);
+ 
+ 
+ /* predefined references */
 --- lua/lopcodes.h
 +++ lua/lopcodes.h
 @@ -78,8 +78,9 @@ enum OpMode {iABC, ivABC, iABx, iAsBx, iAx, isJ};
@@ -92,6 +121,7 @@
  #else
  #define l_system(cmd)	system(cmd)  /* default definition */
  #endif
+
 --- lua/luaconf.h
 +++ lua/luaconf.h
 @@ -95,7 +95,12 @@
@@ -161,3 +191,22 @@
  #define LUA_DIRSEP	"\\"
  #else
  #define LUA_DIRSEP	"/"
+@@ -739,7 +770,18 @@
+ ** without modifying the main part of the file.
+ */
+ 
++/*
++** Definitions for unusual types and keywords such as _huge void
++** If not defined by this point then fallback to using Luas defaults
++*/
+ 
++#ifndef LUA_HEAP_PTR_T
++#define LUA_HEAP_PTR_T void
++#endif
++
++#ifndef LUA_HEAP_SIZE_T
++#define LUA_HEAP_SIZE_T size_t
++#endif
+ 
+ #endif
+ 
