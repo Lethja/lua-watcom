@@ -5,7 +5,7 @@
 
 CC = *wcc
 
-CFLAGS = -q -bt=os2 -bc -2 -mh -d0 -osr -zc
+CFLAGS = -q -bt=os2 -bc -2 -ml -d0 -osr -zc
 LFLAGS = SYS os2 OPT st=16384 OPT description \'Lua Programming Language Interpreter\'
 
 PLATFORM = 21
