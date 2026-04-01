@@ -1,6 +1,6 @@
 --- lua/lauxlib.c
 +++ lua/lauxlib.c
-@@ -1046,7 +1046,10 @@ LUALIB_API const char *luaL_gsub (lua_State *L, const char *s,
+@@ -1046,14 +1046,32 @@ LUALIB_API const char *luaL_gsub (lua_State *L, const char *s,
  }
  
  
@@ -11,8 +11,31 @@
 +                                       LUA_HEAP_SIZE_T nsize) {
    UNUSED(ud); UNUSED(osize);
    if (nsize == 0) {
++#ifdef OW_HUGE_HEAP
++    hfree(ptr);
++#else
      free(ptr);
-
++#endif
+     return NULL;
+-  }
+-  else
++  } else {
++#ifdef OW_HUGE_HEAP
++    LUA_HEAP_PTR_T *new;
++
++    if (!(new = halloc(nsize, 1)))
++      return NULL;
++
++    fmemcpy(new, old, osize < nsize ? osize : nsize);
++    hfree(ptr);
++    return new;
++#else
+     return realloc(ptr, nsize);
++#endif
++  }
+ }
+ 
+ 
 --- lua/lauxlib.h
 +++ lua/lauxlib.h
 @@ -81,8 +81,9 @@ LUALIB_API int (luaL_checkoption) (lua_State *L, int arg, const char *def,
@@ -121,7 +144,6 @@
  #else
  #define l_system(cmd)	system(cmd)  /* default definition */
  #endif
-
 --- lua/luaconf.h
 +++ lua/luaconf.h
 @@ -95,7 +95,12 @@
