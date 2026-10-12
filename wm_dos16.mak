@@ -11,4 +11,5 @@ LFLAGS = SYS dos OPT st=8192
 PLATFORM = 16
 SUFFIX = .EXE
 
+# TODO: Create halloc allocation of memory so 16-bit machine can use > 64k of memory in Lua scripts
 !include common.inc
