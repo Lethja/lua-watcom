@@ -92,7 +92,7 @@ In most cases, the operating system is newer and has higher hardware requirement
 | Windows 2000 - ME                   | 80586                        | No    | No    | No    | No         | Yes   | No    |
 | Windows XP                          | 80586<br/>x86_64             | No    | No    | No    | No         | Yes   | No    |
 | Windows Vista - 10                  | 80686<br/>x86_64             | No    | No    | No    | No         | Yes   | No    |
-| Windows 11                          | x86_64                       | No    | No    | No    | No         | Yes   | No    |
+| LiberNT<br/>Windows 11              | x86_64                       | No    | No    | No    | No         | Yes   | No    |
 
 ### Software Dependencies
 
