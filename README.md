@@ -75,24 +75,24 @@ each binary has been given a unique name to distinguish the native
 Some operating systems can run binaries intended for another out of the box.
 In most cases, the operating system is newer and has higher hardware requirements.
 
-| Operating System                    | Instruction Set Architecture | LUA16 | LUA21 | LUA22 | LUA4G      | LUANT | LUAUX |
-|-------------------------------------|------------------------------|-------|-------|-------|------------|-------|-------|
-| DOS 2.x - 4.x<br/>Windows 1.x - 3.x | 8086                         | Yes   | No    | No    | No         | No    | No    |
-| DOS 5.x - 7.x                       | 8086<br/>80386SX             | Yes   | No    | No    | No<br/>Yes | No    | No    |
-| OS2 1.0 - 1.1                       | 80286                        | Yes   | No    | No    | No         | No    | No    |
-| OS2 1.2 - 1.3                       | 80286                        | Yes   | Yes   | No    | No         | No    | No    |
-| OS2 2.x                             | 80386SX                      | Yes   | Yes   | Yes   | No         | No    | No    |
-| OS2 3.x                             | 80386SX                      | Yes   | Yes   | Yes   | Yes        | No    | No    |
-| OS2 4.x                             | 80486SX                      | Yes   | Yes   | Yes   | Yes        | No    | No    |
-| Linux 1.2.13+                       | 80386SX                      | No    | No    | No    | No         | No    | Yes   |
-| Windows 95                          | 80386SX                      | Yes   | No    | No    | Yes        | Yes   | No    |
-| Windows NT 4.0                      | 80486SX                      | Yes   | Yes   | No    | Yes        | Yes   | No    |
-| Windows 98                          | 80486DX<br/>80486SX+80487SX  | Yes   | No    | No    | Yes        | Yes   | No    |
-| ReactOS 0.4.15                      | 80586                        | Yes   | No    | No    | No         | Yes   | No    |
-| Windows 2000 - ME                   | 80586                        | No    | No    | No    | No         | Yes   | No    |
-| Windows XP                          | 80586<br/>x86_64             | No    | No    | No    | No         | Yes   | No    |
-| Windows Vista - 10                  | 80686<br/>x86_64             | No    | No    | No    | No         | Yes   | No    |
-| LiberNT<br/>Windows 11              | x86_64                       | No    | No    | No    | No         | Yes   | No    |
+| Operating System                    | Instruction Set Architecture | 16       | 21       | 22       | 4G                    | NT       | UX       |
+|-------------------------------------|------------------------------|----------|----------|----------|-----------------------|----------|----------|
+| DOS 2.x - 4.x<br/>Windows 1.x - 3.x | 8086                         | &#x2705; | &#x274C; | &#x274C; | &#x274C;              | &#x274C; | &#x274C; |
+| DOS 5.x - 7.x                       | 8086<br/>80386SX             | &#x2705; | &#x274C; | &#x274C; | &#x274C;<br/>&#x2705; | &#x274C; | &#x274C; |
+| OS2 1.0 - 1.1                       | 80286                        | &#x2705; | &#x274C; | &#x274C; | &#x274C;              | &#x274C; | &#x274C; |
+| OS2 1.2 - 1.3                       | 80286                        | &#x2705; | &#x2705; | &#x274C; | &#x274C;              | &#x274C; | &#x274C; |
+| OS2 2.x                             | 80386SX                      | &#x2705; | &#x2705; | &#x2705; | &#x274C;              | &#x274C; | &#x274C; |
+| OS2 3.x                             | 80386SX                      | &#x2705; | &#x2705; | &#x2705; | &#x2705;              | &#x274C; | &#x274C; |
+| OS2 4.x                             | 80486SX                      | &#x2705; | &#x2705; | &#x2705; | &#x2705;              | &#x274C; | &#x274C; |
+| Linux 1.2.13+                       | 80386SX                      | &#x274C; | &#x274C; | &#x274C; | &#x274C;              | &#x274C; | &#x2705; |
+| Windows 95                          | 80386SX                      | &#x2705; | &#x274C; | &#x274C; | &#x2705;              | &#x2705; | &#x274C; |
+| Windows NT 4.0                      | 80486SX                      | &#x2705; | &#x2705; | &#x274C; | &#x2705;              | &#x2705; | &#x274C; |
+| Windows 98                          | 80486DX<br/>80486SX+80487SX  | &#x2705; | &#x274C; | &#x274C; | &#x2705;              | &#x2705; | &#x274C; |
+| ReactOS 0.4.15                      | 80586                        | &#x2705; | &#x274C; | &#x274C; | &#x274C;              | &#x2705; | &#x274C; |
+| Windows 2000 - ME                   | 80586                        | &#x274C; | &#x274C; | &#x274C; | &#x274C;              | &#x2705; | &#x274C; |
+| Windows XP                          | 80586<br/>x86_64             | &#x274C; | &#x274C; | &#x274C; | &#x274C;              | &#x2705; | &#x274C; |
+| Windows Vista - 10                  | 80686<br/>x86_64             | &#x274C; | &#x274C; | &#x274C; | &#x274C;              | &#x2705; | &#x274C; |
+| LiberNT<br/>Windows 11              | x86_64                       | &#x274C; | &#x274C; | &#x274C; | &#x274C;              | &#x2705; | &#x274C; |
 
 ### Software Dependencies
 
