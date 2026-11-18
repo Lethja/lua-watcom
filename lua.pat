@@ -1,6 +1,6 @@
 --- lua/lauxlib.c
 +++ lua/lauxlib.c
-@@ -1046,14 +1046,32 @@ LUALIB_API const char *luaL_gsub (lua_State *L, const char *s,
+@@ -1046,14 +1046,42 @@ LUALIB_API const char *luaL_gsub (lua_State *L, const char *s,
  }
  
  
@@ -12,6 +12,9 @@
    UNUSED(ud); UNUSED(osize);
    if (nsize == 0) {
 +#ifdef OW_HUGE_HEAP
++    if (!ptr)
++      return ptr;
++
 +    hfree(ptr);
 +#else
      free(ptr);
@@ -26,8 +29,15 @@
 +    if (!(new = halloc(nsize, 1)))
 +      return NULL;
 +
-+    fmemcpy(new, old, osize < nsize ? osize : nsize);
-+    hfree(ptr);
++    if (ptr) {
++      LUA_HEAP_SIZE_T i, j = osize < nsize ? osize : nsize;
++
++      for (i = 0; i < j; ++i)
++        new[i] = ptr[i];
++
++      hfree(ptr);
++    }
++
 +    return new;
 +#else
      return realloc(ptr, nsize);
